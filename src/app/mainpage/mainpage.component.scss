@@ -1,0 +1,25 @@
+@mixin centered-content {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+}
+
+
+
+div.mainpage img{
+    height: auto;
+    
+}
+
+
+footer {
+    @include centered-content()
+}
+
+.mainlogo{
+    @include centered-content()
+}
+
+.maindescription{
+    @include centered-content()
+}
