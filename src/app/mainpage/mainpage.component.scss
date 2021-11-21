@@ -1,25 +1,56 @@
 @mixin centered-content {
     margin: auto;
-    width: 50%;
+    width: 100%;
     text-align: center;
 }
+.separator{
+    height: 15px;
+}
 
-
+.mainpage{
+    width: 80%;
+    margin: auto;
+    padding: 10px;
+}
 
 div.mainpage img{
     height: auto;
     
 }
 
+h3{
+    @include centered-content();
+    font-size: xx-large;
+    padding-bottom: 15px;
+}
 
 footer {
     @include centered-content()
 }
 
 .mainlogo{
-    @include centered-content()
+    @include centered-content();    
+}
+div.mainlogo img{
+   width: 50%;
+   height: auto;    
 }
 
 .maindescription{
     @include centered-content()
+    
+}
+
+div.maindescription p {
+    font-style: italic;
+    font-size: larger;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+mat-grid-tile img{
+    padding-top: 45px;
+    width: auto;
+    height: auto;    
+
 }

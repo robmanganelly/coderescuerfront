@@ -2,17 +2,49 @@
     <div class="mainlogo">
         <img src="assets/logo.png" alt="Code Tricks Logo" >
     </div>
+    <div class="separator"></div>
+    <mat-divider></mat-divider>
     <div class="maindescription">
-        This site is intended for people who are learning to program, but can be used by almost anybody.<br> 
-        Here you will find common problems and its solutions. <br>
+        <!-- <p>
+            This site is intended for people who are learning to program, but can be used by almost anybody.
+        Here you will find common problems and its solutions. 
         Our goal is to save your time on not making you write over and over again the same functions.
-        <br>
-        Please feel free to collaborate with us so everybody can use your solutions and save time while coding. <br>
-        Also you can check current solutions and comment about <br>
-        
-
+        Please feel free to collaborate with us so everybody can use your solutions and save time while coding. 
+        Also you can check current solutions and comment about 
+        </p> -->
+        <p>
+            The wonderland of lazy developers, think once, use always. This site is intended for both junior and senior developers.If you think that is not 
+            necessary to reinvent the wheel anytime you start a new project, then you are in the right place.
+        </p>
     </div>
-    <div>lugar para la lista de los lenguajes</div>
+    <mat-divider></mat-divider>
+    <div class="separator"></div>
+    <div>
+        <h3>Select a language</h3>
+    </div>
+
+    <!-- <div>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        What is this?
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        click here to know details about
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div> -->
+    <div>
+        <mat-grid-list cols="2" rowHeight="2:1">
+            <mat-grid-tile *ngFor="let language of languageList">
+                <mat-grid-tile-header>{{language.name}}</mat-grid-tile-header>
+                <img  [src]=language.image [alt]=language.name >
+            </mat-grid-tile>
+          </mat-grid-list>          
+    </div>
     <footer>
         <address>
             Created by <a href="mailto:robmanganelly@gmail.com">robmanganelly</a>
