@@ -11,6 +11,9 @@ export class MainpageComponent implements OnInit {
   languageList: Lang[] = [];
 
   constructor() { }
+  onTestClick():void{
+    alert('hola mundo');
+  }
 
   ngOnInit(): void {
     this.languageList = [
