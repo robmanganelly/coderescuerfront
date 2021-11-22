@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
   <span>LanguageName</span>
+
+  <span class="example-spacer"></span>
+
   <button mat-button >Back</button>
 </mat-toolbar>
 
@@ -20,7 +23,7 @@
     </mat-form-field>
   <div class="separator"></div>
   <div><p>[todo place pagination buttons here]</p></div>
-  <div>
+  <div class="scrollable">
     <!--todo fill the loop with real data, coming from backend -->
     <app-probsheet *ngFor="let trick of languageTricks" ></app-probsheet>
   </div>

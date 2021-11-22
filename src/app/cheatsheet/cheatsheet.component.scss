@@ -7,11 +7,6 @@ mat-button-toggle-group{
     flex-wrap: wrap;
 }
 
-
-mat-toolbar button{
-    margin-left: auto;
-}
-
 mat-form-field {
     width: 100%;
 }
@@ -19,3 +14,10 @@ mat-form-field {
 button {
     margin: auto;
 }
+
+.scrollable{
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+

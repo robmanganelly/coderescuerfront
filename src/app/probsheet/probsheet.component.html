@@ -1,8 +1,9 @@
 <mat-divider></mat-divider>
 <mat-card>
+  <img class="new-tag" src="assets/new_icon_final.png" alt="new">
   <mat-card-header>
     <mat-card-title>
-      this is the title of the porblem,for example: Create a function to sort an array of numbers
+      this is the title of the problem,for example: Create a function to sort an array of numbers
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
@@ -11,7 +12,7 @@
     </p>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-icon-button (click)=clickFavorite() ><mat-icon>{{!isFavorite? 'favorite_border': 'favorite'}}</mat-icon></button>
-    <button mat-icon-button (click)=clickEdit($event) ><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button (click)=clickFavorite() ><mat-icon color="primary">{{!isFavorite? 'favorite_border': 'favorite'}}</mat-icon></button>
+    <button mat-icon-button (click)=clickEdit($event) ><mat-icon color="primary">edit</mat-icon></button>
   </mat-card-actions>
 </mat-card>

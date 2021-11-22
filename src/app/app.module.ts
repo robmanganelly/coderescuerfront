@@ -17,13 +17,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { CheatsheetComponent } from './cheatsheet/cheatsheet.component';
 import { ProbsheetComponent } from './probsheet/probsheet.component';
+import { SolutionComponent } from './solution/solution.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainpageComponent,
     CheatsheetComponent,
-    ProbsheetComponent
+    ProbsheetComponent,
+    SolutionComponent
   ],
   imports: [
     FormsModule,
