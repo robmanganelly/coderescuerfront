@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span>LanguageName</span>
   <button mat-button >Back</button>
-</mat-toolbar>  
+</mat-toolbar>
 
 <div class="sheet">
   <div class="separator"></div>
@@ -12,19 +12,18 @@
     <mat-button-toggle value="add">Add a new Trick</mat-button-toggle>
   </mat-button-toggle-group>
   <div class="separator"></div>
-  
+
   <div *ngIf="filterOptions !== 'add'">
     <mat-form-field appearance="fill">
       <mat-label>Tricks Filter</mat-label>
       <input matInput placeholder="type to find " >
     </mat-form-field>
   <div class="separator"></div>
+  <div><p>[todo place pagination buttons here]</p></div>
   <div>
-    <!--todo -->
-    <p>place here a new component</p>
-    <p>place here a new component</p>
-    <p>place here a new component</p>
-  </div>  
+    <!--todo fill the loop with real data, coming from backend -->
+    <app-probsheet *ngFor="let trick of languageTricks" ></app-probsheet>
+  </div>
 
   </div>
 
@@ -50,7 +49,7 @@
 
 
     </form>
-    
+
 
   </div>
 

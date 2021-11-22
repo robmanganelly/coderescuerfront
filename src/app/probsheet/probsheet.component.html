@@ -1,0 +1,17 @@
+<mat-divider></mat-divider>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      this is the title of the porblem,for example: Create a function to sort an array of numbers
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>this is the problem description (comments added by user)
+
+    </p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-icon-button (click)=clickFavorite() ><mat-icon>{{!isFavorite? 'favorite_border': 'favorite'}}</mat-icon></button>
+    <button mat-icon-button (click)=clickEdit($event) ><mat-icon>edit</mat-icon></button>
+  </mat-card-actions>
+</mat-card>
