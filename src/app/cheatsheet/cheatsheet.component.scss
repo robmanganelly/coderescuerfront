@@ -1,5 +1,21 @@
 .sheet{
+    width: 80%;
+    margin: auto;
 }
+
+mat-button-toggle-group{
+    flex-wrap: wrap;
+}
+
+
 mat-toolbar button{
     margin-left: auto;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+button {
+    margin: auto;
 }
