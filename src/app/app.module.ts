@@ -20,11 +20,17 @@ import { CheatsheetComponent } from './cheatsheet/cheatsheet.component';
 import { ProbsheetComponent } from './probsheet/probsheet.component';
 import { SolutionComponent } from './solution/solution.component';
 import { EditSolutionComponent } from './edit-solution/edit-solution.component';
+import { EditContainerComponent } from './edit-container/edit-container.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainpageComponent },
   { path: 'tricks', component: CheatsheetComponent},
-  { path: 'solution', component: SolutionComponent}
+  { path: 'solution', component: SolutionComponent},
+  { path: 'edit', component: EditContainerComponent},
+  { path: 'not-found', component: NotFoundComponent},
+  { path: '**', redirectTo: '/not-found'}
+
 ]
 @NgModule({
   declarations: [
@@ -33,7 +39,9 @@ const appRoutes: Routes = [
     CheatsheetComponent,
     ProbsheetComponent,
     SolutionComponent,
-    EditSolutionComponent
+    EditSolutionComponent,
+    EditContainerComponent,
+    NotFoundComponent
   ],
   imports: [
     FormsModule,
