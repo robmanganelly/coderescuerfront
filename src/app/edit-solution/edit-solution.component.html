@@ -1,0 +1,21 @@
+<form [formGroup]="newTrickForm" (ngSubmit)="onSubmitNewTrick()">
+  <mat-form-field aria-required="true" appearance="fill"  >
+    <mat-label>What problem are you solving?</mat-label>
+    <input formControlName="newTrickTitle" matInput placeholder="please write a brief description. Ensure to not repeat any previous solved trick " >
+  </mat-form-field>
+
+  <mat-form-field aria-required="true" appearance="fill" >
+    <mat-label>What is your solution?</mat-label>
+    <textarea  formControlName="newTrickSolution" matInput placeholder="try to be original, community is watching" ></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill"  >
+    <mat-label>Do you want to leave any comments?</mat-label>
+    <input formControlName="newTrickComment" matInput placeholder="Don't push yourself too much, comments are not required." >
+  </mat-form-field>
+
+  <button mat-stroked-button type="reset" [disabled]="!newTrickForm.valid">Reset</button> |
+  <button mat-stroked-button type="submit" [disabled]="!newTrickForm.valid">Submit</button>
+
+
+</form>
