@@ -1,0 +1,31 @@
+mat-card{
+  width: 95%;
+  margin: auto
+}
+
+div.full-width h3{
+  margin-left: 2%;
+}
+form{
+  width: 96%;
+  margin: auto;
+}
+
+mat-form-field{
+  width: 95vw;
+}
+
+.comment-box{
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+div.full-width form div button{
+  float: left;
+}
+
+.comment-actions-box{
+  width: 96%;
+  margin: auto;
+  height: 8vh;
+}
