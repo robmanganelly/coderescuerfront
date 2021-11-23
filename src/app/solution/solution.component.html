@@ -1,0 +1,67 @@
+<mat-toolbar>
+  <span>Placeholder for the problem name</span>
+  <span class="spacer"></span>
+  <button mat-icon-button> <mat-icon color="primary">home</mat-icon></button>
+
+</mat-toolbar>
+
+<div class="separator"></div>
+<mat-divider></mat-divider>
+<div class="separator"></div>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>
+      posted by: user that posted this solution
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <pre>
+        def random_function():
+            print('hola mundo')
+    </pre>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button (click)=clickEdit() mat-icon-button><mat-icon color="primary">edit</mat-icon></button>
+    <button (click)=clickCopy() mat-icon-button><mat-icon color="primary">content_copy</mat-icon></button>
+    <button (click)=clickFavorite() mat-icon-button><mat-icon color="primary">{{favorite?'favorite':'favorite_border'}}</mat-icon></button>
+    <button (click)=clickLike() mat-icon-button><mat-icon color="primary">{{like?'thumb_up':'thumb_up_off_alt'}}</mat-icon></button>
+    <button (click)=clickDislike() mat-icon-button><mat-icon color="primary">{{dislike?'thumb_down':'thumb_down_off_alt'}}</mat-icon></button>
+  </mat-card-actions>
+</mat-card>
+
+<div class="separator"></div>
+
+<div class="full-width">
+  <h3>Feel free to leave any comments to this solution</h3>
+  <form  [formGroup]="formComment" (ngSubmit)="postComment">
+    <mat-form-field appearance="outline">
+      <textarea matInput formControlName="comment" placeholder="comment here..." name="" id="" cols="30" rows="2" ></textarea>
+    </mat-form-field>
+    <div class="comment-actions-box">
+      <button type="reset"  mat-stroked-button>Cancel</button>
+      <button type="submit" mat-stroked-button>Comment</button>
+    </div>
+  </form>
+</div>
+
+<div class="separator"></div>
+<mat-divider></mat-divider>
+<div class="separator"></div>
+
+<div class="comment-box">
+  <mat-card *ngFor="let comment of comments" >
+    <mat-card-header>
+      <mat-card-subtitle>
+        placeholder for name of the comment author
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        placeholder for the comment
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div class="separator"></div>
+
