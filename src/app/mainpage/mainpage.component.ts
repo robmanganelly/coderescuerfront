@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Lang } from '../interfaces/lang';
 
 @Component({
@@ -10,9 +11,10 @@ export class MainpageComponent implements OnInit {
 
   languageList: Lang[] = [];
 
-  constructor() { }
-  onTestClick():void{
-    alert('hola mundo');
+  constructor(private router: Router) { }
+  onTestClick(lang: Lang):void{
+    // todo request data from server before navigating
+    this.router.navigate(['tricks']);
   }
 
   ngOnInit(): void {

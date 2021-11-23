@@ -13,7 +13,7 @@
 
 div.mainpage img{
     height: auto;
-    
+
 }
 
 h3{
@@ -27,16 +27,16 @@ footer {
 }
 
 .mainlogo{
-    @include centered-content();    
+    @include centered-content();
 }
 div.mainlogo img{
    width: 50%;
-   height: auto;    
+   height: auto;
 }
 
 .maindescription{
     @include centered-content()
-    
+
 }
 
 div.maindescription p {
@@ -49,6 +49,14 @@ div.maindescription p {
 mat-grid-tile img{
     padding-top: 45px;
     width: auto;
-    height: auto;    
+    height: auto;
 
+}
+
+mat-grid-tile {
+  cursor: pointer;
+}
+mat-grid-tile:hover {
+  cursor: pointer;
+  border: solid blue 2px;
 }

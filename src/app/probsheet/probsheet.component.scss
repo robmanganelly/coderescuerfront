@@ -6,3 +6,12 @@
   height: auto;
 
 }
+
+.container:hover{
+  border: solid darkblue 2px;
+}
+
+mat-card-title:hover{
+  cursor: pointer;
+  color: darkblue;
+}

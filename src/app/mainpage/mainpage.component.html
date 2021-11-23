@@ -6,7 +6,7 @@
     <mat-divider></mat-divider>
     <div class="maindescription">
         <p>
-            The wonderland of lazy developers, think once, use always. This site is intended for both junior and senior developers.If you think that is not 
+            The wonderland of lazy developers, think once, use always. This site is intended for both junior and senior developers.If you think that is not
             necessary to reinvent the wheel anytime you start a new project, then you are in the right place.
         </p>
     </div>
@@ -17,12 +17,14 @@
     </div>
     <div>
         <mat-grid-list cols="2" rowHeight="2:1">
-            <mat-grid-tile *ngFor="let language of languageList" (click)="onTestClick()">
+            <mat-grid-tile *ngFor="let language of languageList" (click)="onTestClick(language)">
                 <mat-grid-tile-header>{{language.name}}</mat-grid-tile-header>
                 <img  [src]=language.image [alt]=language.name >
             </mat-grid-tile>
-          </mat-grid-list>          
+          </mat-grid-list>
     </div>
+    <div class="separator"></div>
+    <mat-divider></mat-divider>
     <footer>
         <address>
             Created by <a href="mailto:robmanganelly@gmail.com">robmanganelly</a>

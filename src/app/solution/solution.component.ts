@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-solution',
@@ -20,13 +22,17 @@ export class SolutionComponent implements OnInit {
   like: boolean = false;
   dislike: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router,private location: Location) { }
 
   ngOnInit(): void {
+  }
+  goBack(){
+    this.location.back();
   }
 
   clickEdit():void{
     alert('must navigate to create solution component: fake --must be implemented--') // todo implement
+    this.router.navigate(['edit']);
   }
 
   clickCopy():void{ //todo
