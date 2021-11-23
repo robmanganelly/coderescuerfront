@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit-solution',
@@ -15,14 +16,17 @@ export class EditSolutionComponent implements OnInit {
 
   });
 
-  constructor() { }
+  constructor(private location: Location) { }
 
   ngOnInit(): void {
   }
-
-
-onSubmitNewTrick():void{
-    alert('form submitted')
+  goBack():void {
+    this.location.back();
   }
+
+  onSubmitNewTrick():void{
+      alert('form submitted')
+    }
+
 
 }

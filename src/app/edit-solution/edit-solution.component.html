@@ -14,8 +14,12 @@
     <input formControlName="newTrickComment" matInput placeholder="Don't push yourself too much, comments are not required." >
   </mat-form-field>
 
-  <button mat-stroked-button type="reset" [disabled]="!newTrickForm.valid">Reset</button> |
-  <button mat-stroked-button type="submit" [disabled]="!newTrickForm.valid">Submit</button>
+  <div>
+    <button mat-stroked-button type="reset" >Reset</button>
+    <button mat-stroked-button type="submit" [disabled]="!newTrickForm.valid">Submit</button>
+    <button class="floating-right" type="button" mat-stroked-button (click)="goBack()" ><mat-icon>home</mat-icon><span>Go Back</span></button>
 
+
+  </div>
 
 </form>

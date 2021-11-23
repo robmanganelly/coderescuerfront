@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-probsheet',
@@ -9,9 +10,15 @@ export class ProbsheetComponent implements OnInit {
 
   isFavorite: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+
+
+  openTrick(){
+    this.router.navigate(['solution']);
   }
 
   clickFavorite(){
@@ -19,7 +26,7 @@ export class ProbsheetComponent implements OnInit {
   }
   clickEdit(event: unknown){
     console.log(event)
-    alert('edit clicked')
+    this.router.navigate(['edit'])
   }
 
 }
