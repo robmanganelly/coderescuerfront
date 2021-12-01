@@ -19,7 +19,7 @@
         <mat-grid-list cols="2" rowHeight="2:1">
             <mat-grid-tile *ngFor="let language of languageList" (click)="onTestClick(language)">
                 <mat-grid-tile-header>{{language.name}}</mat-grid-tile-header>
-                <img  [src]=language.image [alt]=language.name >
+                <img  [src]=language.img [alt]=language.name >
             </mat-grid-tile>
           </mat-grid-list>
     </div>
