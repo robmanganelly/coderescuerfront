@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { EnvelopedResponse } from '../interfaces/httpResponse';
 import { Lang } from '../interfaces/lang';
 import {environment} from './../../environments/environment'
+import { FormDataParserService } from './form-data-parser.service';
 
 
 @Injectable({
@@ -11,10 +12,20 @@ import {environment} from './../../environments/environment'
 })
 export class HttpService {
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private formDataParser: FormDataParserService
+    ) {}
 
   getAllLanguages(): Observable<EnvelopedResponse<Lang[]>>{
     return this.http.get<EnvelopedResponse<Lang[]>>(`${environment.apiUrl}/languages`)
+  }
+
+  postLanguage(payload: Lang): Observable<EnvelopedResponse<String>>{
+    return this.http.post<EnvelopedResponse<String>>(
+      `${environment.apiUrl}/languages`,
+      this.formDataParser.generate(payload),
+      {observe: "body"})
   }
 
 }

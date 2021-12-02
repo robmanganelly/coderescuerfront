@@ -60,7 +60,17 @@ export class MainpageComponent implements OnInit {
 
 
   onAddLanguage(){
-    alert("ok");
+    this.httpService.postLanguage({
+      name: this.languageForm.get('name')?.value,
+      img: this.languageForm.get('img')?.value
+    }).subscribe((res)=>{
+      alert("success"); // todo proper handler
+      this.languageForm.reset();
+      this.languageForm.clearValidators();
+    })
+
+    //after perform all logic
+
   }
 
 
