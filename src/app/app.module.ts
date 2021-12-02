@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule} from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
+import { MatExpansionModule } from '@angular/material/expansion'
 
 
 import { AppComponent } from './app.component';
@@ -55,6 +56,7 @@ const appRoutes: Routes = [
     MatIconModule,
     MatInputModule,
     MatDividerModule,
+    MatExpansionModule,
     MatToolbarModule,
     MatGridListModule,
     BrowserModule,

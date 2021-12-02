@@ -3,3 +3,10 @@ TODO:
 priority:
   [] implement routes trick/language name (set name dynamic) on navegation
   [] implement http request for trick routes
+
+
+
+
+
+DO_NOW:
+  [] fix the mainpage.component.ts subscription to load images.

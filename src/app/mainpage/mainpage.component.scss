@@ -60,3 +60,35 @@ mat-grid-tile:hover {
   cursor: pointer;
   border: solid blue 2px;
 }
+
+input[type="file"]{
+  visibility: hidden;
+  display: none;
+}
+
+
+form{
+  display: flex;
+}
+mat-form-field{
+  margin: auto;
+  width: 40vw;
+}
+
+form span{
+  align-content: space-between;
+
+}
+
+span button{
+  width: 9vw;
+  display: inline-block;
+  margin: auto;
+}
+
+#addForm{
+  width: 95%;
+  font-size: larger;
+  font-weight: bold;
+  text-align: end;
+}
