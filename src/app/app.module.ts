@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -11,7 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule} from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
-//import { MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion'
+
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,10 +24,12 @@ import { SolutionComponent } from './solution/solution.component';
 import { EditSolutionComponent } from './edit-solution/edit-solution.component';
 import { EditContainerComponent } from './edit-container/edit-container.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LangResolver } from './resolvers/lang.resolver';
+import { ProbByLangIdResolver } from './resolvers/prob-by-lang-id.resolver';
 
 const appRoutes: Routes = [
-  { path: '', component: MainpageComponent },
-  { path: 'tricks', component: CheatsheetComponent},
+  { path: '', component: MainpageComponent, resolve:{languages: LangResolver} },
+  { path: 'tricks/:id', component: CheatsheetComponent, resolve: { problems: ProbByLangIdResolver } },
   { path: 'solution', component: SolutionComponent},
   { path: 'edit', component: EditContainerComponent},
   { path: 'not-found', component: NotFoundComponent},
@@ -45,6 +49,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -52,6 +57,7 @@ const appRoutes: Routes = [
     MatIconModule,
     MatInputModule,
     MatDividerModule,
+    MatExpansionModule,
     MatToolbarModule,
     MatGridListModule,
     BrowserModule,

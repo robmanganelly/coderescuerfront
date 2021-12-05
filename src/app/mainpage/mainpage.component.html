@@ -1,36 +1,80 @@
 <div class="mainpage">
-    <div class="mainlogo">
-        <img src="assets/logo.png" alt="Code Tricks Logo" >
-    </div>
-    <div class="separator"></div>
-    <mat-divider></mat-divider>
-    <div class="maindescription">
-        <p>
-            The wonderland of lazy developers, think once, use always. This site is intended for both junior and senior developers.If you think that is not
-            necessary to reinvent the wheel anytime you start a new project, then you are in the right place.
-        </p>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="separator"></div>
-    <div>
-        <h3>Select a language</h3>
-    </div>
-    <div>
-        <mat-grid-list cols="2" rowHeight="2:1">
-            <mat-grid-tile *ngFor="let language of languageList" (click)="onTestClick(language)">
-                <mat-grid-tile-header>{{language.name}}</mat-grid-tile-header>
-                <img  [src]=language.image [alt]=language.name >
-            </mat-grid-tile>
-          </mat-grid-list>
-    </div>
-    <div class="separator"></div>
-    <mat-divider></mat-divider>
-    <footer>
-        <address>
-            Created by <a href="mailto:robmanganelly@gmail.com">robmanganelly</a>
-        </address>
-        <small>
-            All rights reserved.&copy; 2021
-        </small>
-    </footer>
+  <div class="mainlogo">
+    <img src="assets/logo.png" alt="Code Tricks Logo">
+  </div>
+  <div class="separator"></div>
+  <mat-divider></mat-divider>
+  <div class="maindescription">
+    <p>
+      The wonderland of lazy developers, think once, use always. This site is intended for both junior and senior
+      developers.If you think that is not
+      necessary to reinvent the wheel anytime you start a new project, then you are in the right place.
+    </p>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="separator"></div>
+  <div>
+    <h3>Select a language</h3>
+  </div>
+
+  <mat-divider></mat-divider>
+  <div class="separator"></div>
+  <!-- todo after implement user, this block is enabled just for logged users -->
+  <mat-accordion hideToggle  >
+    <mat-expansion-panel >
+
+      <mat-expansion-panel-header>
+        <!-- header here -->
+        <p id="addForm"> Insert a new language</p>
+      </mat-expansion-panel-header>
+
+      <!-- body here -->
+        <form [formGroup]="languageForm"  (ngSubmit)="onAddLanguage()">
+          <mat-form-field  appearance="outline">
+            <mat-label> Type a Name </mat-label>
+            <input matInput type="text" formControlName="name" id="">
+          </mat-form-field>
+
+          <span>
+            <button mat-stroked-button type="button" (click)="filePickerRef.click()">
+              Pick Image
+            </button>
+            <input #filePickerRef (change)="onPickedImage($event)" type="file">
+
+            <button mat-stroked-button type="submit" [disabled]="!languageForm.valid" >
+              Add
+            </button>
+            <button mat-stroked-button type="reset">
+              Reset
+            </button>
+          </span>
+          <!-- todo create method for click-->
+        </form>
+
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="separator"></div>
+  <mat-divider></mat-divider>
+
+  <div class="scrollable">
+    <mat-grid-list cols="2" rowHeight="2:1" >
+      <mat-grid-tile *ngFor="let language of languageList" (click)="onClickLanguage(language)">
+        <mat-grid-tile-header>{{language.name}}</mat-grid-tile-header>
+        <img [src]=language.img [alt]=language.name>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  <div class="separator"></div>
+  <mat-divider></mat-divider>
+
+  <footer>
+    <address>
+      Created by <a href="mailto:robmanganelly@gmail.com">robmanganelly</a>
+    </address>
+    <small>
+      All rights reserved.&copy; 2021
+    </small>
+  </footer>
 </div>

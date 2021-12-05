@@ -1,4 +1,5 @@
 export interface Lang {
+    _id?: string;
     name:string;
-    image: string;
+    img: string;
 }
