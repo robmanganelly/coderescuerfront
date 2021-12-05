@@ -22,20 +22,16 @@ class Utility {
     let formData = form || new FormData();
 
     for (let prop of Object.keys(model)) {
-      console.log('dev log on utility: using prop'+prop);
       if (model[prop] instanceof Array) {
-        console.log('dev log on utility: detected array');
         // formData.append(`${prop}`, JSON.stringify(model[prop]));
         model[prop].forEach((p: string)=>{
           formData.append(`${prop}[]`,p)
         })
       }
       else if (typeof model[prop] === 'object' && !(model[prop] instanceof File)){
-        console.log('dev log on utility: detected file');
         formData.append(`${prop}`, model[prop],`${model[prop].name}`);
       }
       else{
-        console.log('dev log on utility: detected regular field ');
         formData.append(`${prop}`,model[prop])
       }
     }

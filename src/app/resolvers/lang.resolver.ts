@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import {
-  Router, Resolve,
+  Resolve,
   RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { EnvelopedResponse } from '../interfaces/httpResponse';
+import { Observable } from 'rxjs';
 import { Lang } from '../interfaces/lang';
-import { HttpService } from '../services/http.service';
+import { DataService } from '../services/data.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LangResolver implements Resolve<Observable<EnvelopedResponse<Lang[]>> | Promise<EnvelopedResponse<Lang[]>> | EnvelopedResponse<Lang[]>> {
+export class LangResolver implements Resolve<Observable<Lang[]> | Promise<Lang[]> | Lang[]> {
 
-  constructor(private httpService: HttpService){};
+  constructor(private dataService: DataService){};
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<EnvelopedResponse<Lang[]>> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Lang[]> {
     // return of(true);
-    return this.httpService.getAllLanguages();
+    return this.dataService.getLanguages();
   }
 }

@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <span>LanguageName</span>
+  <span>{{languageName}}</span>
 
   <span class="spacer"></span>
 
@@ -26,6 +26,9 @@
   <div class="scrollable">
     <!--todo fill the loop with real data, coming from backend -->
     <app-probsheet *ngFor="let trick of languageTricks" ></app-probsheet>
+    <div class="no-tricks-alert" *ngIf="languageTricks.length === 0">
+      <h2>No tricks for this language so far. Be the first on adding a problem and its solution!!</h2>
+    </div>
   </div>
 
   </div>

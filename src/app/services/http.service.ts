@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EnvelopedResponse } from '../interfaces/httpResponse';
 import { Lang } from '../interfaces/lang';
+import { Problem } from '../interfaces/problem';
 import {environment} from './../../environments/environment'
 import { FormDataParserService } from './form-data-parser.service';
 
@@ -26,6 +27,10 @@ export class HttpService {
       `${environment.apiUrl}/languages`,
       this.formDataParser.generate(payload),
       {observe: "body"})
+  }
+
+  getAllProblemsFromLanguage(languageId:string): Observable<EnvelopedResponse<Problem[]>>{
+    return this.http.get<EnvelopedResponse<Problem[]>>(`${environment.apiUrl}/problems/${languageId}`)
   }
 
 }

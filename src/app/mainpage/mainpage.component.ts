@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Lang } from '../interfaces/lang';
 import { HttpService } from '../services/http.service';
-import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DataService } from '../services/data.service';
 @Component({
   selector: 'app-mainpage',
   templateUrl: './mainpage.component.html',
@@ -22,28 +22,25 @@ export class MainpageComponent implements OnInit {
   constructor(
     private router: Router,
     private httpService: HttpService,
+    private dataService: DataService,
     private activatedRoute: ActivatedRoute
   ) { }
 
   onClickLanguage(lang: Lang):void{
-    // todo request data from server before navigating
-    this.router.navigate(['tricks']);
+    this.dataService.currentLanguageSubject.next(lang);
+    this.router.navigate(['tricks',lang._id]);
   }
 
   ngOnInit(): void {
 
     this.activatedRoute.data.subscribe(
-
       (response: Data)=>{
-        response['languages'].data.data.forEach((lan: Lang) => {
-          lan.img = `${environment.apiUrl}/${lan.img}`
-        });
+        console.log(response);
 
-        console.log(response['languages'].data.data); // todo remove after testing
-
-        this.languageList = response['languages'].data.data;
-       }
-      );
+        this.languageList = response['languages'];
+      }
+    );
+    this.dataService.allLanguagesSubject.subscribe(d=>this.languageList = d);
   }
 
 
@@ -60,16 +57,21 @@ export class MainpageComponent implements OnInit {
 
 
   onAddLanguage(){
-    this.httpService.postLanguage({
+    // this.httpService.postLanguage({
+    //   name: this.languageForm.get('name')?.value,
+    //   img: this.languageForm.get('img')?.value
+    // }).subscribe((res)=>{
+    //   alert("success"); // todo proper handler
+    //   this.languageForm.reset();
+    //   this.languageForm.clearValidators();
+    // })
+    this.dataService.postLanguage({
       name: this.languageForm.get('name')?.value,
       img: this.languageForm.get('img')?.value
     }).subscribe((res)=>{
       alert("success"); // todo proper handler
       this.languageForm.reset();
-      this.languageForm.clearValidators();
-    })
-
-    //after perform all logic
+    });
 
   }
 
