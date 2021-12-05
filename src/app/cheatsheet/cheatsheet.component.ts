@@ -23,13 +23,16 @@ export class CheatsheetComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.dataService.currentLanguageSubject.subscribe(
-      (d)=>{ this.currentLanguage = d as Lang; this.languageName = d?.name as string}
+      (d)=>{
+        this.currentLanguage = d as Lang;
+        this.languageName = d?.name as string;
+        this.languageId = d?._id as string;
+      }
     )
     this.activatedRoute.data.subscribe(
       (response:Data)=>{

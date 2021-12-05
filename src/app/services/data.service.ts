@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { EnvelopedResponse } from '../interfaces/httpResponse';
 import { Lang } from '../interfaces/lang';
+import { DataExtractor } from '../utils/data-extractor';
 import { StaticPath } from '../utils/static-path';
 import { HttpService } from './http.service';
 
@@ -18,7 +19,8 @@ export class DataService {
 
   getLanguages(){
     return this.httpService.getAllLanguages().pipe(
-      map((dataArray: EnvelopedResponse<Lang[]>)=>{return dataArray.data.data}),
+      // map((dataArray: EnvelopedResponse<Lang[]>)=>{return dataArray.data.data}),
+      map((d)=>{return  DataExtractor.extract(d) } ),
       map((lang: Lang[])=>{
         // lang.img = StaticPath.generatePath(lang.img);
         lang.forEach(element => {
@@ -34,6 +36,15 @@ export class DataService {
     return this.httpService.postLanguage(payload).pipe(
       tap((d)=>{this.getLanguages().subscribe((lang: Lang[])=>{ this.allLanguagesSubject.next(lang)})})
     );
+  }
+
+  getProblemsFromLanguage(langId: string){
+    return this.httpService.getAllProblemsFromLanguage(langId).pipe(
+      map((payload)=>{return DataExtractor.extract(payload);}),
+
+
+
+    )
   }
 
 
