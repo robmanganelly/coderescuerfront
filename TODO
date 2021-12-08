@@ -1,5 +1,6 @@
 TODO:
-  [] redefine the strings on the http methods (move to a variable outside the service)
+  [x] redefine the strings on the http methods (move to a variable outside the service)
+  [] solve fix on create problem, does not refresh language list...
 priority:
   [] implement routes trick/language name (set name dynamic) on navegation
   [] implement http request for trick routes

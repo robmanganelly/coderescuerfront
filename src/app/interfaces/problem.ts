@@ -1,8 +1,12 @@
-export interface Problem{
+export interface Problem extends ProblemSeed{
   language: String;
   date: Date;
+  _id?: String;
+}
+
+export interface ProblemSeed{
   // include author after implement user endpoint
   title: String;
   description: String;
-  _id?: String;
+  comments?: string;
 }

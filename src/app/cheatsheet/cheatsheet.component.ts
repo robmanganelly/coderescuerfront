@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute, Data } from '@angular/router';
+import { tap } from 'rxjs';
 import { Lang } from '../interfaces/lang';
-import { Problem } from '../interfaces/problem';
+import { Problem, ProblemSeed } from '../interfaces/problem';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -36,12 +37,20 @@ export class CheatsheetComponent implements OnInit {
     )
     this.activatedRoute.data.subscribe(
       (response:Data)=>{
+        console.log(response);
         this.languageId = this.activatedRoute.snapshot.params['id'];
-        this.languageTricks = response["problems"].data.data;
+        this.languageTricks = response["problems"];
       }
     );
+    this.dataService.currentLanguageProblemsSubject.subscribe(
+      problems=>{
+        console.log('problems emitted from init');
+        console.log(problems);
+        this.languageTricks = problems;}
+    )
+  };
 
-  }
+
 
 
 
