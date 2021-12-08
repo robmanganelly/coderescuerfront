@@ -43,12 +43,15 @@ export class CheatsheetComponent implements OnInit {
       }
     );
     this.dataService.currentLanguageProblemsSubject.subscribe(
-      problems=>{
-        console.log('problems emitted from init');
-        console.log(problems);
-        this.languageTricks = problems;}
+      problems=>{this.languageTricks = problems;}
     )
   };
+
+  refreshProblems(): void{
+    this.dataService.getProblemsFromLanguage(this.languageId).subscribe(
+      (d)=>{this.languageTricks = d}
+    )
+  }
 
 
 

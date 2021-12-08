@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Problem, ProblemSeed } from '../interfaces/problem';
 
 @Component({
   selector: 'app-probsheet',
@@ -10,10 +11,13 @@ export class ProbsheetComponent implements OnInit {
 
   isFavorite: boolean = false;
 
+   @Input() problem: ProblemSeed = {title:"", description: "",comments:""};
+
+
   constructor(private router: Router) { }
 
-  ngOnInit(): void {
-  }
+
+  ngOnInit(): void {}
 
 
 

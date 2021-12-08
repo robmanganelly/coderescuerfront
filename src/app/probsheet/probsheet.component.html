@@ -4,12 +4,12 @@
     <img class="new-tag" src="assets/new_icon_final.png" alt="new">
     <mat-card-header>
       <mat-card-title (click)="openTrick()" >
-        this is the title of the problem,for example: Create a function to sort an array of numbers
+        {{problem.title}}
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>this is the problem description (comments added by user)
-
+      <p>
+        {{problem.description}}
       </p>
     </mat-card-content>
     <mat-card-actions align="end">
