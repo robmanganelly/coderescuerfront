@@ -7,16 +7,16 @@ import {
 import { Observable, of } from 'rxjs';
 import { EnvelopedResponse } from '../interfaces/httpResponse';
 import { Problem } from '../interfaces/problem';
-import { HttpService } from '../services/http.service';
+import { DataService } from '../services/data.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProbByLangIdResolver implements Resolve<Observable<EnvelopedResponse<Problem[]>>> {
+export class ProbByLangIdResolver implements Resolve<Observable<Problem[]>> {
 
-  constructor(private http: HttpService){}
+  constructor(private http: DataService){}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<EnvelopedResponse<Problem[]>> {
-    return this.http.getAllProblemsFromLanguage(route.params['id']);
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Problem[]> {
+    return this.http.getProblemsFromLanguage(route.params['id']);
   }
 }

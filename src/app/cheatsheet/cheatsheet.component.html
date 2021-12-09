@@ -9,10 +9,10 @@
 <div class="sheet">
   <div class="separator"></div>
   <mat-button-toggle-group [(ngModel)]="filterOptions" aria-label="Trick Options" appearance="legacy" >
-    <mat-button-toggle value="noFilter">Show all tricks</mat-button-toggle>
-    <mat-button-toggle value="newFilter">Show only new tricks</mat-button-toggle>
-    <mat-button-toggle value="favFilter">Show only favorites tricks</mat-button-toggle>
-    <mat-button-toggle value="add">Add a new Trick</mat-button-toggle>
+    <mat-button-toggle (click)="refreshProblems()" value="noFilter">Show all tricks</mat-button-toggle>
+    <mat-button-toggle (click)="refreshProblems()" value="newFilter">Show only new tricks</mat-button-toggle>
+    <mat-button-toggle (click)="refreshProblems()" value="favFilter">Show only favorites tricks</mat-button-toggle>
+    <mat-button-toggle (click)="refreshProblems()" value="add">Add a new Trick</mat-button-toggle>
   </mat-button-toggle-group>
   <div class="separator"></div>
 
@@ -25,7 +25,7 @@
   <div><p>[todo place pagination buttons here]</p></div>
   <div class="scrollable">
     <!--todo fill the loop with real data, coming from backend -->
-    <app-probsheet *ngFor="let trick of languageTricks" ></app-probsheet>
+    <app-probsheet *ngFor="let trick of languageTricks" [problem]="trick" ></app-probsheet>
     <div class="no-tricks-alert" *ngIf="languageTricks.length === 0">
       <h2>No tricks for this language so far. Be the first on adding a problem and its solution!!</h2>
     </div>

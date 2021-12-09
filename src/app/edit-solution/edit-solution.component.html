@@ -1,17 +1,22 @@
 <form [formGroup]="newTrickForm" (ngSubmit)="onSubmitNewTrick()">
   <mat-form-field aria-required="true" appearance="fill"  >
     <mat-label>What problem are you solving?</mat-label>
-    <input formControlName="newTrickTitle" matInput placeholder="please write a brief description. Ensure to not repeat any previous solved trick " >
+    <input formControlName="newTrickTitle" matInput placeholder="please write a title. Ensure to not repeat any previous solved trick " >
   </mat-form-field>
 
   <mat-form-field aria-required="true" appearance="fill" >
-    <mat-label>What is your solution?</mat-label>
-    <textarea  formControlName="newTrickSolution" matInput placeholder="try to be original, community is watching" ></textarea>
+    <mat-label>Please describe briefly what it consists on</mat-label>
+    <textarea  formControlName="newTrickDescription" matInput placeholder="please write a brief description. Try to be original, community is watching" ></textarea>
   </mat-form-field>
 
   <mat-form-field appearance="fill"  >
     <mat-label>Do you want to leave any comments?</mat-label>
     <input formControlName="newTrickComment" matInput placeholder="Don't push yourself too much, comments are not required." >
+  </mat-form-field>
+
+  <mat-form-field aria-required="true" appearance="fill" >
+    <mat-label>Please implement a solution to be copied next time</mat-label>
+    <textarea  formControlName="newTrickSolution" matInput placeholder="Place here the code for solving your problem" ></textarea>
   </mat-form-field>
 
   <div>

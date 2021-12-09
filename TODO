@@ -1,12 +1,13 @@
 TODO:
-  [] redefine the strings on the http methods (move to a variable outside the service)
+  [x] redefine the strings on the http methods (move to a variable outside the service)
+  [x] solve fix on create problem, does not refresh language list...
 priority:
-  [] implement routes trick/language name (set name dynamic) on navegation
-  [] implement http request for trick routes
-
-
-
+  [x] implement routes trick/language name (set name dynamic) on navegation
+  [x] implement http request for trick routes
 
 
 DO_NOW:
-  [] fix the mainpage.component.ts subscription to load images.
+  [x] fix the mainpage.component.ts subscription to load images.
+  [] implement transaction so solution gets created right after problem creation.
+    [x] review data service
+    [] review backend (??)

@@ -35,7 +35,6 @@ export class MainpageComponent implements OnInit {
 
     this.activatedRoute.data.subscribe(
       (response: Data)=>{
-        console.log(response);
 
         this.languageList = response['languages'];
       }
