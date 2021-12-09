@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { Location } from '@angular/common';
 import { DataService } from '../services/data.service';
 import { ProblemSeed } from '../interfaces/problem';
@@ -14,10 +14,17 @@ export class EditSolutionComponent implements OnInit {
 
   currentLanguageId: string = "";
 
+  // Requirements of data being validated
+  titleRequirements: ValidatorFn[] = [Validators.required, Validators.minLength(10), Validators.maxLength(300)]
+  solutionRequirements: ValidatorFn[] = [Validators.required, Validators.minLength(3), Validators.maxLength(3500)]
+  commentsRequirements: ValidatorFn[] = [Validators.minLength(1), Validators.maxLength(2500)]
+  descriptionRequirements: ValidatorFn[] = [Validators.required, Validators.maxLength(300)]
+
   newTrickForm: FormGroup = new FormGroup({
-    'newTrickTitle': new FormControl(''),
-    'newTrickDescription': new FormControl(''),
-    'newTrickComment': new FormControl(''),
+    'newTrickTitle': new FormControl('',this.titleRequirements),
+    'newTrickDescription': new FormControl('',this.descriptionRequirements),
+    'newTrickComment': new FormControl('',this.commentsRequirements),
+    'newTrickSolution': new FormControl('',this.solutionRequirements),
   });
 
   constructor(
@@ -38,7 +45,8 @@ export class EditSolutionComponent implements OnInit {
     const probData: ProblemSeed = {
       title: this.newTrickForm.get("newTrickTitle")?.value as string,
       description: this.newTrickForm.get("newTrickDescription")?.value as string,
-      comments: this.newTrickForm.get("newTrickComment")?.value as string
+      comments: this.newTrickForm.get("newTrickComment")?.value as string,
+      solution: this.newTrickForm.get("newTrickSolution")?.value as string
     };
     this.dataService.createProblem(this.currentLanguageId, probData)
     .pipe(tap(console.log))

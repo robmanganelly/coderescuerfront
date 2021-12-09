@@ -9,4 +9,5 @@ export interface ProblemSeed{
   title: String;
   description: String;
   comments?: string;
+  solution?: string;
 }

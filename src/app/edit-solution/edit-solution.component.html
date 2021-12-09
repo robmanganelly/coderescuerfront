@@ -14,6 +14,11 @@
     <input formControlName="newTrickComment" matInput placeholder="Don't push yourself too much, comments are not required." >
   </mat-form-field>
 
+  <mat-form-field aria-required="true" appearance="fill" >
+    <mat-label>Please implement a solution to be copied next time</mat-label>
+    <textarea  formControlName="newTrickSolution" matInput placeholder="Place here the code for solving your problem" ></textarea>
+  </mat-form-field>
+
   <div>
     <button mat-stroked-button type="reset" >Reset</button>
     <button mat-stroked-button type="submit" [disabled]="!newTrickForm.valid">Submit</button>
