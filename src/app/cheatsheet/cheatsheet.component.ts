@@ -37,7 +37,6 @@ export class CheatsheetComponent implements OnInit {
     )
     this.activatedRoute.data.subscribe(
       (response:Data)=>{
-        console.log(response);
         this.languageId = this.activatedRoute.snapshot.params['id'];
         this.languageTricks = response["problems"];
       }

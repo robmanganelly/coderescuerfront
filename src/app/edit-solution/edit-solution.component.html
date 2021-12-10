@@ -22,7 +22,7 @@
   <div>
     <button mat-stroked-button type="reset" >Reset</button>
     <button mat-stroked-button type="submit" [disabled]="!newTrickForm.valid">Submit</button>
-    <button class="floating-right" type="button" mat-stroked-button (click)="goBack()" ><mat-icon>home</mat-icon><span>Go Back</span></button>
+    <button [ngClass]="{'hidden-button': path}" type="button" mat-stroked-button (click)="goBack()" ><mat-icon>home</mat-icon><span>Go Back</span></button>
 
 
   </div>

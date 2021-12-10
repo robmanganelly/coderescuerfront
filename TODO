@@ -8,6 +8,7 @@ priority:
 
 DO_NOW:
   [x] fix the mainpage.component.ts subscription to load images.
-  [] implement transaction so solution gets created right after problem creation.
+  [x] implement transaction so solution gets created right after problem creation.
     [x] review data service
-    [] review backend (??)
+    [x] review backend (??)
+

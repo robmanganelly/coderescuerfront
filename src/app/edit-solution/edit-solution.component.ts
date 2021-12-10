@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { DataService } from '../services/data.service';
 import { ProblemSeed } from '../interfaces/problem';
 import { tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit-solution',
@@ -13,6 +14,8 @@ import { tap } from 'rxjs';
 export class EditSolutionComponent implements OnInit {
 
   currentLanguageId: string = "";
+
+  path: boolean = true;
 
   // Requirements of data being validated
   titleRequirements: ValidatorFn[] = [Validators.required, Validators.minLength(10), Validators.maxLength(300)]
@@ -29,9 +32,15 @@ export class EditSolutionComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
+    private activatedRoute: ActivatedRoute,
     private location: Location) { }
 
   ngOnInit(): void {
+
+    this.activatedRoute.params.subscribe(
+     p=>{ console.log(p); this.path = !!p["id"]}
+    )
+
     this.dataService.currentLanguageSubject.subscribe(
       lang=>{this.currentLanguageId = lang?._id as string;}
     )
