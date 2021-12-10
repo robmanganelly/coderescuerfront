@@ -42,6 +42,7 @@ export class EditSolutionComponent implements OnInit {
   }
 
   onSubmitNewTrick():void{
+    console.log(this.currentLanguageId);
     const probData: ProblemSeed = {
       title: this.newTrickForm.get("newTrickTitle")?.value as string,
       description: this.newTrickForm.get("newTrickDescription")?.value as string,

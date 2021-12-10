@@ -57,7 +57,7 @@ export class DataService {
   createProblem(langId: string, payload: ProblemSeed): Observable<Problem[]>{
     return this.httpService.postProblemOnLanguage(langId,payload).pipe(
       map(response=>{return DataExtractor.extract(response)}),
-      mergeMap((data)=>{ return this.getProblemsFromLanguage(data.language as string); })
+      mergeMap((data)=>{ return this.getProblemsFromLanguage(langId); })
     )
   }
 
