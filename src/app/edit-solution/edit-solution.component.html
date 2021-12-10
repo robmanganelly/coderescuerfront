@@ -9,14 +9,21 @@
     <textarea  formControlName="newTrickDescription" matInput placeholder="please write a brief description. Try to be original, community is watching" ></textarea>
   </mat-form-field>
 
-  <mat-form-field appearance="fill"  >
-    <mat-label>Do you want to leave any comments?</mat-label>
-    <input formControlName="newTrickComment" matInput placeholder="Don't push yourself too much, comments are not required." >
-  </mat-form-field>
+  <button type="button" mat-stroked-button (click)="codeGrabberRef.click()" > Copy Code from Files</button>
+  <div class="separator"></div>
+  <input #codeGrabberRef type="file" name="" id="" (change)="grabFileAndReadAsText($event)">
 
   <mat-form-field aria-required="true" appearance="fill" >
     <mat-label>Please implement a solution to be copied next time</mat-label>
-    <textarea  formControlName="newTrickSolution" matInput placeholder="Place here the code for solving your problem" ></textarea>
+    <textarea [value]="solutionValue"  formControlName="newTrickSolution" matInput placeholder="Place here the code for solving your problem" ></textarea>
+  </mat-form-field>
+
+  <mat-divider></mat-divider>
+  <div class="separator"></div>
+
+  <mat-form-field appearance="fill"  >
+    <mat-label>Do you want to leave any comments?</mat-label>
+    <input formControlName="newTrickComment" matInput placeholder="Don't push yourself too much, comments are not required." >
   </mat-form-field>
 
   <div>

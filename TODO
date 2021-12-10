@@ -1,6 +1,7 @@
 TODO:
   [x] redefine the strings on the http methods (move to a variable outside the service)
   [x] solve fix on create problem, does not refresh language list...
+  [] create a proper way to notificate actions (snack bar)
 priority:
   [x] implement routes trick/language name (set name dynamic) on navegation
   [x] implement http request for trick routes
