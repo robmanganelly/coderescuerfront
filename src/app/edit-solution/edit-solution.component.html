@@ -15,7 +15,15 @@
 
   <mat-form-field aria-required="true" appearance="fill" >
     <mat-label>Please implement a solution to be copied next time</mat-label>
-    <textarea [value]="solutionValue"  formControlName="newTrickSolution" matInput placeholder="Place here the code for solving your problem" ></textarea>
+    <textarea matInput
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="50"
+        [value]="solutionValue"
+        formControlName="newTrickSolution"
+        placeholder="Place here the code for solving your problem" >
+    </textarea>
   </mat-form-field>
 
   <mat-divider></mat-divider>

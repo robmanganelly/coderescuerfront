@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Problem, ProblemSeed } from '../interfaces/problem';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-probsheet',
@@ -11,10 +12,12 @@ export class ProbsheetComponent implements OnInit {
 
   isFavorite: boolean = false;
 
-   @Input() problem: ProblemSeed = {title:"", description: "",comments:""};
+   @Input() problem: Problem = {title:"", description: "",comments:"", language: "", date: new Date()};
 
 
-  constructor(private router: Router) { }
+  constructor(
+    private dataService: DataService,
+    private router: Router) { }
 
 
   ngOnInit(): void {}
@@ -28,9 +31,8 @@ export class ProbsheetComponent implements OnInit {
   clickFavorite(){
     this.isFavorite = !this.isFavorite;
   }
-  clickEdit(event: unknown){
-    console.log(event)
-    this.router.navigate(['edit'])
+  clickEdit(){
+    this.router.navigate(['edit'],{state:{ problem: this.problem }});
   }
 
 }

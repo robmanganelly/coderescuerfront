@@ -26,6 +26,7 @@ import { EditContainerComponent } from './edit-container/edit-container.componen
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LangResolver } from './resolvers/lang.resolver';
 import { ProbByLangIdResolver } from './resolvers/prob-by-lang-id.resolver';
+import { TextAreaAutoResizeDirective } from './directives/text-area-auto-resize.directive';
 
 const appRoutes: Routes = [
   { path: '', component: MainpageComponent, resolve:{languages: LangResolver} },
@@ -45,7 +46,8 @@ const appRoutes: Routes = [
     SolutionComponent,
     EditSolutionComponent,
     EditContainerComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    TextAreaAutoResizeDirective,
   ],
   imports: [
     FormsModule,

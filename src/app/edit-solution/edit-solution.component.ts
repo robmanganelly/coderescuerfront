@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { Location } from '@angular/common';
 import { DataService } from '../services/data.service';
-import { ProblemSeed } from '../interfaces/problem';
+import { Problem, ProblemSeed } from '../interfaces/problem';
 import { tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ExtensionTest } from '../utils/extensions';
 
 @Component({
@@ -18,6 +18,7 @@ export class EditSolutionComponent implements OnInit {
 
   path: boolean = true;
   solutionValue: string = "";
+  onEdition: Problem | undefined;
 
   // Requirements of data being validated
   titleRequirements: ValidatorFn[] = [Validators.required, Validators.minLength(10), Validators.maxLength(300)]
@@ -33,19 +34,29 @@ export class EditSolutionComponent implements OnInit {
   });
 
   constructor(
-    private dataService: DataService,
     private activatedRoute: ActivatedRoute,
-    private location: Location) { }
+    private dataService: DataService,
+    private router: Router,
+    private location: Location) {
+
+      this.onEdition = this.router.getCurrentNavigation()?.extras.state?.['problem'];
+     }
 
   ngOnInit(): void {
 
     this.activatedRoute.params.subscribe(
-     p=>{ this.path = !!p["id"]}
+     (p)=>{ this.path = !!p["id"]}
     )
 
     this.dataService.currentLanguageSubject.subscribe(
       lang=>{this.currentLanguageId = lang?._id as string;}
-    )
+    );
+
+    if(!!this.onEdition){
+      this.newTrickForm.get("newTrickTitle")?.setValue(this.onEdition.title);
+      this.newTrickForm.get("newTrickDescription")?.setValue(this.onEdition.description);
+    }
+
   }
 
   goBack():void {
