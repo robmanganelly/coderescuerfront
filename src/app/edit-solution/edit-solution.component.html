@@ -1,12 +1,24 @@
+<span [ngSwitch]="formPurpose">
+<h3 *ngSwitchCase="'update-trick-user'">
+  Create a new Solution for this Trick
+</h3>
+<h3 *ngSwitchCase="'update-trick-owner'">
+  Update your solution to this trick
+</h3>
+<h3 *ngSwitchDefault>
+  Create a new Trick
+</h3>
+</span>
+
 <form [formGroup]="newTrickForm" (ngSubmit)="onSubmitNewTrick()">
   <mat-form-field aria-required="true" appearance="fill"  >
     <mat-label>What problem are you solving?</mat-label>
-    <input formControlName="newTrickTitle" matInput placeholder="please write a title. Ensure to not repeat any previous solved trick " >
+    <input [readonly]="fixContent()"  formControlName="newTrickTitle" matInput placeholder="please write a title. Ensure to not repeat any previous solved trick " >
   </mat-form-field>
 
   <mat-form-field aria-required="true" appearance="fill" >
     <mat-label>Please describe briefly what it consists on</mat-label>
-    <textarea  formControlName="newTrickDescription" matInput placeholder="please write a brief description. Try to be original, community is watching" ></textarea>
+    <textarea  [readonly]="fixContent(true)" formControlName="newTrickDescription" matInput placeholder="please write a brief description. Try to be original, community is watching" ></textarea>
   </mat-form-field>
 
   <button type="button" mat-stroked-button (click)="codeGrabberRef.click()" > Copy Code from Files</button>

@@ -32,7 +32,7 @@ export class ProbsheetComponent implements OnInit {
     this.isFavorite = !this.isFavorite;
   }
   clickEdit(){
-    this.router.navigate(['edit'],{state:{ problem: this.problem }});
+    this.router.navigate(['edit'],{state:{ problem: this.problem, action: "update-trick-owner" }});
   }
 
 }

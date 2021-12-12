@@ -15,10 +15,10 @@ import { ExtensionTest } from '../utils/extensions';
 export class EditSolutionComponent implements OnInit {
 
   currentLanguageId: string = "";
-
   path: boolean = true;
   solutionValue: string = "";
   onEdition: Problem | undefined;
+  formPurpose: string = ""
 
   // Requirements of data being validated
   titleRequirements: ValidatorFn[] = [Validators.required, Validators.minLength(10), Validators.maxLength(300)]
@@ -40,6 +40,7 @@ export class EditSolutionComponent implements OnInit {
     private location: Location) {
 
       this.onEdition = this.router.getCurrentNavigation()?.extras.state?.['problem'];
+      this.formPurpose = this.router.getCurrentNavigation()?.extras.state?.['action'];
      }
 
   ngOnInit(): void {
@@ -96,6 +97,13 @@ export class EditSolutionComponent implements OnInit {
 
    reader.readAsText(File);
 
+  }
+
+  fixContent(owner: boolean = false):boolean { // used to tell component's template if make input readonly or not
+    if (owner){
+      return /update-trick-user/.test(this.formPurpose);
+    }
+    return /update/.test(this.formPurpose)
   }
 
 
