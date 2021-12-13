@@ -1,5 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
+@use '@angular/material' as mat;
+@use 'app/themes/my-light-theme' as light;
+
+/* just once per application even if many themes */
+@include mat.core();
+
+/* the palettes are located in:  node_modules/angular/material/core/theming/_palette.scss */
+
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -20,3 +29,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   overflow-y: scroll;
 }
 
+.snack{
+  max-width: min-content;
+  background-color: rgba(178, 235, 163, 0.637);
+  color: rgb(6, 51, 6);
+}
+
+.snack-error {
+  background-color: rgba(248, 101, 101, 0.486);
+  color: rgb(112, 17, 17);
+}
+
+
+@include light.theme-color-grabber(light.$my-light-theme);

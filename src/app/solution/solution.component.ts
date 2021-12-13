@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { SnackService } from '../services/snack.service';
 
 @Component({
   selector: 'app-solution',
@@ -22,7 +23,11 @@ export class SolutionComponent implements OnInit {
   like: boolean = false;
   dislike: boolean = false;
 
-  constructor(private router: Router,private location: Location) { }
+  constructor(
+    private router: Router,
+    private location: Location,
+    private snackBarService: SnackService
+    ) { }
 
   ngOnInit(): void {
   }
@@ -30,30 +35,36 @@ export class SolutionComponent implements OnInit {
     this.location.back();
   }
 
-  clickEdit():void{
+  clickEdit(action: string):void{
     alert('must navigate to create solution component: fake --must be implemented--') // todo implement
     this.router.navigate(['edit']);
   }
 
-  clickCopy():void{ //todo
-    alert('content copied: fake --must be implemented--')
-
+  async clickCopy(container: HTMLPreElement):Promise<void>{ //todo
+    try{
+      await navigator.clipboard.writeText(container.innerText);
+      this.snackBarService.successSnack('content copied successfully',1000,'bottom')
+    }catch(err){
+      this.snackBarService.warnSnack('content can not be copied',1000,'bottom')
+    }
   }
   clickFavorite():void{
     this.favorite = !this.favorite;
+    this.snackBarService.primarySnack(`this item was ${this.favorite?'flagged as favorite': 'removed from your favorites'}`,1000,'bottom')
     if (this.favorite) {this.dislike = false;}
   }
   clickLike():void{
     this.like = !this.like;
+    this.snackBarService.primarySnack(`this item was ${this.like?'liked': 'removed from your liked items'}`,1000,'bottom')
     if(this.like){this.dislike = false;}
   }
   clickDislike():void{
     this.dislike = !this.dislike;
+    this.snackBarService.primarySnack(`this item was ${this.dislike?'disliked': 'removed from your disliked items'}`,1000,'bottom')
     if(this.dislike){
       this.like = false;
       this.favorite = false;
     }
-
   }
 
   postComment():void{
