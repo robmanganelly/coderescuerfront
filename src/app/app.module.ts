@@ -28,11 +28,12 @@ import { LangResolver } from './resolvers/lang.resolver';
 import { ProbByLangIdResolver } from './resolvers/prob-by-lang-id.resolver';
 import { TextAreaAutoResizeDirective } from './directives/text-area-auto-resize.directive';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SolutionResolver } from './resolvers/solution.resolver';
 
 const appRoutes: Routes = [
   { path: '', component: MainpageComponent, resolve:{languages: LangResolver} },
   { path: 'tricks/:id', component: CheatsheetComponent, resolve: { problems: ProbByLangIdResolver } },
-  { path: 'solution', component: SolutionComponent},
+  { path: 'solution', component: SolutionComponent, resolve: { solutionData: SolutionResolver }},
   { path: 'edit', component: EditContainerComponent},
   { path: 'not-found', component: NotFoundComponent},
   { path: '**', redirectTo: '/not-found'}
