@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, mergeMap, Observable, Subject, tap } from 'rxjs';
-import { EnvelopedResponse } from '../interfaces/httpResponse';
+import { Comment } from '../interfaces/comment';
 import { Lang } from '../interfaces/lang';
 import { Problem, ProblemSeed } from '../interfaces/problem';
+import { Solution } from '../interfaces/solution';
 import { DataExtractor } from '../utils/data-extractor';
 import { StaticPath } from '../utils/static-path';
 import { HttpService } from './http.service';
@@ -57,6 +58,31 @@ export class DataService {
     return this.httpService.postProblemOnLanguage(langId,payload).pipe(
       map(response=>{return DataExtractor.extract(response)}),
       mergeMap((data)=>{ return this.getProblemsFromLanguage(langId); })
+    )
+  }
+
+
+  getCommentsFromSolution(solution: string): Observable<Comment[]>{
+    return this.httpService.getCommentsBySolutionId(solution).pipe(
+      map(payload=>{return DataExtractor.extract(payload); })
+    );
+  }
+
+  getSolutionsFromProblem(problem: string): Observable<Solution[]>{
+    return this.httpService.getSolutionsByProblemId(problem).pipe(
+      map(payload=>{return DataExtractor.extract(payload); })
+    );
+  }
+
+  postSolution(problemId: string, text: string): Observable<Solution>{
+    return this.httpService.postSolutionByProblemId(problemId, text).pipe(
+      map(payload=>{return DataExtractor.extract(payload); })
+    )
+  }
+
+  postComment(solutionId: string, text:string): Observable<Comment>{
+    return this.httpService.postCommentBySolutionId(solutionId, text).pipe(
+      map(payload=>{return DataExtractor.extract(payload); })
     )
   }
 
