@@ -24,7 +24,8 @@ export class CheatsheetComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +38,6 @@ export class CheatsheetComponent implements OnInit {
     )
     this.activatedRoute.data.subscribe(
       (response:Data)=>{
-        console.log(response);
         this.languageId = this.activatedRoute.snapshot.params['id'];
         this.languageTricks = response["problems"];
       }
@@ -45,6 +45,8 @@ export class CheatsheetComponent implements OnInit {
     this.dataService.currentLanguageProblemsSubject.subscribe(
       problems=>{this.languageTricks = problems;}
     )
+    console.log(this.languageId);
+    if(!this.languageId || !this.currentLanguage ){ this.router.navigate([''])}
   };
 
   refreshProblems(): void{

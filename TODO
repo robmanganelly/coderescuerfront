@@ -1,13 +1,28 @@
 TODO:
   [x] redefine the strings on the http methods (move to a variable outside the service)
   [x] solve fix on create problem, does not refresh language list...
+  [x] create a proper way to notificate actions (snack bar)
+  [x] in every button of solution.components.ts, must place a snack bar (1 sec) to tell whether an action was performed
+  [ ] preparing for implement dark theme on demand (button)
+
 priority:
   [x] implement routes trick/language name (set name dynamic) on navegation
   [x] implement http request for trick routes
+  [] clean  the removed elements on the components
 
 
-DO_NOW:
+
+DOING_NOW:
   [x] fix the mainpage.component.ts subscription to load images.
-  [] implement transaction so solution gets created right after problem creation.
+  [x] implement transaction so solution gets created right after problem creation.
     [x] review data service
-    [] review backend (??)
+    [x] review backend (??)
+  [x] remove buttons from problem and move to the details component
+    [x] make the whole card clickable
+    [x] implement buttons styles
+    [x] working on custom theme for alert snacks
+    [x] implementing custom theme and
+  [] work on solution.component.ts
+    [] implement buttons behavior
+    [] creating resolver for loaded solution
+

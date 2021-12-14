@@ -6,3 +6,13 @@ button {
   margin: auto;
 }
 
+.hidden-button{
+  display: none;
+  visibility: hidden;
+
+}
+
+input[type="file"]{
+  visibility: hidden;
+  display: none;
+}

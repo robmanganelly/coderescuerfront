@@ -1,28 +1,55 @@
+<span [ngSwitch]="formPurpose">
+<h3 *ngSwitchCase="'update-trick-user'">
+  Create a new Solution for this Trick
+</h3>
+<h3 *ngSwitchCase="'update-trick-owner'">
+  Update your solution to this trick
+</h3>
+<h3 *ngSwitchDefault>
+  Create a new Trick
+</h3>
+</span>
+
 <form [formGroup]="newTrickForm" (ngSubmit)="onSubmitNewTrick()">
   <mat-form-field aria-required="true" appearance="fill"  >
     <mat-label>What problem are you solving?</mat-label>
-    <input formControlName="newTrickTitle" matInput placeholder="please write a title. Ensure to not repeat any previous solved trick " >
+    <input [readonly]="fixContent()"  formControlName="newTrickTitle" matInput placeholder="please write a title. Ensure to not repeat any previous solved trick " >
   </mat-form-field>
 
   <mat-form-field aria-required="true" appearance="fill" >
     <mat-label>Please describe briefly what it consists on</mat-label>
-    <textarea  formControlName="newTrickDescription" matInput placeholder="please write a brief description. Try to be original, community is watching" ></textarea>
+    <textarea  [readonly]="fixContent(true)" formControlName="newTrickDescription" matInput placeholder="please write a brief description. Try to be original, community is watching" ></textarea>
   </mat-form-field>
+
+  <button type="button" mat-stroked-button (click)="codeGrabberRef.click()" > Copy Code from Files</button>
+  <div class="separator"></div>
+  <input #codeGrabberRef type="file" name="" id="" (change)="grabFileAndReadAsText($event)">
+
+  <mat-form-field aria-required="true" appearance="fill" >
+    <mat-label>Please implement a solution to be copied next time</mat-label>
+    <textarea matInput
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="50"
+        [value]="solutionValue"
+        formControlName="newTrickSolution"
+        placeholder="Place here the code for solving your problem" >
+    </textarea>
+  </mat-form-field>
+
+  <mat-divider></mat-divider>
+  <div class="separator"></div>
 
   <mat-form-field appearance="fill"  >
     <mat-label>Do you want to leave any comments?</mat-label>
     <input formControlName="newTrickComment" matInput placeholder="Don't push yourself too much, comments are not required." >
   </mat-form-field>
 
-  <mat-form-field aria-required="true" appearance="fill" >
-    <mat-label>Please implement a solution to be copied next time</mat-label>
-    <textarea  formControlName="newTrickSolution" matInput placeholder="Place here the code for solving your problem" ></textarea>
-  </mat-form-field>
-
   <div>
     <button mat-stroked-button type="reset" >Reset</button>
     <button mat-stroked-button type="submit" [disabled]="!newTrickForm.valid">Submit</button>
-    <button class="floating-right" type="button" mat-stroked-button (click)="goBack()" ><mat-icon>home</mat-icon><span>Go Back</span></button>
+    <button [ngClass]="{'hidden-button': path}" type="button" mat-stroked-button (click)="goBack()" ><mat-icon>home</mat-icon><span>Go Back</span></button>
 
 
   </div>
