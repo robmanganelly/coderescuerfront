@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -6,6 +6,7 @@ import { SnackService } from '../services/snack.service';
 import { Problem } from '../interfaces/problem';
 import { DataService } from '../services/data.service';
 import { Solution } from '../interfaces/solution';
+import { Comment } from '../interfaces/comment';
 
 @Component({
   selector: 'app-solution',
@@ -20,8 +21,10 @@ export class SolutionComponent implements OnInit {
     'comment': new FormControl()
   })
 
-
-  comments: number[] = [1,1,11,1,1,11,1,11,1,1,11]
+  @Input() currentSolution!: Solution;
+  @Input() activeProblem!: Problem;
+  // comments: Comment[] = []
+  comments: number[] = []
 
   myComment: string = 'leave a comment here'
 
@@ -29,8 +32,6 @@ export class SolutionComponent implements OnInit {
   like: boolean = false;
   dislike: boolean = false;
 
-  activeProblem: Problem;
-  solutions: Solution[] = [];
 
   constructor(
     private dataService: DataService,
@@ -38,24 +39,17 @@ export class SolutionComponent implements OnInit {
     private router: Router,
     private location: Location,
     private snackBarService: SnackService
-    ) {
-      this.activeProblem = this.router.getCurrentNavigation()?.extras.state?.['activeProblem']
-     }
+    ) {}
 
   ngOnInit(): void {
-    if(!this.activeProblem){
+    if(!this.activeProblem || !this.currentSolution){
       this.router.navigate(['']);
-      return;
     }
-    this.activatedRoute.data.subscribe(
-      (data: Data)=>{
-        this.solutions = data["solutions"]
-      }
-    )
+    console.log(this.activeProblem);
+    console.log(this.currentSolution);
+
   }
-  goBack(){
-    this.location.back();
-  }
+
 
   clickEdit(action: string):void{
     alert('must navigate to create solution component: fake --must be implemented--') // todo implement
@@ -97,5 +91,7 @@ export class SolutionComponent implements OnInit {
     console.log(event);
     this.displayComments = event.source.checked;
   }
+
+
 
 }

@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <span>{{activeProblem.title}}</span>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="goBack()" > <mat-icon>keyboard_return</mat-icon></button>
+
+</mat-toolbar>
+
+<div class="separator"></div>
+<mat-divider></mat-divider>
+<div class="separator"></div>
+
+<div class="solution-container" *ngFor="let solution of solutions">
+  <app-solution [currentSolution]="solution" [activeProblem]="activeProblem"> </app-solution>
+  <!-- put solutions here with selector and input property -->
+</div>
