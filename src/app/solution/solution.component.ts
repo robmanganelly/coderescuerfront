@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { SnackService } from '../services/snack.service';
@@ -16,15 +16,16 @@ import { Comment } from '../interfaces/comment';
 export class SolutionComponent implements OnInit {
 
   displayComments = false;
+  commentsAlreadyRequested = false;
 
   formComment: FormGroup = new FormGroup({
-    'comment': new FormControl()
+    'comment': new FormControl('',[Validators.required, Validators.minLength(2),
+    Validators.maxLength(2500)])
   })
 
   @Input() currentSolution!: Solution;
   @Input() activeProblem!: Problem;
-  // comments: Comment[] = []
-  comments: number[] = []
+  comments: Comment[] = []
 
   myComment: string = 'leave a comment here'
 
@@ -45,8 +46,7 @@ export class SolutionComponent implements OnInit {
     if(!this.activeProblem || !this.currentSolution){
       this.router.navigate(['']);
     }
-    console.log(this.activeProblem);
-    console.log(this.currentSolution);
+
 
   }
 
@@ -84,13 +84,33 @@ export class SolutionComponent implements OnInit {
   }
 
   postComment():void{
-    //todo place logic
+    this.dataService.postComment(
+      this.currentSolution._id as string,
+      this.formComment.get("comment")?.value as string
+      ).subscribe(d=>{
+        this.snackBarService.successSnack("comment created successfully",1000,"bottom","right")
+        this.comments = [d].concat(this.comments);
+        this.commentsAlreadyRequested = false;
+        this.formComment.reset();
+      })
   }
 
   toggleButton(event: any):void{
     console.log(event);
-    this.displayComments = event.source.checked;
+    if(!this.commentsAlreadyRequested){
+      this.dataService.getCommentsFromSolution(this.currentSolution._id as string).subscribe(
+        (_comments: Comment[]) => {
+          this.comments = _comments;
+          this.commentsAlreadyRequested = true;
+          this.displayComments = event.source.checked;
+        }
+      )
+    }else{
+      this.displayComments = event.source.checked;
+    }
   }
+
+
 
 
 
