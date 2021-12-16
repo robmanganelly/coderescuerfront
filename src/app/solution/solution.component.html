@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <span>Placeholder for the problem name</span>
+  <span>{{activeProblem.title}}</span>
   <span class="spacer"></span>
   <button mat-icon-button (click)="goBack()" > <mat-icon>keyboard_return</mat-icon></button>
 
@@ -17,8 +17,7 @@
   </mat-card-header>
   <mat-card-content>
     <pre #codeContainer>
-        def random_function():
-            print('hola mundo')
+        some solution
     </pre>
   </mat-card-content>
   <mat-card-actions align="end">
@@ -32,37 +31,47 @@
 </mat-card>
 
 <div class="separator"></div>
+<!-- <button id="commentButton" (click)="toggleComments" mat-stroked-button>Show comment section</button> -->
+<mat-slide-toggle
+  color="primary"
+  id="commentButton"
+  (change)="toggleButton($event)">
+  {{displayComments?"Hide Comments":"Display Comments"}}</mat-slide-toggle>
+<div class="separator"></div>
 
-<div class="full-width">
-  <h3>Feel free to leave any comments to this solution</h3>
-  <form  [formGroup]="formComment" (ngSubmit)="postComment">
-    <mat-form-field appearance="outline">
-      <textarea matInput formControlName="comment" placeholder="comment here..." name="" id="" cols="30" rows="2" ></textarea>
-    </mat-form-field>
-    <div class="comment-actions-box">
-      <button type="reset"  mat-stroked-button>Cancel</button>
-      <button type="submit" mat-stroked-button>Comment</button>
-    </div>
-  </form>
+
+<div class="comments-section" *ngIf="displayComments">
+  <div class="full-width">
+    <h3>Feel free to leave any comments to this solution</h3>
+    <form  [formGroup]="formComment" (ngSubmit)="postComment">
+      <mat-form-field appearance="outline">
+        <textarea matInput formControlName="comment" placeholder="comment here..." name="" id="" cols="30" rows="2" ></textarea>
+      </mat-form-field>
+      <div class="comment-actions-box">
+        <button type="reset"  mat-stroked-button>Cancel</button>
+        <button type="submit" mat-stroked-button>Comment</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="separator"></div>
+  <mat-divider></mat-divider>
+  <div class="separator"></div>
+
+  <div class="comment-box">
+    <mat-card *ngFor="let comment of comments" >
+      <mat-card-header>
+        <mat-card-subtitle>
+          placeholder for name of the comment author " user commented on 12/05/2021-05:46"
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          placeholder for the comment
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="separator"></div>
+
 </div>
-
-<div class="separator"></div>
-<mat-divider></mat-divider>
-<div class="separator"></div>
-
-<div class="comment-box">
-  <mat-card *ngFor="let comment of comments" >
-    <mat-card-header>
-      <mat-card-subtitle>
-        placeholder for name of the comment author " user commented on 12/05/2021-05:46"
-      </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        placeholder for the comment
-      </p>
-    </mat-card-content>
-  </mat-card>
-</div>
-<div class="separator"></div>
-

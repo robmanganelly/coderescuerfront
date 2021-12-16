@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { SnackService } from '../services/snack.service';
+import { Problem } from '../interfaces/problem';
+import { DataService } from '../services/data.service';
+import { Solution } from '../interfaces/solution';
 
 @Component({
   selector: 'app-solution',
@@ -11,9 +14,12 @@ import { SnackService } from '../services/snack.service';
 })
 export class SolutionComponent implements OnInit {
 
+  displayComments = false;
+
   formComment: FormGroup = new FormGroup({
     'comment': new FormControl()
   })
+
 
   comments: number[] = [1,1,11,1,1,11,1,11,1,1,11]
 
@@ -23,13 +29,29 @@ export class SolutionComponent implements OnInit {
   like: boolean = false;
   dislike: boolean = false;
 
+  activeProblem: Problem;
+  solutions: Solution[] = [];
+
   constructor(
+    private dataService: DataService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private location: Location,
     private snackBarService: SnackService
-    ) { }
+    ) {
+      this.activeProblem = this.router.getCurrentNavigation()?.extras.state?.['activeProblem']
+     }
 
   ngOnInit(): void {
+    if(!this.activeProblem){
+      this.router.navigate(['']);
+      return;
+    }
+    this.activatedRoute.data.subscribe(
+      (data: Data)=>{
+        this.solutions = data["solutions"]
+      }
+    )
   }
   goBack(){
     this.location.back();
@@ -69,6 +91,11 @@ export class SolutionComponent implements OnInit {
 
   postComment():void{
     //todo place logic
+  }
+
+  toggleButton(event: any):void{
+    console.log(event);
+    this.displayComments = event.source.checked;
   }
 
 }

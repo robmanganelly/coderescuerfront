@@ -24,5 +24,8 @@ DOING_NOW:
     [x] implementing custom theme and
   [] work on solution.component.ts
     [] implement buttons behavior
-    [] creating resolver for loaded solution
+    [x] creating resolver for loaded solution
+    [] must change template to handle multiple solutions to same problem
+      [] implement on template loop for (maybe create a new component to serve as container  ???)
+    [] must change template to make comments loaded just after button clicked (so far must be resolved, change this)
 

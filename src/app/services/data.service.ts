@@ -15,7 +15,7 @@ export class DataService {
 
   currentLanguageSubject: BehaviorSubject<Lang | null>  = new BehaviorSubject <Lang|null>(null);
   allLanguagesSubject: BehaviorSubject<Lang[] | []>  = new BehaviorSubject <Lang[]|[]>([]);
-  currentLanguageProblemsSubject: BehaviorSubject<Problem[] | []> = new BehaviorSubject<Problem[] | []>([])
+  problemsOnSelectedLanguageSubject: BehaviorSubject<Problem[] | []> = new BehaviorSubject<Problem[] | []>([])
 
   constructor(private httpService: HttpService) { }
 
@@ -50,7 +50,7 @@ export class DataService {
     return this.httpService.getAllProblemsFromLanguage(langId).pipe(
       // tap((d)=>{console.log('raw'); console.log(d)}),
       map((payload)=>{return DataExtractor.extract(payload);}),
-      tap((data)=>{this.currentLanguageProblemsSubject.next(data); })
+      tap((data)=>{this.problemsOnSelectedLanguageSubject.next(data); })
     )
   }
 

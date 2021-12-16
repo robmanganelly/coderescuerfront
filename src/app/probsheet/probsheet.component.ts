@@ -25,7 +25,7 @@ export class ProbsheetComponent implements OnInit {
 
 
   openTrick(){
-    this.router.navigate(['solution']);
+    this.router.navigate(['problem',`${this.problem._id}`,'solutions'],{ state:{ activeProblem: this.problem }});
   }
 
   clickFavorite(){
