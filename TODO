@@ -4,6 +4,7 @@ TODO:
   [x] create a proper way to notificate actions (snack bar)
   [x] in every button of solution.components.ts, must place a snack bar (1 sec) to tell whether an action was performed
   [ ] preparing for implement dark theme on demand (button)
+  [ ] make autosize the comment texarea
 
 priority:
   [x] implement routes trick/language name (set name dynamic) on navegation
@@ -25,7 +26,7 @@ DOING_NOW:
   [] work on solution.component.ts
     [] implement buttons behavior
     [x] creating resolver for loaded solution
-    [] must change template to handle multiple solutions to same problem
-      [] implement on template loop for (maybe create a new component to serve as container  ???)
-    [] must change template to make comments loaded just after button clicked (so far must be resolved, change this)
+    [x] must change template to handle multiple solutions to same problem
+      [x] implement on template loop for (maybe create a new component to serve as container  ???)
+    [x] must change template to make comments loaded just after button clicked (so far must be resolved, change this)
 
