@@ -6,8 +6,41 @@
 </mat-toolbar>
 
 <div class="separator"></div>
+
+<div class="add-solution">
+  <button mat-stroked-button (click)="createNewSolutionClicked()"  >{{!newSolutionRequested?"Add my own solution":"Dismiss"}}</button>
+  <button
+    [disabled]="!personalSolutionForm.valid"
+    mat-stroked-button
+    *ngIf="newSolutionRequested"
+    type="submit"
+    form="newSolutionForm">
+    <mat-icon>add</mat-icon> Create New Solution
+  </button>
+  <form *ngIf="newSolutionRequested" id="newSolutionForm" (ngSubmit)="createNewSolutionSubmit()" [formGroup]="personalSolutionForm" >
+    <mat-form-field appearance="outline">
+      <mat-label>Insert your solution here</mat-label>
+      <textarea matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="3"
+      cdkAutosizeMaxRows="50"
+      [value]="personalSolutionValue"
+      formControlName="solution"
+      placeholder="Place here the code" ></textarea>
+    </mat-form-field>
+
+    <button type="button" mat-stroked-button (click)="codeGrabberRef.click()" > Copy Code from Files</button>
+  <div class="separator"></div>
+  <input #codeGrabberRef type="file" name="" id="" (change)="grabFileAndReadAsText($event)">
+
+
+  </form>
+</div>
+
 <mat-divider></mat-divider>
 <div class="separator"></div>
+
 
 <div class="solution-container" *ngFor="let solution of solutions">
   <app-solution [currentSolution]="solution" [activeProblem]="activeProblem"> </app-solution>

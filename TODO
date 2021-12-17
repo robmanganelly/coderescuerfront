@@ -29,4 +29,8 @@ DOING_NOW:
     [x] must change template to handle multiple solutions to same problem
       [x] implement on template loop for (maybe create a new component to serve as container  ???)
     [x] must change template to make comments loaded just after button clicked (so far must be resolved, change this)
+    [ ] form in solution component... build and test
+
+
+
 

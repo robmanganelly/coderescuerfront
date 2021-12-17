@@ -6,6 +6,7 @@ import { Problem, ProblemSeed } from '../interfaces/problem';
 import { tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExtensionTest } from '../utils/extensions';
+import { UIFileReaderService } from '../services/uifile-reader.service';
 
 @Component({
   selector: 'app-edit-solution',
@@ -34,6 +35,7 @@ export class EditSolutionComponent implements OnInit {
   });
 
   constructor(
+    private uiFileReader: UIFileReaderService,
     private activatedRoute: ActivatedRoute,
     private dataService: DataService,
     private router: Router,
@@ -82,21 +84,7 @@ export class EditSolutionComponent implements OnInit {
     }
 
   grabFileAndReadAsText(e: Event){
-   const File: File = ((e.target as HTMLInputElement).files as FileList)[0];
-   const reader = new FileReader();
-
-   reader.onload = (ev)=>{//define reader behavior
-
-   if(!ExtensionTest.isValidExtension(File.name)){
-    return alert(`unsupported extension <${ExtensionTest.findExtension(File.name)}> for a text file`) // create proper handler (snackbar)
-   }
-
-   this.solutionValue = reader.result as string;
-   this.newTrickForm.get("newTrickSolution")?.setValue(reader.result as string)
-   }
-
-   reader.readAsText(File);
-
+    return this.uiFileReader.readContent(e,this.newTrickForm,"newTrickSolution");
   }
 
   fixContent(owner: boolean = false):boolean { // used to tell component's template if make input readonly or not

@@ -13,7 +13,6 @@
   </mat-card-content>
   <mat-card-actions align="end">
     <button (click)="clickEdit('update-trick')" mat-icon-button><mat-icon color="primary">edit</mat-icon></button>
-    <button mat-icon-button (click)="clickEdit('create-new-trick')" ><mat-icon color="primary">add</mat-icon></button>
     <button (click)=clickCopy(codeContainer) mat-icon-button><mat-icon color="primary">content_copy</mat-icon></button>
     <button (click)=clickFavorite() mat-icon-button><mat-icon color="primary">{{favorite?'favorite':'favorite_border'}}</mat-icon></button>
     <button (click)=clickLike() mat-icon-button><mat-icon color="primary">{{like?'thumb_up':'thumb_up_off_alt'}}</mat-icon></button>
