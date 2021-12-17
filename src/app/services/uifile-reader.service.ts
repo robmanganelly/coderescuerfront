@@ -12,20 +12,20 @@ export class UIFileReaderService {
 
 
   readContent(e:Event, form: FormGroup, controlName: string){
-    const File: File = ((e.target as HTMLInputElement).files as FileList)[0];
+    const file: File = ((e.target as HTMLInputElement).files as FileList)[0];
     const reader = new FileReader();
 
     reader.onload = (ev)=>{//define reader behavior
 
-    if(!ExtensionTest.isValidExtension(File.name)){
-     return this.snackService.warnSnack(`unsupported extension <${ExtensionTest.findExtension(File.name)}> for a text file`) // create proper handler (snackbar)
+    if(!ExtensionTest.isValidTextExtension(file.name)){
+     return this.snackService.warnSnack(`unsupported extension <${ExtensionTest.findExtension(file.name)}> for a text file`)
     }
 
     // this.personalSolutionValue = reader.result as string;
     form.get(controlName)?.setValue(reader.result as string)
     }
 
-    reader.readAsText(File);
+    reader.readAsText(file);
    }
 
    loadImage(e: Event,form:FormGroup, controlName: string){
@@ -34,7 +34,9 @@ export class UIFileReaderService {
     form.get(controlName)?.updateValueAndValidity({});
     const reader = new FileReader()
     reader.onload = (ev) => {
-        console.log(reader.result as string);
+        if(!ExtensionTest.isValidImageExtension(file.name)){
+          return this.snackService.warnSnack(`unsupported extension <${ExtensionTest.findExtension(file.name)}> for an image file`)
+        }
     }
     reader.readAsDataURL(file)
    }
