@@ -20,6 +20,7 @@ export class SolutionContainerComponent implements OnInit {
   solutions: Solution[] = [];
   newSolutionRequested = false;
   personalSolutionValue: string="";
+  currentLanguageImage: string = "";
 
   personalSolutionForm = new FormGroup({
     "solution": new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(2500)])
@@ -43,6 +44,9 @@ export class SolutionContainerComponent implements OnInit {
         this.solutions = data["solutions"],
         console.log(this.solutions);
       }
+    )
+    this.dataService.currentLanguageSubject.subscribe(
+      language=>{this.currentLanguageImage = language?.img as string;}
     )
   }
   goBack(){
