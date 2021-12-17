@@ -30,7 +30,11 @@ export class UIFileReaderService {
 
    loadImage(e: Event,form:FormGroup, controlName: string){
     const file: File = ((e.target as HTMLInputElement).files as FileList)[0];
-    form.patchValue({img: file});
+
+    let update = Object.create({});
+    update[controlName] = file
+
+    form.patchValue(update);
     form.get(controlName)?.updateValueAndValidity({});
     const reader = new FileReader()
     reader.onload = (ev) => {

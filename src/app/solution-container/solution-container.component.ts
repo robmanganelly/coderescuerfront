@@ -2,8 +2,11 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
+import { tap } from 'rxjs';
 import { Problem } from '../interfaces/problem';
 import { Solution } from '../interfaces/solution';
+import { DataService } from '../services/data.service';
+import { SnackService } from '../services/snack.service';
 import { UIFileReaderService } from '../services/uifile-reader.service';
 
 @Component({
@@ -25,6 +28,8 @@ export class SolutionContainerComponent implements OnInit {
 
 
   constructor(
+    private snackService: SnackService,
+    private dataService: DataService,
     private router: Router,
     private location: Location,
     private activatedRoute: ActivatedRoute,
@@ -35,7 +40,8 @@ export class SolutionContainerComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(
       (data: Data)=>{
-        this.solutions = data["solutions"]
+        this.solutions = data["solutions"],
+        console.log(this.solutions);
       }
     )
   }
@@ -48,7 +54,12 @@ export class SolutionContainerComponent implements OnInit {
   }
 
   createNewSolutionSubmit(): void{
-    // todo
+    this.dataService
+      .postSolution(this.activeProblem._id as string,this.personalSolutionForm.get('solution')?.value)
+      .pipe(tap(data=>{ this.snackService.successSnack("solution added")}))
+      .subscribe(
+        (solution)=>{ this.solutions = [solution].concat(this.solutions)}
+      )
   }
 
   grabFileAndReadAsText(e: Event){

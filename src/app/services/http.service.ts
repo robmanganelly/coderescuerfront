@@ -55,9 +55,9 @@ export class HttpService {
       `${environment.apiUrl}/comments/${solutionId}`,{text},{observe: "body"}
       )}
 
-  postSolutionByProblemId(problemId: string, text: string): Observable<EnvelopedResponse<Solution>>{
+  postSolutionByProblemId(problemId: string, solution: string): Observable<EnvelopedResponse<Solution>>{
     return this.http.post<EnvelopedResponse<Solution>>(
-      `${environment.apiUrl}/solutions/${problemId}`,{text},{observe: "body"}
+      `${environment.apiUrl}/solutions/${problemId}`,{solution},{observe: "body"}
     );
   }
 

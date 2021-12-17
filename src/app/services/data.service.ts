@@ -45,12 +45,6 @@ export class DataService {
     );
   }
 
-  // getProblemsFromLanguage(langId: string){
-  //   return this.httpService.getAllProblemsFromLanguage(langId).pipe(
-  //     map((payload)=>{return DataExtractor.extract(payload);}),
-  //   )
-  // }
-
   getProblemsFromLanguage(langId: string): Observable<Problem[]>{
     return this.httpService.getAllProblemsFromLanguage(langId).pipe(
       // tap((d)=>{console.log('raw'); console.log(d)}),
@@ -83,8 +77,8 @@ export class DataService {
     );
   }
 
-  postSolution(problemId: string, text: string): Observable<Solution>{
-    return this.httpService.postSolutionByProblemId(problemId, text).pipe(
+  postSolution(problemId: string, solution: string): Observable<Solution>{
+    return this.httpService.postSolutionByProblemId(problemId, solution).pipe(
       catchError(this.uiErrorHandler.handleUIError),
       map(payload=>{return DataExtractor.extract(payload); })
     )

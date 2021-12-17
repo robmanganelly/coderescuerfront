@@ -11,6 +11,10 @@
     background-color: mat.get-color-from-palette($primary-palette);
     color: mat.get-contrast-color-from-palette($primary-palette,900);
   }
+  .primaryColor{
+    color: mat.get-color-from-palette($primary-palette);
+    background-color: mat.get-contrast-color-from-palette($primary-palette,900);
+  }
   .accentColorBG {
     background-color: mat.get-color-from-palette($accent-palette);
     color: mat.get-contrast-color-from-palette($accent-palette,50);

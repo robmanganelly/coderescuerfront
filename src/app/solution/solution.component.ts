@@ -56,7 +56,7 @@ export class SolutionComponent implements OnInit {
     this.router.navigate(['edit']);
   }
 
-  async clickCopy(container: HTMLPreElement):Promise<void>{ //todo
+  async clickCopy(container: HTMLElement):Promise<void>{ //todo
     try{
       await navigator.clipboard.writeText(container.innerText);
       this.snackBarService.successSnack('content copied successfully',1000,'bottom')

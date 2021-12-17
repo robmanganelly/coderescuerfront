@@ -34,7 +34,7 @@ export class ExtensionTest{
     if (!ext) {return false;}
     return opposite?
       !Object.keys(ExtensionTest.extensionsMap).includes(name)/*not fully implemented */
-      : ExtensionTest.extensionsMap[name] === type;
+      : ExtensionTest.extensionsMap[ext] === type;
   }
 
   // public interfaces
