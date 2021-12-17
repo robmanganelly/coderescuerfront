@@ -7,6 +7,7 @@ import { Problem } from '../interfaces/problem';
 import { DataService } from '../services/data.service';
 import { Solution } from '../interfaces/solution';
 import { Comment } from '../interfaces/comment';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-solution',
@@ -46,8 +47,6 @@ export class SolutionComponent implements OnInit {
     if(!this.activeProblem || !this.currentSolution){
       this.router.navigate(['']);
     }
-
-
   }
 
 
@@ -95,18 +94,20 @@ export class SolutionComponent implements OnInit {
       })
   }
 
-  toggleButton(event: any):void{
+  toggleButton(event: MatSlideToggleChange):void{
     console.log(event);
+    let target = event.source;
+
     if(!this.commentsAlreadyRequested){
       this.dataService.getCommentsFromSolution(this.currentSolution._id as string).subscribe(
         (_comments: Comment[]) => {
           this.comments = _comments;
           this.commentsAlreadyRequested = true;
-          this.displayComments = event.source.checked;
+          this.displayComments = target.checked;
         }
       )
     }else{
-      this.displayComments = event.source.checked;
+      this.displayComments = target.checked;
     }
   }
 

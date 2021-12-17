@@ -19,10 +19,8 @@
 </mat-card>
 
 <div class="separator"></div>
-<!-- <button id="commentButton" (click)="toggleComments" mat-stroked-button>Show comment section</button> -->
 <mat-slide-toggle
   color="primary"
-  id="commentButton"
   (change)="toggleButton($event)">
   {{displayComments?"Hide Comments Section":"Display Comments Section"}}</mat-slide-toggle>
 <div class="separator"></div>
