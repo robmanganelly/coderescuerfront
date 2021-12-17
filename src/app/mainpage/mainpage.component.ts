@@ -4,6 +4,7 @@ import { Lang } from '../interfaces/lang';
 import { HttpService } from '../services/http.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../services/data.service';
+import { UIFileReaderService } from '../services/uifile-reader.service';
 @Component({
   selector: 'app-mainpage',
   templateUrl: './mainpage.component.html',
@@ -20,6 +21,7 @@ export class MainpageComponent implements OnInit {
   languageList: Lang[] = [];
 
   constructor(
+    private UIFileReader: UIFileReaderService,
     private router: Router,
     private httpService: HttpService,
     private dataService: DataService,
@@ -44,14 +46,7 @@ export class MainpageComponent implements OnInit {
 
 
   onPickedImage(e: Event): void {
-    const file: File = ((e.target as HTMLInputElement).files as FileList)[0];
-    this.languageForm.patchValue({img: file});
-    this.languageForm.get('img')?.updateValueAndValidity({});
-    const reader = new FileReader()
-    reader.onload = (ev) => {
-        console.log(reader.result as string);
-    }
-    reader.readAsDataURL(file)
+    return this.UIFileReader.loadImage(e,this.languageForm,"img")
   }
 
 

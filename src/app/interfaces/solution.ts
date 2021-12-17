@@ -1,6 +1,6 @@
 export interface Solution {
   _id?: string,
   problemId: string,
-  text: string,
+  solution: string,
   date?: Date
 }

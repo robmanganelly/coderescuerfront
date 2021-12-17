@@ -42,7 +42,7 @@ export class CheatsheetComponent implements OnInit {
         this.languageTricks = response["problems"];
       }
     );
-    this.dataService.currentLanguageProblemsSubject.subscribe(
+    this.dataService.problemsOnSelectedLanguageSubject.subscribe(
       problems=>{this.languageTricks = problems;}
     )
     console.log(this.languageId);

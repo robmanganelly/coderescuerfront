@@ -1,13 +1,4 @@
-<mat-toolbar color="primary">
-  <span>Placeholder for the problem name</span>
-  <span class="spacer"></span>
-  <button mat-icon-button (click)="goBack()" > <mat-icon>keyboard_return</mat-icon></button>
 
-</mat-toolbar>
-
-<div class="separator"></div>
-<mat-divider></mat-divider>
-<div class="separator"></div>
 
 <mat-card>
   <mat-card-header>
@@ -17,13 +8,11 @@
   </mat-card-header>
   <mat-card-content>
     <pre #codeContainer>
-        def random_function():
-            print('hola mundo')
+        {{currentSolution.solution}}
     </pre>
   </mat-card-content>
   <mat-card-actions align="end">
     <button (click)="clickEdit('update-trick')" mat-icon-button><mat-icon color="primary">edit</mat-icon></button>
-    <button mat-icon-button (click)="clickEdit('create-new-trick')" ><mat-icon color="primary">add</mat-icon></button>
     <button (click)=clickCopy(codeContainer) mat-icon-button><mat-icon color="primary">content_copy</mat-icon></button>
     <button (click)=clickFavorite() mat-icon-button><mat-icon color="primary">{{favorite?'favorite':'favorite_border'}}</mat-icon></button>
     <button (click)=clickLike() mat-icon-button><mat-icon color="primary">{{like?'thumb_up':'thumb_up_off_alt'}}</mat-icon></button>
@@ -32,37 +21,57 @@
 </mat-card>
 
 <div class="separator"></div>
+<!-- <button id="commentButton" (click)="toggleComments" mat-stroked-button>Show comment section</button> -->
+<mat-slide-toggle
+  color="primary"
+  id="commentButton"
+  (change)="toggleButton($event)">
+  {{displayComments?"Hide Comments Section":"Display Comments Section"}}</mat-slide-toggle>
+<div class="separator"></div>
 
-<div class="full-width">
-  <h3>Feel free to leave any comments to this solution</h3>
-  <form  [formGroup]="formComment" (ngSubmit)="postComment">
-    <mat-form-field appearance="outline">
-      <textarea matInput formControlName="comment" placeholder="comment here..." name="" id="" cols="30" rows="2" ></textarea>
-    </mat-form-field>
-    <div class="comment-actions-box">
-      <button type="reset"  mat-stroked-button>Cancel</button>
-      <button type="submit" mat-stroked-button>Comment</button>
+
+<div class="comments-section" *ngIf="displayComments">
+  <div class="full-width">
+    <h3>Feel free to leave any comments to this solution</h3>
+    <form  [formGroup]="formComment" (ngSubmit)="postComment()">
+      <mat-form-field appearance="outline">
+        <textarea matInput formControlName="comment" placeholder="comment here..." name="" id="" cols="30" rows="2" ></textarea>
+      </mat-form-field>
+      <div class="comment-actions-box">
+        <button type="reset"  mat-stroked-button>Cancel</button>
+        <button type="submit" [disabled]="!formComment.valid" mat-stroked-button>Comment</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="separator"></div>
+  <mat-divider></mat-divider>
+  <div class="separator"></div>
+
+  <ng-container *ngIf="comments.length > 0 ; else noCommentBox" >
+    <div class="comment-box">
+      <mat-card *ngFor="let comment of comments" >
+        <mat-card-header>
+          <mat-card-subtitle>
+            placeholder for name of the comment author  user commented on {{comment.date}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{comment.text}}
+          </p>
+        </mat-card-content>
+      </mat-card>
     </div>
-  </form>
+
+  </ng-container>
+
+
+  <ng-template #noCommentBox>
+    <p>No comments for this solution</p>
+  </ng-template>
+
+
+  <div class="separator"></div>
+
 </div>
-
-<div class="separator"></div>
-<mat-divider></mat-divider>
-<div class="separator"></div>
-
-<div class="comment-box">
-  <mat-card *ngFor="let comment of comments" >
-    <mat-card-header>
-      <mat-card-subtitle>
-        placeholder for name of the comment author " user commented on 12/05/2021-05:46"
-      </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        placeholder for the comment
-      </p>
-    </mat-card-content>
-  </mat-card>
-</div>
-<div class="separator"></div>
-

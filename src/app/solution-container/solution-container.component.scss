@@ -1,0 +1,14 @@
+.add-solution{
+  padding-left: 20px;
+  padding-bottom: 20px;
+  width: 98vw;
+}
+
+.add-solution form mat-form-field {
+  min-width: 93vw;
+}
+
+input[type="file"]{
+  visibility: hidden;
+  display: none;
+}

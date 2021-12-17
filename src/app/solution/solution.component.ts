@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { SnackService } from '../services/snack.service';
+import { Problem } from '../interfaces/problem';
+import { DataService } from '../services/data.service';
+import { Solution } from '../interfaces/solution';
+import { Comment } from '../interfaces/comment';
 
 @Component({
   selector: 'app-solution',
@@ -11,11 +15,17 @@ import { SnackService } from '../services/snack.service';
 })
 export class SolutionComponent implements OnInit {
 
+  displayComments = false;
+  commentsAlreadyRequested = false;
+
   formComment: FormGroup = new FormGroup({
-    'comment': new FormControl()
+    'comment': new FormControl('',[Validators.required, Validators.minLength(2),
+    Validators.maxLength(2500)])
   })
 
-  comments: number[] = [1,1,11,1,1,11,1,11,1,1,11]
+  @Input() currentSolution!: Solution;
+  @Input() activeProblem!: Problem;
+  comments: Comment[] = []
 
   myComment: string = 'leave a comment here'
 
@@ -23,17 +33,23 @@ export class SolutionComponent implements OnInit {
   like: boolean = false;
   dislike: boolean = false;
 
+
   constructor(
+    private dataService: DataService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private location: Location,
     private snackBarService: SnackService
-    ) { }
+    ) {}
 
   ngOnInit(): void {
+    if(!this.activeProblem || !this.currentSolution){
+      this.router.navigate(['']);
+    }
+
+
   }
-  goBack(){
-    this.location.back();
-  }
+
 
   clickEdit(action: string):void{
     alert('must navigate to create solution component: fake --must be implemented--') // todo implement
@@ -68,7 +84,34 @@ export class SolutionComponent implements OnInit {
   }
 
   postComment():void{
-    //todo place logic
+    this.dataService.postComment(
+      this.currentSolution._id as string,
+      this.formComment.get("comment")?.value as string
+      ).subscribe(d=>{
+        this.snackBarService.successSnack("comment created successfully",1000,"bottom","right")
+        this.comments = [d].concat(this.comments);
+        this.commentsAlreadyRequested = false;
+        this.formComment.reset();
+      })
   }
+
+  toggleButton(event: any):void{
+    console.log(event);
+    if(!this.commentsAlreadyRequested){
+      this.dataService.getCommentsFromSolution(this.currentSolution._id as string).subscribe(
+        (_comments: Comment[]) => {
+          this.comments = _comments;
+          this.commentsAlreadyRequested = true;
+          this.displayComments = event.source.checked;
+        }
+      )
+    }else{
+      this.displayComments = event.source.checked;
+    }
+  }
+
+
+
+
 
 }

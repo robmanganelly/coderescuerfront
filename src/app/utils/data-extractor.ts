@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { EnvelopedResponse } from "../interfaces/httpResponse"
 
 export class DataExtractor<T> {
@@ -6,6 +7,10 @@ export class DataExtractor<T> {
 
   static extract<T>(bodyPayload: EnvelopedResponse<T>){
     return bodyPayload.data.data;
+  }
+
+  static extractError<T>(bodyPayload: HttpErrorResponse){
+    return bodyPayload.error
   }
 
 }

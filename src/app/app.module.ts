@@ -29,11 +29,13 @@ import { ProbByLangIdResolver } from './resolvers/prob-by-lang-id.resolver';
 import { TextAreaAutoResizeDirective } from './directives/text-area-auto-resize.directive';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SolutionResolver } from './resolvers/solution.resolver';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { SolutionContainerComponent } from './solution-container/solution-container.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainpageComponent, resolve:{languages: LangResolver} },
   { path: 'tricks/:id', component: CheatsheetComponent, resolve: { problems: ProbByLangIdResolver } },
-  { path: 'solution', component: SolutionComponent, resolve: { solutionData: SolutionResolver }},
+  { path: 'problem/:id/solutions', component: SolutionContainerComponent, resolve: { solutions: SolutionResolver }},
   { path: 'edit', component: EditContainerComponent},
   { path: 'not-found', component: NotFoundComponent},
   { path: '**', redirectTo: '/not-found'}
@@ -50,6 +52,7 @@ const appRoutes: Routes = [
     EditContainerComponent,
     NotFoundComponent,
     TextAreaAutoResizeDirective,
+    SolutionContainerComponent,
   ],
   imports: [
     FormsModule,
@@ -67,6 +70,7 @@ const appRoutes: Routes = [
     MatGridListModule,
     BrowserModule,
     BrowserAnimationsModule,
+    MatSlideToggleModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],
