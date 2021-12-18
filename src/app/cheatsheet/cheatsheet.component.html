@@ -21,8 +21,22 @@
       <mat-label>Tricks Filter</mat-label>
       <input matInput placeholder="type to find " >
     </mat-form-field>
-  <div class="separator"></div>
-  <div><p>[todo place pagination buttons here]</p></div>
+  <div class="pagination-panel">
+    <button mat-raised-button color="primary"><mat-icon>arrow_back_ios</mat-icon></button>
+    <span class="page-labels">
+      displaying record 1000-1050 from 10000 records
+    </span>
+    <button mat-raised-button color="primary"><mat-icon>arrow_forward_ios</mat-icon></button>
+    <span class="records-at-once">
+      <span >
+        display
+      </span>
+      <input type="number" name="" id="recordsAtOnce" value="10" min="1" max="50">
+      <span >
+        records at once
+      </span>
+    </span>
+  </div>
   <div class="scrollable">
     <!--todo fill the loop with real data, coming from backend -->
     <app-probsheet *ngFor="let trick of languageTricks" [problem]="trick" ></app-probsheet>

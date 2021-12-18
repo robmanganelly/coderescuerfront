@@ -8,6 +8,7 @@ export interface ProblemSeed{
   // include author after implement user endpoint
   title: String;
   description: String;
-  comments?: string;
-  solution?: string;
+  comments?: String;
+  solution?: String;
+  isNew?: Boolean;
 }

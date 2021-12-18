@@ -26,3 +26,27 @@ mat-button-toggle:hover{
 
   text-align: center;
 }
+
+.pagination-panel{
+  margin: 10px auto 10px auto;
+  border-radius: 5px;
+  border: solid black 1px;
+  padding: 1px 2px;
+  width: fit-content;
+}
+
+.page-labels{
+  font-weight: 600;
+  margin:2px 100px 2px 100px;
+  font-size: larger;
+}
+
+#recordsAtOnce{
+  width: 100px;
+}
+
+.records-at-once{
+  font-size: larger;
+  font-weight: 600;
+  margin: 2px 50px 2px 50px;
+}

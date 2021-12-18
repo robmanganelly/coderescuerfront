@@ -1,7 +1,7 @@
 <div class="container">
   <mat-divider></mat-divider>
   <mat-card>
-    <img class="new-tag" src="assets/new_icon_final.png" alt="new">
+    <img class="new-tag" src="assets/new_icon_final.png" alt="new" *ngIf="problem.isNew">
     <mat-card-header>
       <mat-card-title (click)="openTrick()" >
         {{problem.title}}
