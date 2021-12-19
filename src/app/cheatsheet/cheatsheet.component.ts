@@ -51,6 +51,7 @@ export class CheatsheetComponent implements OnInit {
     )
     this.activatedRoute.data.subscribe(
       (response:Data)=>{
+        console.log(response);
         this.languageId = this.activatedRoute.snapshot.params['id'];
         this.languageTricks = response["problems"];
       }
@@ -69,8 +70,8 @@ export class CheatsheetComponent implements OnInit {
   refreshProblems(value: string): void{
     if(!!this.filterOptions[value]['return']){return;}
     this.dataService.getProblemsFromLanguage(this.languageId,this.filterOptions[value]).subscribe(
-      (p: Problem[])=>{
-        this.languageTricks = p}
+      (p)=>{
+        this.languageTricks = p as Problem[]}
     );
     // this.dataService.getProblemsFromLanguage(this.languageId).subscribe(
     //   (d)=>{this.languageTricks = d}

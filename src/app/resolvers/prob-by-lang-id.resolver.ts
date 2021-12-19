@@ -14,9 +14,9 @@ import { DataService } from '../services/data.service';
 })
 export class ProbByLangIdResolver implements Resolve<Observable<Problem[]>> {
 
-  constructor(private http: DataService){}
+  constructor(private dataService: DataService){}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Problem[]> {
-    return this.http.getProblemsFromLanguage(route.params['id'],{skip:1,limit:10});
+    return this.dataService.getProblemsFromLanguage(route.params['id'],{skip:1,limit:10}) as Observable<Problem[]>;
   }
 }
