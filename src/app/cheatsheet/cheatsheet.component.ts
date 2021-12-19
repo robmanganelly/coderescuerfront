@@ -12,9 +12,9 @@ import { DataService } from '../services/data.service';
 export class CheatsheetComponent implements OnInit {
 
   filterOptions: {[k:string]:{[k:string]:string|number|boolean}} = {
-    noFilter:{},
-    newFilter:{isnew:true},
-    favFilter:{favorites:true},
+    noFilter:{skip:1, limit:10},
+    newFilter:{isnew:true, skip:1, limit:10},
+    favFilter:{favorites:true, skip:1, limit:10},
     add:{return: true}
   }
 
@@ -22,6 +22,14 @@ export class CheatsheetComponent implements OnInit {
   languageId: string = "";
   languageName: string = "";
   currentLanguage: Lang | null = null;
+
+  pagSOpt= Array.from(function*(){
+    let i=1;
+    while (i <=50){
+      if(i%5 === 0 ){yield i;}
+      i++;
+    }
+  }());
 
   constructor(
     private dataService: DataService,
@@ -46,14 +54,14 @@ export class CheatsheetComponent implements OnInit {
     this.dataService.problemsOnSelectedLanguageSubject.subscribe(
       problems=>{this.languageTricks = problems;}
     )
-    console.log(this.languageId);
     if(!this.languageId || !this.currentLanguage ){ this.router.navigate([''])}
   };
 
   refreshProblems(value: string): void{
     if(!!this.filterOptions[value]['return']){return;}
     this.dataService.getProblemsFromLanguage(this.languageId,this.filterOptions[value]).subscribe(
-      (p: Problem[])=>{this.languageTricks = p}
+      (p: Problem[])=>{
+        this.languageTricks = p}
     );
     // this.dataService.getProblemsFromLanguage(this.languageId).subscribe(
     //   (d)=>{this.languageTricks = d}

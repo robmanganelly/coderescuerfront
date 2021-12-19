@@ -95,7 +95,6 @@ export class SolutionComponent implements OnInit {
   }
 
   toggleButton(event: MatSlideToggleChange):void{
-    console.log(event);
     let target = event.source;
 
     if(!this.commentsAlreadyRequested){

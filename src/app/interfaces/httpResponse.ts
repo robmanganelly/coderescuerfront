@@ -5,4 +5,5 @@ export interface EnvelopedResponse<T>{
   data: {data: T};
   message: String;
   code: Number;  // todo include this field in next version.
+  meta?:{[k:string]:string|number|boolean}
 }

@@ -12,7 +12,7 @@ export class ProbsheetComponent implements OnInit {
 
   isFavorite: boolean = false;
 
-   @Input() problem: Problem = {title:"", description: "",comments:"", language: "", date: new Date()};
+   @Input() problem: Problem = {title:"", description: "",comments:"", language: "", date: new Date(), is_New:false};
 
 
   constructor(
@@ -20,7 +20,9 @@ export class ProbsheetComponent implements OnInit {
     private router: Router) { }
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.problem);
+  }
 
 
 

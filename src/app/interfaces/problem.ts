@@ -2,6 +2,7 @@ export interface Problem extends ProblemSeed{
   language: String;
   date: Date;
   _id?: String;
+  is_New: Boolean;
 }
 
 export interface ProblemSeed{
@@ -10,5 +11,4 @@ export interface ProblemSeed{
   description: String;
   comments?: String;
   solution?: String;
-  isNew?: Boolean;
 }

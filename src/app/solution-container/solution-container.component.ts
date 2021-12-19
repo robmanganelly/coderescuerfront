@@ -41,8 +41,7 @@ export class SolutionContainerComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(
       (data: Data)=>{
-        this.solutions = data["solutions"],
-        console.log(this.solutions);
+        this.solutions = data["solutions"]
       }
     )
     this.dataService.currentLanguageSubject.subscribe(
