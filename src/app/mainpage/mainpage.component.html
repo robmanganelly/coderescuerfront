@@ -59,7 +59,7 @@
   <mat-divider></mat-divider>
 
   <div class="scrollable">
-    <mat-grid-list cols="2" rowHeight="2:1" >
+    <mat-grid-list cols="4" rowHeight="1:1" >
       <mat-grid-tile *ngFor="let language of languageList" (click)="onClickLanguage(language)">
         <mat-grid-tile-header>{{language.name}}</mat-grid-tile-header>
         <img [src]=language.img [alt]=language.name>

@@ -30,10 +30,11 @@
 
   <div>
     <mat-paginator
+      (page)="capturePageEvent($event)"
       color="primary"
       showFirstLastButtons
-      [length]="10000"
-      [pageSize]="10"
+      [length]="totalItems"
+      [pageSize]="limitPerPage"
       [pageSizeOptions]="pagSOpt"
       aria-label="select page"
     ></mat-paginator>

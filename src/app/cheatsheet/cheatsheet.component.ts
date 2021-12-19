@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Router, ActivatedRoute, Data } from '@angular/router';
 import { Lang } from '../interfaces/lang';
 import { Problem, ProblemSeed } from '../interfaces/problem';
@@ -22,6 +23,9 @@ export class CheatsheetComponent implements OnInit {
   languageId: string = "";
   languageName: string = "";
   currentLanguage: Lang | null = null;
+
+  limitPerPage = 10;
+  totalItems = 100;
 
   pagSOpt= Array.from(function*(){
     let i=1;
@@ -57,8 +61,9 @@ export class CheatsheetComponent implements OnInit {
     if(!this.languageId || !this.currentLanguage ){ this.router.navigate([''])}
   };
 
-  updatePaginationStatus():void{
-
+  capturePageEvent(event: PageEvent){
+    console.log(event)
+    alert(`ok`)
   }
 
   refreshProblems(value: string): void{
