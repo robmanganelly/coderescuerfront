@@ -57,6 +57,10 @@ export class CheatsheetComponent implements OnInit {
     if(!this.languageId || !this.currentLanguage ){ this.router.navigate([''])}
   };
 
+  updatePaginationStatus():void{
+
+  }
+
   refreshProblems(value: string): void{
     if(!!this.filterOptions[value]['return']){return;}
     this.dataService.getProblemsFromLanguage(this.languageId,this.filterOptions[value]).subscribe(
