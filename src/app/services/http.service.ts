@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Comment } from '../interfaces/comment';
@@ -31,8 +31,14 @@ export class HttpService {
       {observe: "body"})
   }
 
-  getAllProblemsFromLanguage(languageId:string): Observable<EnvelopedResponse<Problem[]>>{
-    return this.http.get<EnvelopedResponse<Problem[]>>(`${environment.apiUrl}/problems/${languageId}`);
+  getAllProblemsFromLanguage(
+    languageId:string,
+    options?:{[k:string]:string|number|boolean}
+  ): Observable<EnvelopedResponse<Problem[]>>{
+
+    const opt = options?{params: new HttpParams({fromObject:options})}: {};
+
+    return this.http.get<EnvelopedResponse<Problem[]>>(`${environment.apiUrl}/problems/${languageId}`,opt);
   }
 
   postProblemOnLanguage(languageId: string,payload: ProblemSeed): Observable<EnvelopedResponse<Problem>>{

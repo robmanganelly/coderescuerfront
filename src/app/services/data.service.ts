@@ -45,8 +45,8 @@ export class DataService {
     );
   }
 
-  getProblemsFromLanguage(langId: string): Observable<Problem[]>{
-    return this.httpService.getAllProblemsFromLanguage(langId).pipe(
+  getProblemsFromLanguage(langId: string, options?:{[k:string]:string|number|boolean}): Observable<Problem[]>{
+    return this.httpService.getAllProblemsFromLanguage(langId,options).pipe(
       // tap((d)=>{console.log('raw'); console.log(d)}),
       catchError(this.uiErrorHandler.handleUIError),
       map((payload)=>{return DataExtractor.extract(payload);}),

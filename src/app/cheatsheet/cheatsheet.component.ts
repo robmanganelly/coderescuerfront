@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute, Data } from '@angular/router';
-import { tap } from 'rxjs';
 import { Lang } from '../interfaces/lang';
 import { Problem, ProblemSeed } from '../interfaces/problem';
 import { DataService } from '../services/data.service';
@@ -13,9 +11,12 @@ import { DataService } from '../services/data.service';
 })
 export class CheatsheetComponent implements OnInit {
 
-  filterOptions?: string;
-  // languageTricks : number[] = [1,2,3,4,5,6,7,8,9,1,1,2,2,2,2,2,22,2,2,2,2,2,2,22,2,2,22,2,2,22,2,2,22,2,22,2,22,2,22,2,2,22,2,22]
-  // this is a fake data, must be replaced with a real object containing all information about objects (10-20 max at a time)
+  filterOptions: {[k:string]:{[k:string]:string|number|boolean}} = {
+    noFilter:{},
+    newFilter:{isnew:true},
+    favFilter:{favorites:true},
+    add:{return: true}
+  }
 
   languageTricks: Problem[] = []
   languageId: string = "";
@@ -49,10 +50,14 @@ export class CheatsheetComponent implements OnInit {
     if(!this.languageId || !this.currentLanguage ){ this.router.navigate([''])}
   };
 
-  refreshProblems(): void{
-    this.dataService.getProblemsFromLanguage(this.languageId).subscribe(
-      (d)=>{this.languageTricks = d}
-    )
+  refreshProblems(value: string): void{
+    if(!!this.filterOptions[value]['return']){return;}
+    this.dataService.getProblemsFromLanguage(this.languageId,this.filterOptions[value]).subscribe(
+      (p: Problem[])=>{this.languageTricks = p}
+    );
+    // this.dataService.getProblemsFromLanguage(this.languageId).subscribe(
+    //   (d)=>{this.languageTricks = d}
+    // )
   }
 
 
