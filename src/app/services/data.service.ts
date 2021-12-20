@@ -52,7 +52,6 @@ export class DataService {
     options?:{[k:string]:string|number|boolean}
   ): Observable<Problem[] | {data: Problem[], meta: Generic} >{
       return this.httpService.getAllProblemsFromLanguage(langId,options).pipe(
-        // tap((d)=>{console.log('raw'); console.log(d)}),
         catchError(this.uiErrorHandler.handleUIError),
         map((raw)=>{
           if ((options as Generic)['withMeta']){

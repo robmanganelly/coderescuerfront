@@ -21,7 +21,6 @@ export class ProbsheetComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.problem);
   }
 
 
@@ -32,9 +31,6 @@ export class ProbsheetComponent implements OnInit {
 
   clickFavorite(){
     this.isFavorite = !this.isFavorite;
-  }
-  clickEdit(){
-    this.router.navigate(['edit'],{state:{ problem: this.problem, action: "update-trick-owner" }});
   }
 
 }

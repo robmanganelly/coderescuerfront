@@ -9,7 +9,7 @@
 <div class="sheet">
   <div class="separator"></div>
   <span class="options-box">
-    <mat-button-toggle-group #group="matButtonToggleGroup" (click)="refreshProblems(group.value)" aria-label="Trick Options"  >
+    <mat-button-toggle-group [value]="'noFilter'" #group="matButtonToggleGroup" (click)="refreshProblems(group.value)" aria-label="Trick Options"  >
       <mat-button-toggle  value="noFilter">Show all tricks</mat-button-toggle>
       <mat-button-toggle  value="newFilter">Show only new tricks</mat-button-toggle>
       <mat-button-toggle  value="favFilter">Show only favorites tricks</mat-button-toggle>
@@ -30,7 +30,8 @@
 
   <div>
     <mat-paginator
-      (page)="capturePageEvent($event)"
+      #paginatorProblems
+      (page)="capturePageEvent($event,group.value)"
       color="primary"
       showFirstLastButtons
       [length]="totalItems"
