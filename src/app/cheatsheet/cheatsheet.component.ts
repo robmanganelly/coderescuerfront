@@ -81,11 +81,14 @@ export class CheatsheetComponent implements OnInit {
   }
 
   refreshProblems(value: string,reset:boolean=true): void{
+
+    if(!!this.filterOptions[value]['return']){return;}
+
+
     if(reset){
       console.log(this.paginator)
       this.paginator?.firstPage()
     }
-    if(!!this.filterOptions[value]['return']){return;}
     this.dataService.getProblemsFromLanguage(this.languageId,this.filterOptions[value]).subscribe(
       (p)=>{
         this.languageTricks = (p as {data: Problem[]}).data
