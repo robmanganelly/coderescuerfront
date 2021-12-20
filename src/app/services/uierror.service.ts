@@ -21,7 +21,6 @@ export class UIErrorService {
   }
 
   handleUIError = (errorRes: HttpErrorResponse) => {
-    console.log(errorRes['error'])
     let message = DataExtractor.extractError(errorRes)["message"] as string;
     switch (errorRes['error'].code) {
       case 404:

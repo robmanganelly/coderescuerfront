@@ -17,7 +17,6 @@ export class SnackService {
       vpos: any = 'top',
       hpos:any  = 'right'
   ){
-    // console.log('dev log on snack service.ts : called green ')
     this.snack.open(msg,undefined,{
       panelClass: ['primaryColorBG'],
       duration: duration,

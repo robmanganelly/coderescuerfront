@@ -5,6 +5,7 @@ import { HttpService } from '../services/http.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import { UIFileReaderService } from '../services/uifile-reader.service';
+import { SnackService } from '../services/snack.service';
 @Component({
   selector: 'app-mainpage',
   templateUrl: './mainpage.component.html',
@@ -21,6 +22,7 @@ export class MainpageComponent implements OnInit {
   languageList: Lang[] = [];
 
   constructor(
+    private snackBarService: SnackService,
     private UIFileReader: UIFileReaderService,
     private router: Router,
     private httpService: HttpService,
@@ -63,7 +65,7 @@ export class MainpageComponent implements OnInit {
       name: this.languageForm.get('name')?.value,
       img: this.languageForm.get('img')?.value
     }).subscribe((res)=>{
-      alert("success"); // todo proper handler
+      this.snackBarService.successSnack("language added successfully");
       this.languageForm.reset();
     });
 

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Comment } from '../interfaces/comment';
@@ -31,8 +31,14 @@ export class HttpService {
       {observe: "body"})
   }
 
-  getAllProblemsFromLanguage(languageId:string): Observable<EnvelopedResponse<Problem[]>>{
-    return this.http.get<EnvelopedResponse<Problem[]>>(`${environment.apiUrl}/problems/${languageId}`);
+  getAllProblemsFromLanguage(
+    languageId:string,
+    options?:{[k:string]:string|number|boolean}
+  ): Observable<EnvelopedResponse<Problem[]>>{
+
+    const opt = options?{params: new HttpParams({fromObject:options})}: {};
+
+    return this.http.get<EnvelopedResponse<Problem[]>>(`${environment.apiUrl}/problems/${languageId}`,opt);
   }
 
   postProblemOnLanguage(languageId: string,payload: ProblemSeed): Observable<EnvelopedResponse<Problem>>{
@@ -55,9 +61,9 @@ export class HttpService {
       `${environment.apiUrl}/comments/${solutionId}`,{text},{observe: "body"}
       )}
 
-  postSolutionByProblemId(problemId: string, text: string): Observable<EnvelopedResponse<Solution>>{
+  postSolutionByProblemId(problemId: string, solution: string): Observable<EnvelopedResponse<Solution>>{
     return this.http.post<EnvelopedResponse<Solution>>(
-      `${environment.apiUrl}/solutions/${problemId}`,{text},{observe: "body"}
+      `${environment.apiUrl}/solutions/${problemId}`,{solution},{observe: "body"}
     );
   }
 

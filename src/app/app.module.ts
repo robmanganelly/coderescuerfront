@@ -31,6 +31,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SolutionResolver } from './resolvers/solution.resolver';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { SolutionContainerComponent } from './solution-container/solution-container.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 const appRoutes: Routes = [
   { path: '', component: MainpageComponent, resolve:{languages: LangResolver} },
@@ -65,6 +66,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatDividerModule,
     MatExpansionModule,
+    MatPaginatorModule,
     MatSnackBarModule,
     MatToolbarModule,
     MatGridListModule,

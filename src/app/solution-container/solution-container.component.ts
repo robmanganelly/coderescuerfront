@@ -2,8 +2,11 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
+import { tap } from 'rxjs';
 import { Problem } from '../interfaces/problem';
 import { Solution } from '../interfaces/solution';
+import { DataService } from '../services/data.service';
+import { SnackService } from '../services/snack.service';
 import { UIFileReaderService } from '../services/uifile-reader.service';
 
 @Component({
@@ -17,6 +20,7 @@ export class SolutionContainerComponent implements OnInit {
   solutions: Solution[] = [];
   newSolutionRequested = false;
   personalSolutionValue: string="";
+  currentLanguageImage: string = "";
 
   personalSolutionForm = new FormGroup({
     "solution": new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(2500)])
@@ -25,6 +29,8 @@ export class SolutionContainerComponent implements OnInit {
 
 
   constructor(
+    private snackService: SnackService,
+    private dataService: DataService,
     private router: Router,
     private location: Location,
     private activatedRoute: ActivatedRoute,
@@ -38,6 +44,9 @@ export class SolutionContainerComponent implements OnInit {
         this.solutions = data["solutions"]
       }
     )
+    this.dataService.currentLanguageSubject.subscribe(
+      language=>{this.currentLanguageImage = language?.img as string;}
+    )
   }
   goBack(){
     this.location.back();
@@ -48,7 +57,12 @@ export class SolutionContainerComponent implements OnInit {
   }
 
   createNewSolutionSubmit(): void{
-    // todo
+    this.dataService
+      .postSolution(this.activeProblem._id as string,this.personalSolutionForm.get('solution')?.value)
+      .pipe(tap(data=>{ this.snackService.successSnack("solution added")}))
+      .subscribe(
+        (solution)=>{ this.solutions = [solution].concat(this.solutions)}
+      )
   }
 
   grabFileAndReadAsText(e: Event){

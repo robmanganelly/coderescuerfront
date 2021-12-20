@@ -8,21 +8,51 @@
 
 <div class="sheet">
   <div class="separator"></div>
-  <mat-button-toggle-group [(ngModel)]="filterOptions" aria-label="Trick Options" appearance="legacy" >
-    <mat-button-toggle (click)="refreshProblems()" value="noFilter">Show all tricks</mat-button-toggle>
-    <mat-button-toggle (click)="refreshProblems()" value="newFilter">Show only new tricks</mat-button-toggle>
-    <mat-button-toggle (click)="refreshProblems()" value="favFilter">Show only favorites tricks</mat-button-toggle>
-    <mat-button-toggle (click)="refreshProblems()" value="add">Add a new Trick</mat-button-toggle>
-  </mat-button-toggle-group>
+  <span class="options-box">
+    <mat-button-toggle-group
+      [(ngModel)]="noFilter"
+      #group="matButtonToggleGroup"
+      (click)="refreshProblems(group.value)"
+      aria-label="Trick Options"
+      >
+      <mat-button-toggle  value="noFilter">Show all tricks</mat-button-toggle>
+      <mat-button-toggle  value="newFilter">Show only new tricks</mat-button-toggle>
+      <mat-button-toggle  value="favFilter">Show only favorites tricks</mat-button-toggle>
+      <mat-button-toggle  value="add">Add a new Trick</mat-button-toggle>
+    </mat-button-toggle-group>
+    <span *ngIf="group.value !== 'add'">
+      <mat-form-field appearance="standard">
+        <mat-label>Search Tricks by its name</mat-label>
+        <input matInput placeholder="Type to find by name " #searchBar >
+      </mat-form-field>
+      <button
+        *ngIf="searchBar.value!==''"
+        (click)="searchBar.value = ''"
+        mat-icon-button><mat-icon>clear</mat-icon></button>
+      <button
+        [disabled]="searchBar.value===''"
+        mat-icon-button (click)="searchByName(searchBar)"><mat-icon>search</mat-icon>
+      </button>
+
+    </span>
+  </span>
+
   <div class="separator"></div>
 
-  <div *ngIf="filterOptions !== 'add'">
-    <mat-form-field appearance="fill">
-      <mat-label>Tricks Filter</mat-label>
-      <input matInput placeholder="type to find " >
-    </mat-form-field>
-  <div class="separator"></div>
-  <div><p>[todo place pagination buttons here]</p></div>
+  <div *ngIf="group.value !== 'add'">
+
+  <div>
+    <mat-paginator
+      #paginatorProblems
+      (page)="capturePageEvent($event,group.value)"
+      color="primary"
+      showFirstLastButtons
+      [length]="totalItems"
+      [pageSize]="limitPerPage"
+      [pageSizeOptions]="pagSOpt"
+      aria-label="select page"
+    ></mat-paginator>
+  </div>
   <div class="scrollable">
     <!--todo fill the loop with real data, coming from backend -->
     <app-probsheet *ngFor="let trick of languageTricks" [problem]="trick" ></app-probsheet>
@@ -33,10 +63,8 @@
 
   </div>
 
-  <div *ngIf="filterOptions === 'add'">
+  <div *ngIf="group.value === 'add'">
     <app-edit-solution></app-edit-solution>
-
-
   </div>
 
 </div>

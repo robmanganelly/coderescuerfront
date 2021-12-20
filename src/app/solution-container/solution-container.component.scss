@@ -12,3 +12,8 @@ input[type="file"]{
   visibility: hidden;
   display: none;
 }
+mat-toolbar span img {
+  max-width: 30px;
+  border-radius: 5px;
+  margin: 5px;
+}

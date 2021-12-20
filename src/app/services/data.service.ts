@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, map, mergeMap, Observable, Subject, tap } from 'rxjs';
 import { Comment } from '../interfaces/comment';
+import { Generic } from '../interfaces/generic';
+import { EnvelopedResponse } from '../interfaces/httpResponse';
 import { Lang } from '../interfaces/lang';
 import { Problem, ProblemSeed } from '../interfaces/problem';
 import { Solution } from '../interfaces/solution';
@@ -45,26 +47,35 @@ export class DataService {
     );
   }
 
-  // getProblemsFromLanguage(langId: string){
-  //   return this.httpService.getAllProblemsFromLanguage(langId).pipe(
-  //     map((payload)=>{return DataExtractor.extract(payload);}),
-  //   )
-  // }
-
-  getProblemsFromLanguage(langId: string): Observable<Problem[]>{
-    return this.httpService.getAllProblemsFromLanguage(langId).pipe(
-      // tap((d)=>{console.log('raw'); console.log(d)}),
-      catchError(this.uiErrorHandler.handleUIError),
-      map((payload)=>{return DataExtractor.extract(payload);}),
-      tap((data)=>{this.problemsOnSelectedLanguageSubject.next(data); })
-    )
+  getProblemsFromLanguage(
+    langId: string,
+    options?:{[k:string]:string|number|boolean}
+  ): Observable<Problem[] | {data: Problem[], meta: Generic} >{
+      return this.httpService.getAllProblemsFromLanguage(langId,options).pipe(
+        catchError(this.uiErrorHandler.handleUIError),
+        map((raw)=>{
+          if ((options as Generic)['withMeta']){
+            return DataExtractor.extractWithMeta(raw) as {data:Problem[], meta: Generic}
+          }else{
+            return DataExtractor.extract(raw) as Problem[]
+          }
+        }),
+        tap((data)=>{
+          let problems = undefined;
+          if((options as Generic)['withMeta']){
+            problems = (data as {data: Problem[]}).data;
+          }else{
+            problems = data
+          }
+          this.problemsOnSelectedLanguageSubject.next(problems as Problem[]);})
+      )
   }
 
   createProblem(langId: string, payload: ProblemSeed): Observable<Problem[]>{
     return this.httpService.postProblemOnLanguage(langId,payload).pipe(
       catchError(this.uiErrorHandler.handleUIError),
       map(response=>{return DataExtractor.extract(response)}),
-      mergeMap((data)=>{ return this.getProblemsFromLanguage(langId); })
+      mergeMap((data)=>{ return this.getProblemsFromLanguage(langId,{withMeta:false}) as Observable<Problem[]>; })
     )
   }
 
@@ -83,8 +94,8 @@ export class DataService {
     );
   }
 
-  postSolution(problemId: string, text: string): Observable<Solution>{
-    return this.httpService.postSolutionByProblemId(problemId, text).pipe(
+  postSolution(problemId: string, solution: string): Observable<Solution>{
+    return this.httpService.postSolutionByProblemId(problemId, solution).pipe(
       catchError(this.uiErrorHandler.handleUIError),
       map(payload=>{return DataExtractor.extract(payload); })
     )

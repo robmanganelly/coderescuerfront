@@ -1,4 +1,5 @@
 <mat-toolbar color="primary">
+  <span><img [src]="currentLanguageImage" alt="" srcset=""></span>
   <span>{{activeProblem.title}}</span>
   <span class="spacer"></span>
   <button mat-icon-button (click)="goBack()" > <mat-icon>keyboard_return</mat-icon></button>
@@ -8,7 +9,7 @@
 <div class="separator"></div>
 
 <div class="add-solution">
-  <button mat-stroked-button (click)="createNewSolutionClicked()"  >{{!newSolutionRequested?"Add my own solution":"Dismiss"}}</button>
+  <button mat-raised-button color="primary" (click)="createNewSolutionClicked()"  >{{!newSolutionRequested?"Add my own solution":"Dismiss"}}</button>
   <button
     [disabled]="!personalSolutionForm.valid"
     mat-stroked-button
@@ -45,4 +46,7 @@
 <div class="solution-container" *ngFor="let solution of solutions">
   <app-solution [currentSolution]="solution" [activeProblem]="activeProblem"> </app-solution>
   <!-- put solutions here with selector and input property -->
+  <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
+  <div class="separator"></div>
 </div>

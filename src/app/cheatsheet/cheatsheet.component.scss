@@ -3,19 +3,18 @@
     margin: auto;
 }
 
-mat-button-toggle-group{
-    flex-wrap: wrap;
-}
+// mat-button-toggle-group{
+//     flex-wrap: wrap;
+//     margin: auto;
+// }
 
-mat-form-field {
-    width: 100%;
-}
+// mat-form-field {
+//     width: 100%;
+// }
 
-button {
-    margin: auto;
-}
-
-
+// button {
+//     margin: auto;
+// }
 
 
 mat-button-toggle:hover{
@@ -26,3 +25,12 @@ mat-button-toggle:hover{
 
   text-align: center;
 }
+
+.options-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+

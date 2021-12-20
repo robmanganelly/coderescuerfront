@@ -17,9 +17,9 @@ export class SolutionResolver implements Resolve<Observable<Solution[]>> {
   constructor(private dataService: DataService){}
 
 
-  //must resolve all comments for the current soltion and the solution itself
+  //must resolve all comments for the current solution and the solution itself
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Solution[]> {
-    console.log(state.url);
+    // console.log(state.url);
     const activeProblem = state.url.split('/')[2];
     return this.dataService.getSolutionsFromProblem(activeProblem as string);
   }

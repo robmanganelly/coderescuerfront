@@ -12,7 +12,7 @@ export class ProbsheetComponent implements OnInit {
 
   isFavorite: boolean = false;
 
-   @Input() problem: Problem = {title:"", description: "",comments:"", language: "", date: new Date()};
+   @Input() problem: Problem = {title:"", description: "",comments:"", language: "", date: new Date(), is_New:false};
 
 
   constructor(
@@ -20,7 +20,8 @@ export class ProbsheetComponent implements OnInit {
     private router: Router) { }
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
 
 
@@ -30,9 +31,6 @@ export class ProbsheetComponent implements OnInit {
 
   clickFavorite(){
     this.isFavorite = !this.isFavorite;
-  }
-  clickEdit(){
-    this.router.navigate(['edit'],{state:{ problem: this.problem, action: "update-trick-owner" }});
   }
 
 }

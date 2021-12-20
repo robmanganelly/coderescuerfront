@@ -30,6 +30,12 @@ div.full-width form div button{
   height: 8vh;
 }
 
-#commentButton{
+mat-slide-toggle{
   margin-left: 2%;
+}
+
+code{
+  display: block;
+  white-space: pre-wrap;
+  font-weight: 300;
 }

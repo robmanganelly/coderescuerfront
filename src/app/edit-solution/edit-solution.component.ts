@@ -7,6 +7,7 @@ import { tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExtensionTest } from '../utils/extensions';
 import { UIFileReaderService } from '../services/uifile-reader.service';
+import { SnackService } from '../services/snack.service';
 
 @Component({
   selector: 'app-edit-solution',
@@ -35,6 +36,7 @@ export class EditSolutionComponent implements OnInit {
   });
 
   constructor(
+    private snackBarService: SnackService,
     private uiFileReader: UIFileReaderService,
     private activatedRoute: ActivatedRoute,
     private dataService: DataService,
@@ -76,7 +78,7 @@ export class EditSolutionComponent implements OnInit {
     this.dataService.createProblem(this.currentLanguageId, probData)
     .subscribe(
       ()=>{
-        alert("success");
+        this.snackBarService.successSnack(" code recipe successfully added ");
         this.newTrickForm.reset();
         this.newTrickForm.markAsPristine();
       }
