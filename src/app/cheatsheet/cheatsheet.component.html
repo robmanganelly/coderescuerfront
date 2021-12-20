@@ -9,7 +9,12 @@
 <div class="sheet">
   <div class="separator"></div>
   <span class="options-box">
-    <mat-button-toggle-group [value]="'noFilter'" #group="matButtonToggleGroup" (click)="refreshProblems(group.value)" aria-label="Trick Options"  >
+    <mat-button-toggle-group
+      [(ngModel)]="noFilter"
+      #group="matButtonToggleGroup"
+      (click)="refreshProblems(group.value)"
+      aria-label="Trick Options"
+      >
       <mat-button-toggle  value="noFilter">Show all tricks</mat-button-toggle>
       <mat-button-toggle  value="newFilter">Show only new tricks</mat-button-toggle>
       <mat-button-toggle  value="favFilter">Show only favorites tricks</mat-button-toggle>
@@ -18,9 +23,17 @@
     <span *ngIf="group.value !== 'add'">
       <mat-form-field appearance="standard">
         <mat-label>Search Tricks by its name</mat-label>
-        <input matInput placeholder="Type to find by name " >
+        <input matInput placeholder="Type to find by name " #searchBar >
       </mat-form-field>
-      <button mat-icon-button><mat-icon>search</mat-icon></button>
+      <button
+        *ngIf="searchBar.value!==''"
+        (click)="searchBar.value = ''"
+        mat-icon-button><mat-icon>clear</mat-icon></button>
+      <button
+        [disabled]="searchBar.value===''"
+        mat-icon-button (click)="searchByName(searchBar)"><mat-icon>search</mat-icon>
+      </button>
+
     </span>
   </span>
 

@@ -22,6 +22,7 @@ export class CheatsheetComponent implements OnInit {
 
   @ViewChild('paginatorProblems')paginator: MatPaginator| null = null;
 
+  noFilter = 'noFilter';
 
   languageTricks: Problem[] = []
   languageId: string = "";
@@ -71,25 +72,24 @@ export class CheatsheetComponent implements OnInit {
     if(!this.languageId || !this.currentLanguage ){ this.router.navigate([''])}
   };
 
-  capturePageEvent(event: PageEvent, filterValue:string){
+  capturePageEvent(event: PageEvent, filterValue:string,searchValue?:string){
     console.log(event)
     console.log(filterValue)
     this.filterOptions[filterValue]['page'] = event.pageIndex;
     this.filterOptions[filterValue]['limit'] = event.pageSize;
-    return this.refreshProblems(filterValue,false);
+    return this.refreshProblems(filterValue,false,searchValue);
 
   }
 
-  refreshProblems(value: string,reset:boolean=true): void{
+  refreshProblems(value: string,reset:boolean=true,search?:string): void{
 
     if(!!this.filterOptions[value]['return']){return;}
 
 
     if(reset){
-      console.log(this.paginator)
       this.paginator?.firstPage()
     }
-    this.dataService.getProblemsFromLanguage(this.languageId,this.filterOptions[value]).subscribe(
+    this.dataService.getProblemsFromLanguage(this.languageId,(!!search && search!=="")?{...this.filterOptions[value], search }:this.filterOptions[value]).subscribe(
       (p)=>{
         this.languageTricks = (p as {data: Problem[]}).data
         this.totalItems = (p as {meta: Generic}).meta['total'] as number;
@@ -102,7 +102,7 @@ export class CheatsheetComponent implements OnInit {
   }
 
 
-  trimArray(topValue=50):void{
+  private trimArray(topValue=50):void{
     this.pagSOpt = Array.from(function*(){
       let i=1;
       while (i <=topValue){
@@ -110,6 +110,12 @@ export class CheatsheetComponent implements OnInit {
         i++;
       }
     }());
+  }
+
+  searchByName(input:HTMLInputElement){
+    if(input.value === "") return;
+    this.noFilter = 'noFilter'
+    this.refreshProblems(this.noFilter,true,input.value);
   }
 
 }
