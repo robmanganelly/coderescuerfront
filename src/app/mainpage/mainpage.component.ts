@@ -13,6 +13,8 @@ import { SnackService } from '../services/snack.service';
 })
 export class MainpageComponent implements OnInit {
 
+  displayBanner = true;
+
   languageForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(1),Validators.maxLength(50)]),
     img: new FormControl(null, Validators.required)

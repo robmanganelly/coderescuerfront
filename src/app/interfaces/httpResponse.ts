@@ -1,9 +1,9 @@
-import { Lang } from "./lang";
+import { Generic } from "./generic";
 
 export interface EnvelopedResponse<T>{
-  status: String;
+  status: string;
   data: {data: T};
-  message: String;
-  code: Number;  // todo include this field in next version.
-  meta?:{[k:string]:string|number|boolean}
+  message: string;
+  code: Number;
+  meta?: Generic
 }

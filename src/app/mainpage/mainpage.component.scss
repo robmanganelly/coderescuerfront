@@ -93,3 +93,21 @@ span button{
   font-weight: bold;
   text-align: end;
 }
+
+#closeLoginButton{
+  display: block;
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+.loginBanner{
+  padding: 5px 5px 5px 25px;
+  text-align: end;
+  font-weight: bold;
+  font-size: larger;
+}
+.loginBanner button{
+  margin: 5px;
+  background-color: white;
+  color: darkgreen;
+}

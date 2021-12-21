@@ -13,10 +13,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule} from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion'
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthComponent } from './auth/auth.component';
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { CheatsheetComponent } from './cheatsheet/cheatsheet.component';
 import { ProbsheetComponent } from './probsheet/probsheet.component';
@@ -35,6 +36,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 
 const appRoutes: Routes = [
   { path: '', component: MainpageComponent, resolve:{languages: LangResolver} },
+  { path: 'auth', component: AuthComponent },
   { path: 'tricks/:id', component: CheatsheetComponent, resolve: { problems: ProbByLangIdResolver } },
   { path: 'problem/:id/solutions', component: SolutionContainerComponent, resolve: { solutions: SolutionResolver }},
   { path: 'edit', component: EditContainerComponent},
@@ -45,6 +47,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    AuthComponent,
     MainpageComponent,
     CheatsheetComponent,
     ProbsheetComponent,
@@ -67,6 +70,7 @@ const appRoutes: Routes = [
     MatDividerModule,
     MatExpansionModule,
     MatPaginatorModule,
+    MatProgressBarModule,
     MatSnackBarModule,
     MatToolbarModule,
     MatGridListModule,

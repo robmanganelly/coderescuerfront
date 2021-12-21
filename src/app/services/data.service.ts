@@ -6,8 +6,10 @@ import { EnvelopedResponse } from '../interfaces/httpResponse';
 import { Lang } from '../interfaces/lang';
 import { Problem, ProblemSeed } from '../interfaces/problem';
 import { Solution } from '../interfaces/solution';
+import { User } from '../interfaces/users';
 import { DataExtractor } from '../utils/data-extractor';
 import { StaticPath } from '../utils/static-path';
+import { UserConstructor } from '../utils/userConstructor';
 import { HttpService } from './http.service';
 import { UIErrorService } from './uierror.service';
 
@@ -16,6 +18,7 @@ import { UIErrorService } from './uierror.service';
 })
 export class DataService {
 
+  userBehaviorSubject: BehaviorSubject<UserConstructor| null > = new BehaviorSubject<UserConstructor|null>(null);
   currentLanguageSubject: BehaviorSubject<Lang | null>  = new BehaviorSubject <Lang|null>(null);
   allLanguagesSubject: BehaviorSubject<Lang[] | []>  = new BehaviorSubject <Lang[]|[]>([]);
   problemsOnSelectedLanguageSubject: BehaviorSubject<Problem[] | []> = new BehaviorSubject<Problem[] | []>([])

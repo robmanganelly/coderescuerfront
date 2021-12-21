@@ -1,14 +1,14 @@
 export interface Problem extends ProblemSeed{
-  language: String;
+  language: string;
   date: Date;
-  _id?: String;
+  _id?: string;
   is_New: Boolean;
 }
 
 export interface ProblemSeed{
   // include author after implement user endpoint
-  title: String;
-  description: String;
-  comments?: String;
-  solution?: String;
+  title: string;
+  description: string;
+  comments?: string;
+  solution?: string;
 }
