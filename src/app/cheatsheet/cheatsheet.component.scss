@@ -16,6 +16,12 @@
 //     margin: auto;
 // }
 
+mat-button-toggle{
+  width: auto;
+}
+mat-button-toggle-group{
+  flex-wrap: wrap;
+}
 
 mat-button-toggle:hover{
   background-color: rgb(241, 236, 236);
@@ -27,6 +33,8 @@ mat-button-toggle:hover{
 }
 
 .options-box{
+  flex-wrap: wrap;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
