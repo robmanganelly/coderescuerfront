@@ -39,7 +39,8 @@ export class AuthService {
     login(email: string, password: string): Observable<User> {
         return this.httpService.userLogin(email,password).pipe(
             catchError(this.errorManager.handleUIError),
-            map(response=>{return DataExtractor.extract(response)}),
+            map((response)=>{
+              return DataExtractor.extract(response)}),
             switchMap((token) => {
                 this.autologout(2*3600*1000)
                 return this.loadUserData(token);

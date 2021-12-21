@@ -69,7 +69,7 @@ export class CheatsheetComponent implements OnInit {
 
       }
     )
-    if(!this.languageId || !this.currentLanguage ){ this.router.navigate([''])}
+    if(!this.languageId || !this.currentLanguage ){ this.router.navigate(['index'])}
   };
 
   capturePageEvent(event: PageEvent, filterValue:string,searchValue?:string){

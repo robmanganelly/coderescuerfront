@@ -35,7 +35,7 @@ import { SolutionContainerComponent } from './solution-container/solution-contai
 import {MatPaginatorModule} from '@angular/material/paginator';
 
 const appRoutes: Routes = [
-  { path: '', component: MainpageComponent, resolve:{languages: LangResolver} },
+  { path: 'index', component: MainpageComponent, resolve:{languages: LangResolver} },
   { path: 'auth', component: AuthComponent },
   { path: 'tricks/:id', component: CheatsheetComponent, resolve: { problems: ProbByLangIdResolver } },
   { path: 'problem/:id/solutions', component: SolutionContainerComponent, resolve: { solutions: SolutionResolver }},

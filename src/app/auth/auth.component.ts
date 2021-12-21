@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {Subscription} from "rxjs";
+import {Subscription, throwError} from "rxjs";
 import {Router} from "@angular/router";
 import {tap} from "rxjs/operators";
 import { SnackService } from '../services/snack.service';
@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 @Component({
     selector: 'app-auth',
     templateUrl: './auth.component.html',
-    styleUrls: ['./auth.component.css']
+    styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit, OnDestroy {
     isLogin = true;
@@ -63,14 +63,18 @@ export class AuthComponent implements OnInit, OnDestroy {
             this.authForm.value.email,
             this.authForm.value.password
         ).pipe(
-          tap(console.log) // todo remove after testing
-        ).subscribe(
-            (user) => {
+          tap(console.log), // todo remove after testing
+        ).subscribe({
+            next: (user) => {
               this.snackBarService.successSnack(`Hi ${user.username}, welcome!`)
-
-                // place here a non invasive alert showing success on login ??
+              this.router.navigate(['index'])
+            },
+            error:(error)=>{
+              this.bannerMessage = error.message;
+              this.retrySubmit = true;
+              this.isRequesting = false;
             }
-        )
+          })
     }
 
     onSignUp() {
@@ -88,6 +92,8 @@ export class AuthComponent implements OnInit, OnDestroy {
         ).subscribe(
             (user) => {
               this.snackBarService.successSnack(`Hi ${user.username}, welcome!`)
+              this.router.navigate(['index'])
+
             }
         )
 

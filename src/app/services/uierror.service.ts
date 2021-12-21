@@ -43,8 +43,8 @@ export class UIErrorService {
         break;
     }
     this.snackBarService.warnSnack(`${message}`,3000);
-    return throwError(()=>{new Error(message)})
-  }
+    return throwError(()=>{return new Error(message)})
+}
 
 
 

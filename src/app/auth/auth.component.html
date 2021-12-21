@@ -1,4 +1,4 @@
-<div id="auth" *ngIf="!isRequesting else spinnerTemplateRef">
+<div id="auth" >
   <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
     <mat-card class="auth-card">
       <mat-card-header>
@@ -16,6 +16,7 @@
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content >
+        <mat-progress-bar mode="indeterminate" *ngIf="isRequesting" ></mat-progress-bar>
         <div  *ngIf="!retrySubmit else errorBannerTemplateRef"></div>
         <div class="form-col" >
           <mat-form-field class="full-width" appearance="outline" *ngIf="!isLogin" >
@@ -65,11 +66,7 @@
     <span> &copy;2021 </span>
   </footer>
 </div>
-<ng-template #spinnerTemplateRef >
-  <div class="auth-spinner">
-    <mat-progress-bar mode="indeterminate" ></mat-progress-bar>
-  </div>
-</ng-template>
+
 <ng-template #errorBannerTemplateRef>
   <div class="mat-error">
     <p> Error: {{bannerMessage}} </p>
