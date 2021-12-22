@@ -23,9 +23,7 @@ export class AuthGuardService implements CanActivate, CanActivateChild {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        console.log('calling can activate')
         return this.dataService.userBehaviorSubject.pipe(
-           tap(console.log),
             take(1),
             map((user) => {
                 const isLogged = !!user;

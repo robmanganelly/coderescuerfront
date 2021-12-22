@@ -88,8 +88,6 @@ export class CheatsheetComponent implements OnInit {
   };
 
   capturePageEvent(event: PageEvent, filterValue:string,searchValue?:string){
-    console.log(event)
-    console.log(filterValue)
     this.filterOptions[filterValue]['page'] = event.pageIndex;
     this.filterOptions[filterValue]['limit'] = event.pageSize;
     return this.refreshProblems(filterValue,false,searchValue);

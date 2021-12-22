@@ -14,7 +14,7 @@ export class ProbsheetComponent implements OnInit {
   isFavorite: boolean = false;
   currentUser: UserConstructor|null = null;
 
-   @Input() problem: Problem = {title:"", description: "",comments:"", language: "", date: new Date(), is_New:false};
+   @Input() problem: Problem = { title:"", description: "",comments:"", language: "", date: new Date(), is_New:false};
 
 
   constructor(
