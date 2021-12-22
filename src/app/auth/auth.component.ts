@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {tap} from "rxjs/operators";
 import { SnackService } from '../services/snack.service';
 import { AuthService } from '../services/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-auth',
@@ -35,7 +36,8 @@ export class AuthComponent implements OnInit, OnDestroy {
     constructor(
         private snackBarService: SnackService,
         private router: Router,
-        private authService: AuthService
+        private authService: AuthService,
+        private location: Location
     ) {
     }
 
@@ -67,7 +69,8 @@ export class AuthComponent implements OnInit, OnDestroy {
         ).subscribe({
             next: (user) => {
               this.snackBarService.successSnack(`Hi ${user.username}, welcome!`)
-              this.router.navigate(['index'])
+              this.location.back();
+              // this.router.navigate(['index']);
             },
             error:(error)=>{
               this.bannerMessage = error.message;
@@ -92,11 +95,15 @@ export class AuthComponent implements OnInit, OnDestroy {
         ).subscribe(
             (user) => {
               this.snackBarService.successSnack(`Hi ${user.username}, welcome!`)
-              this.router.navigate(['index'])
-
+              this.location.back();
+              // this.router.navigate(['index']);
             }
         )
 
+    }
+
+    goPrevious(){
+      this.location.back();
     }
 
     // ui methods

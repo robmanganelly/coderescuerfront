@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Problem, ProblemSeed } from '../interfaces/problem';
 import { DataService } from '../services/data.service';
+import { UserConstructor } from '../utils/userConstructor';
 
 @Component({
   selector: 'app-probsheet',
@@ -11,6 +12,7 @@ import { DataService } from '../services/data.service';
 export class ProbsheetComponent implements OnInit {
 
   isFavorite: boolean = false;
+  currentUser: UserConstructor|null = null;
 
    @Input() problem: Problem = {title:"", description: "",comments:"", language: "", date: new Date(), is_New:false};
 
@@ -21,6 +23,7 @@ export class ProbsheetComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.dataService.userBehaviorSubject.subscribe(user=>{this.currentUser=user;})
   }
 
 

@@ -61,6 +61,8 @@ export class AuthService {
 
     autologin() {
         const loggedUser = this.getLoadedUser();
+        console.log('autologin loggedUser::::')
+        console.log(loggedUser)
         if (!loggedUser) return;
 
         if (!loggedUser.token) return;
@@ -99,6 +101,7 @@ export class AuthService {
             const _tokenExpiration = new Date(Date.now() + 2*3600*1000)
             const loadedUser = new UserConstructor(
               _id as string,token,_tokenExpiration,photo,username,email,active,favProblems,favSolutions)
+            console.log(loadedUser);
             localStorage.setItem('USER_DATA', JSON.stringify(loadedUser));
             this.dataService.userBehaviorSubject.next(loadedUser);
         }
@@ -106,12 +109,12 @@ export class AuthService {
 
     getLoadedUser(){
         const loadedLocalStorage = localStorage.getItem('USER_DATA') || 'null';
-        const user: User =  JSON.parse(loadedLocalStorage);
+        const user =  JSON.parse(loadedLocalStorage);
 
         if (!user){ return null; }
-        const { token, tokenExpiration, _id, email, username, photo , active, favProblems, favSolutions} = user;
+        const { _token, _tokenExpiration, _id, email, username, photo , active, favProblems, favSolutions} = user;
         return new UserConstructor(
-          _id as string, token as string, tokenExpiration as Date, photo,
+          _id as string, _token as string, _tokenExpiration as Date, photo,
           username, email, active, favProblems, favSolutions
           );
     }

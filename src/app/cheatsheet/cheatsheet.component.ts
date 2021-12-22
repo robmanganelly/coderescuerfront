@@ -5,6 +5,8 @@ import { Generic } from '../interfaces/generic';
 import { Lang } from '../interfaces/lang';
 import { Problem, ProblemSeed } from '../interfaces/problem';
 import { DataService } from '../services/data.service';
+import { StaticPath } from '../utils/static-path';
+import { UserConstructor } from '../utils/userConstructor';
 
 @Component({
   selector: 'app-cheatsheet',
@@ -23,6 +25,8 @@ export class CheatsheetComponent implements OnInit {
   @ViewChild('paginatorProblems')paginator: MatPaginator| null = null;
 
   noFilter = 'noFilter';
+  profileImage = StaticPath.generatePath("user-default.png")
+  loggedUser: UserConstructor| null  = null;
 
   languageTricks: Problem[] = []
   languageId: string = "";
@@ -69,7 +73,18 @@ export class CheatsheetComponent implements OnInit {
 
       }
     )
-    if(!this.languageId || !this.currentLanguage ){ this.router.navigate(['index'])}
+
+    if(!this.languageId || !this.currentLanguage ){ this.router.navigate(['index']); return;}
+
+    this.dataService.userBehaviorSubject.subscribe(
+      (user: UserConstructor| null)=>{
+        if (!user) return;
+        this.profileImage = StaticPath.generatePath(user.photo);
+        this.loggedUser  = user;
+      }
+    )
+
+
   };
 
   capturePageEvent(event: PageEvent, filterValue:string,searchValue?:string){
@@ -116,6 +131,13 @@ export class CheatsheetComponent implements OnInit {
     if(input.value === "") return;
     this.noFilter = 'noFilter'
     this.refreshProblems(this.noFilter,true,input.value);
+  }
+
+  clickProfileImage(){
+    if(!this.loggedUser){
+      this.router.navigate(['auth']);
+    }
+    else{ return alert('user was detected')};
   }
 
 }

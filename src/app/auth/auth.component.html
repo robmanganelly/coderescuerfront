@@ -46,6 +46,7 @@
         </div>
       </mat-card-content>
       <mat-card-actions align="end">
+        <button type="button" mat-icon-button (click)="goPrevious()" routerLinkActive="router-link-active" ><mat-icon>arrow_back_ios</mat-icon></button>
         <button
           type="submit"
           [disabled]="!authForm.valid"

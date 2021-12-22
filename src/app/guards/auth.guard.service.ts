@@ -8,7 +8,7 @@ import {
     UrlTree
 } from "@angular/router";
 import {Observable} from "rxjs";
-import {map, take} from "rxjs/operators";
+import {map,tap, take} from "rxjs/operators";
 import { DataService } from '../services/data.service';
 
 @Injectable({
@@ -25,14 +25,15 @@ export class AuthGuardService implements CanActivate, CanActivateChild {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         console.log('calling can activate')
         return this.dataService.userBehaviorSubject.pipe(
+           tap(console.log),
             take(1),
             map((user) => {
                 const isLogged = !!user;
                 if (isLogged) {
-                    console.log('can activate is true')
-                    return true;
+                    // ('a user exists so it can not go to login')
+                    return this.router.createUrlTree(['index']);
                 }
-                else return this.router.createUrlTree(['auth']);
+                else return true;
             }))
     }
 

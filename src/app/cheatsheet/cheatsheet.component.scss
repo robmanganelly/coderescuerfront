@@ -43,6 +43,24 @@ mat-button-toggle:hover{
 
 
 mat-toolbar img {
-  width: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+}
+
+mat-toolbar button{
+  margin-right: 20px;
+}
+
+.notif-banner{
+  margin: auto;
+  background-color: rgb(253, 235, 235);
+  font-size: larger;
+  color: darkred;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.shortcut{
+  cursor: pointer;
 }
