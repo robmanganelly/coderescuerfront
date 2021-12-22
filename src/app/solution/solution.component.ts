@@ -45,7 +45,7 @@ export class SolutionComponent implements OnInit {
 
   ngOnInit(): void {
     if(!this.activeProblem || !this.currentSolution){
-      this.router.navigate(['']);
+      this.router.navigate(['index']);
     }
   }
 

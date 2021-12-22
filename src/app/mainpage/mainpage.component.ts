@@ -6,12 +6,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import { UIFileReaderService } from '../services/uifile-reader.service';
 import { SnackService } from '../services/snack.service';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-mainpage',
   templateUrl: './mainpage.component.html',
   styleUrls: ['./mainpage.component.scss']
 })
 export class MainpageComponent implements OnInit {
+
+  displayBanner = true; // loginBanner //todo rename this binding: isLogged (modify the logic)
 
   languageForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(1),Validators.maxLength(50)]),
@@ -22,10 +25,10 @@ export class MainpageComponent implements OnInit {
   languageList: Lang[] = [];
 
   constructor(
+    private authService: AuthService,
     private snackBarService: SnackService,
     private UIFileReader: UIFileReaderService,
     private router: Router,
-    private httpService: HttpService,
     private dataService: DataService,
     private activatedRoute: ActivatedRoute
   ) { }
@@ -37,6 +40,8 @@ export class MainpageComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.authService.autologin()
+
     this.activatedRoute.data.subscribe(
       (response: Data)=>{
 
@@ -44,6 +49,12 @@ export class MainpageComponent implements OnInit {
       }
     );
     this.dataService.allLanguagesSubject.subscribe(d=>this.languageList = d);
+    this.dataService.userBehaviorSubject.subscribe(
+      (user)=>{
+        this.displayBanner = !user;
+      }
+    )
+
   }
 
 

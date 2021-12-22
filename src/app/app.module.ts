@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -13,10 +13,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule} from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion'
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthComponent } from './auth/auth.component';
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { CheatsheetComponent } from './cheatsheet/cheatsheet.component';
 import { ProbsheetComponent } from './probsheet/probsheet.component';
@@ -32,19 +33,24 @@ import { SolutionResolver } from './resolvers/solution.resolver';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { SolutionContainerComponent } from './solution-container/solution-container.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { AuthGuardService } from './guards/auth.guard.service';
+import { SetTokenInterceptorService } from './interceptors/set.token.interceptor.service';
 
 const appRoutes: Routes = [
-  { path: '', component: MainpageComponent, resolve:{languages: LangResolver} },
+  { path: 'index', component: MainpageComponent, resolve:{languages: LangResolver} },
+  { path: 'auth', component: AuthComponent, canActivate: [AuthGuardService] },
   { path: 'tricks/:id', component: CheatsheetComponent, resolve: { problems: ProbByLangIdResolver } },
   { path: 'problem/:id/solutions', component: SolutionContainerComponent, resolve: { solutions: SolutionResolver }},
   { path: 'edit', component: EditContainerComponent},
   { path: 'not-found', component: NotFoundComponent},
+  { path: '',  pathMatch: 'full', redirectTo: 'index'},
   { path: '**', redirectTo: '/not-found'}
 
 ]
 @NgModule({
   declarations: [
     AppComponent,
+    AuthComponent,
     MainpageComponent,
     CheatsheetComponent,
     ProbsheetComponent,
@@ -67,6 +73,7 @@ const appRoutes: Routes = [
     MatDividerModule,
     MatExpansionModule,
     MatPaginatorModule,
+    MatProgressBarModule,
     MatSnackBarModule,
     MatToolbarModule,
     MatGridListModule,
@@ -75,7 +82,11 @@ const appRoutes: Routes = [
     MatSlideToggleModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: SetTokenInterceptorService,
+    multi: true
+}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,12 +1,19 @@
 <mat-toolbar color="primary">
+  <button mat-flat-button [routerLink]="['/index']" >
+    <mat-icon>arrow_back_ios</mat-icon>Back
+  </button>
   <span>{{languageName}}</span>
 
   <span class="spacer"></span>
 
-  <button mat-button [routerLink]="['/']" ><mat-icon>keyboard_return</mat-icon></button>
+  <img [src]="profileImage" alt="user default image" (click)="clickProfileImage()">
 </mat-toolbar>
 
 <div class="sheet">
+  <div class="separator"></div>
+  <div class="notif-banner" *ngIf="!loggedUser">
+    <span [routerLink]="['/auth']" class="shortcut"  >login to gain access to edition privileges and uploading content</span>
+  </div>
   <div class="separator"></div>
   <span class="options-box">
     <mat-button-toggle-group
@@ -18,7 +25,7 @@
       <mat-button-toggle  value="noFilter">Show all tricks</mat-button-toggle>
       <mat-button-toggle  value="newFilter">Show only new tricks</mat-button-toggle>
       <mat-button-toggle  value="favFilter">Show only favorites tricks</mat-button-toggle>
-      <mat-button-toggle  value="add">Add a new Trick</mat-button-toggle>
+      <mat-button-toggle [disabled]="!loggedUser"  value="add">Add a new Trick</mat-button-toggle>
     </mat-button-toggle-group>
     <span *ngIf="group.value !== 'add'">
       <mat-form-field appearance="standard">
@@ -57,7 +64,7 @@
     <!--todo fill the loop with real data, coming from backend -->
     <app-probsheet *ngFor="let trick of languageTricks" [problem]="trick" ></app-probsheet>
     <div class="no-tricks-alert" *ngIf="languageTricks.length === 0">
-      <h2>No tricks for this language so far. Be the first on adding a problem and its solution!!</h2>
+      <h2>No results Found, please try adding a new problem to solve or changing the options!</h2>
     </div>
   </div>
 

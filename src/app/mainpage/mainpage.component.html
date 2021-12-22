@@ -10,6 +10,19 @@
       developers.If you think that is not
       necessary to reinvent the wheel anytime you start a new project, then you are in the right place.
     </p>
+  <div class=" loginBanner" *ngIf="displayBanner" >
+    <button
+    (click)="displayBanner = !displayBanner"
+      id="closeLoginButton"
+      mat-icon-button>
+      <mat-icon>
+        clear
+      </mat-icon>
+    </button>
+    <p>Please login or create an account in order to gain access to edition privileges.
+      Logged users can also like items and flag them as favorites for further search  </p>
+    <button mat-raised-button color="primary" [routerLink]="['/auth']"  >Login or Create Account</button>
+  </div>
   </div>
   <mat-divider></mat-divider>
   <div class="separator"></div>
@@ -23,7 +36,7 @@
   <mat-accordion hideToggle  >
     <mat-expansion-panel >
 
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header *ngIf="!displayBanner">
         <!-- header here -->
         <p id="addForm"> Insert a new language</p>
       </mat-expansion-panel-header>

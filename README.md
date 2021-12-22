@@ -6,7 +6,7 @@ During the dev phase, run the development server with the command:
  > `ng serve`
 
 after you can go to your browser and search either:
-> 127.0.0.1:4200
+> 127.0.0.1:4200/index
 
 or
 

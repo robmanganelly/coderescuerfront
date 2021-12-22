@@ -16,6 +16,12 @@
 //     margin: auto;
 // }
 
+mat-button-toggle{
+  width: auto;
+}
+mat-button-toggle-group{
+  flex-wrap: wrap;
+}
 
 mat-button-toggle:hover{
   background-color: rgb(241, 236, 236);
@@ -27,6 +33,8 @@ mat-button-toggle:hover{
 }
 
 .options-box{
+  flex-wrap: wrap;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -34,3 +42,25 @@ mat-button-toggle:hover{
 }
 
 
+mat-toolbar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+mat-toolbar button{
+  margin-right: 20px;
+}
+
+.notif-banner{
+  margin: auto;
+  background-color: rgb(253, 235, 235);
+  font-size: larger;
+  color: darkred;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.shortcut{
+  cursor: pointer;
+}

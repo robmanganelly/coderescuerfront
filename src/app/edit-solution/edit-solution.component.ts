@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ExtensionTest } from '../utils/extensions';
 import { UIFileReaderService } from '../services/uifile-reader.service';
 import { SnackService } from '../services/snack.service';
+import { UserConstructor } from '../utils/userConstructor';
 
 @Component({
   selector: 'app-edit-solution',
@@ -16,6 +17,7 @@ import { SnackService } from '../services/snack.service';
 })
 export class EditSolutionComponent implements OnInit {
 
+  currentUser: UserConstructor|null = null;
   currentLanguageId: string = "";
   path: boolean = true;
   solutionValue: string = "";
@@ -56,6 +58,9 @@ export class EditSolutionComponent implements OnInit {
     this.dataService.currentLanguageSubject.subscribe(
       lang=>{this.currentLanguageId = lang?._id as string;}
     );
+    this.dataService.userBehaviorSubject.subscribe(
+      user=>{this.currentUser = user;}
+    )
 
     if(!!this.onEdition){
       this.newTrickForm.get("newTrickTitle")?.setValue(this.onEdition.title);
