@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Lang } from '../interfaces/lang';
 import { HttpService } from '../services/http.service';
@@ -7,12 +7,15 @@ import { DataService } from '../services/data.service';
 import { UIFileReaderService } from '../services/uifile-reader.service';
 import { SnackService } from '../services/snack.service';
 import { AuthService } from '../services/auth.service';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-mainpage',
   templateUrl: './mainpage.component.html',
   styleUrls: ['./mainpage.component.scss']
 })
-export class MainpageComponent implements OnInit {
+export class MainpageComponent implements OnInit, OnDestroy {
+
+  globalUnSubscriber = new Subject<boolean>();
 
   displayBanner = true; // loginBanner //todo rename this binding: isLogged (modify the logic)
 
@@ -33,6 +36,11 @@ export class MainpageComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) { }
 
+  ngOnDestroy(): void {
+    this.globalUnSubscriber.next(true);
+    this.globalUnSubscriber.complete();
+  }
+
   onClickLanguage(lang: Lang):void{
     this.dataService.currentLanguageSubject.next(lang);
     this.router.navigate(['tricks',lang._id]);
@@ -48,8 +56,13 @@ export class MainpageComponent implements OnInit {
         this.languageList = response['languages'];
       }
     );
-    this.dataService.allLanguagesSubject.subscribe(d=>this.languageList = d);
-    this.dataService.userBehaviorSubject.subscribe(
+    this.dataService.allLanguagesSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(d=>this.languageList = d);
+
+    this.dataService.userBehaviorSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
       (user)=>{
         this.displayBanner = !user;
       }
@@ -75,7 +88,9 @@ export class MainpageComponent implements OnInit {
     this.dataService.postLanguage({
       name: this.languageForm.get('name')?.value,
       img: this.languageForm.get('img')?.value
-    }).subscribe((res)=>{
+    })
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe((res)=>{
       this.snackBarService.successSnack("language added successfully");
       this.languageForm.reset();
     });
@@ -85,3 +100,5 @@ export class MainpageComponent implements OnInit {
 
 
 }
+
+

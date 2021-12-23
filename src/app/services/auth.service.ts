@@ -66,7 +66,10 @@ export class AuthService {
 
         if (loggedUser.token) {
             this.autologout(new Date(loggedUser.tokenExpiration).getTime()-Date.now())
-            this.dataService.userBehaviorSubject.next(loggedUser);
+            this.loadUserData(loggedUser.token).subscribe(
+              ()=>{}
+            )
+
         }
 
     }

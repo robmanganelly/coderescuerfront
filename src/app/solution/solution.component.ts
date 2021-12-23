@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -9,13 +9,16 @@ import { Solution } from '../interfaces/solution';
 import { Comment } from '../interfaces/comment';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { UserConstructor } from '../utils/userConstructor';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-solution',
   templateUrl: './solution.component.html',
   styleUrls: ['./solution.component.scss']
 })
-export class SolutionComponent implements OnInit {
+export class SolutionComponent implements OnInit, OnDestroy {
+
+  globalUnSubscriber = new Subject<boolean>();
 
   currentUser: UserConstructor| null = null;
 
@@ -45,12 +48,18 @@ export class SolutionComponent implements OnInit {
     private location: Location,
     private snackBarService: SnackService
     ) {}
+  ngOnDestroy(): void {
+   this.globalUnSubscriber.next(true);
+   this.globalUnSubscriber.complete();
+  }
 
   ngOnInit(): void {
     if(!this.activeProblem || !this.currentSolution){
       this.router.navigate(['index']);
     }
-    this.dataService.userBehaviorSubject.subscribe(
+    this.dataService.userBehaviorSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
       user=>{
         this.currentUser = user;
        }
@@ -125,7 +134,9 @@ export class SolutionComponent implements OnInit {
     this.dataService.postComment(
       this.currentSolution._id as string,
       this.formComment.get("comment")?.value as string
-      ).subscribe(d=>{
+      )
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(d=>{
         this.snackBarService.successSnack("comment created successfully",1000,"bottom","right")
         this.comments = [d].concat(this.comments);
         this.commentsAlreadyRequested = false;
@@ -137,7 +148,9 @@ export class SolutionComponent implements OnInit {
     let target = event.source;
 
     if(!this.commentsAlreadyRequested){
-      this.dataService.getCommentsFromSolution(this.currentSolution._id as string).subscribe(
+      this.dataService.getCommentsFromSolution(this.currentSolution._id as string)
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
         (_comments: Comment[]) => {
           this.comments = _comments;
           this.commentsAlreadyRequested = true;

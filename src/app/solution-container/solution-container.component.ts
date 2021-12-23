@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { Problem } from '../interfaces/problem';
 import { Solution } from '../interfaces/solution';
 import { DataService } from '../services/data.service';
@@ -16,7 +16,9 @@ import { UserConstructor } from '../utils/userConstructor';
   templateUrl: './solution-container.component.html',
   styleUrls: ['./solution-container.component.scss']
 })
-export class SolutionContainerComponent implements OnInit {
+export class SolutionContainerComponent implements OnInit, OnDestroy {
+
+  globalUnSubscriber = new Subject<boolean>();
 
   activeProblem: Problem;
   solutions: Solution[] = [];
@@ -42,6 +44,10 @@ export class SolutionContainerComponent implements OnInit {
     private fileDataReader: UIFileReaderService) {
     this.activeProblem = this.router.getCurrentNavigation()?.extras.state?.['activeProblem']
    }
+  ngOnDestroy(): void {
+    this.globalUnSubscriber.next(true);
+    this.globalUnSubscriber.complete();
+  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(
@@ -50,10 +56,14 @@ export class SolutionContainerComponent implements OnInit {
         console.log(this.currentUser);
       }
     )
-    this.dataService.currentLanguageSubject.subscribe(
+    this.dataService.currentLanguageSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
       language=>{this.currentLanguageImage = language?.img as string;}
     )
-    this.dataService.userBehaviorSubject.subscribe(
+    this.dataService.userBehaviorSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
       (user: UserConstructor| null)=>{
         this.currentUserHasPostedThisSolutionBefore = this.solutions.filter(
           solution=>solution.postedBy._id === user?._id).length > 0
@@ -73,7 +83,9 @@ export class SolutionContainerComponent implements OnInit {
   createNewSolutionSubmit(): void{
     this.dataService
       .postSolution(this.activeProblem._id as string,this.personalSolutionForm.get('solution')?.value)
-      .pipe(tap(data=>{ this.snackService.successSnack("solution added")}))
+      .pipe(
+        takeUntil(this.globalUnSubscriber),
+        tap(data=>{ this.snackService.successSnack("solution added")}))
       .subscribe(
         (solution)=>{ this.solutions = [solution].concat(this.solutions)}
       )

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, mergeMap, Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, mergeMap, Observable, of, Subject, take, tap } from 'rxjs';
 import { Comment } from '../interfaces/comment';
 import { Generic } from '../interfaces/generic';
 import { EnvelopedResponse } from '../interfaces/httpResponse';
@@ -46,7 +46,12 @@ export class DataService {
   postLanguage(payload: Lang){
     return this.httpService.postLanguage(payload).pipe(
       catchError(this.uiErrorHandler.handleUIError),
-      tap((d)=>{this.getLanguages().subscribe((lang: Lang[])=>{ this.allLanguagesSubject.next(lang)})})
+      mergeMap(
+        (d)=>{
+          return this.getLanguages().pipe(
+            tap((lang: Lang[])=>{ this.allLanguagesSubject.next(lang)})
+          )
+        })
     );
   }
 
@@ -111,10 +116,27 @@ export class DataService {
     )
   }
 
+  // manageFavorites(favorite: string,action: string,source: string):Observable<UserConstructor|null>{
+  //   return this.httpService.manageFavorites(favorite,action,source).pipe(
+  //     catchError(this.uiErrorHandler.handleUIError),
+  //     map(payload=>DataExtractor.extract(payload)),
+  //     //the further logic is to update on runtime the "favorites" state (test with autologin and localStorage ??)
+  //     mergeMap((favorites)=>{
+  //       return this.userBehaviorSubject.pipe(
+  //         take(1),
+  //         map(user=>{return !!user? user.replaceFavorites(favorites,"problems"): null}),
+  //         tap((user)=>{this.userBehaviorSubject.next(user)}),
+  //         tap(console.log),
+  //       )
+  //     })
+  //     // tap(items=>{this.currentUser?.replaceFavorites(items,"problems")})
+  //   );
+  // }
+
   manageFavorites(favorite: string,action: string,source: string):Observable<string[]>{
     return this.httpService.manageFavorites(favorite,action,source).pipe(
       catchError(this.uiErrorHandler.handleUIError),
-      map(payload=>DataExtractor.extract(payload))
+      map(payload=>DataExtractor.extract(payload)),
     );
   }
 
