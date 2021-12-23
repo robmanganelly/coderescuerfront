@@ -53,7 +53,6 @@ export class SolutionContainerComponent implements OnInit, OnDestroy {
     this.activatedRoute.data.subscribe(
       (data: Data)=>{
         this.solutions = data["solutions"]
-        console.log(this.currentUser);
       }
     )
     this.dataService.currentLanguageSubject

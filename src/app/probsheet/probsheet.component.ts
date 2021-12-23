@@ -38,9 +38,9 @@ export class ProbsheetComponent implements OnInit, OnDestroy {
 
     this.dataService.favoritesSubject
    .pipe(takeUntil(this.globalUnSubscriber))
-   .subscribe((prob)=>{
-     if(!!prob.favProblems){
-       this.isFavorite = prob.favProblems.includes(this.problem._id as string);
+   .subscribe((fav)=>{
+     if(!!fav.favProblems){
+       this.isFavorite = fav.favProblems.includes(this.problem._id as string);
      }
    });
   }
