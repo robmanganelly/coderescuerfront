@@ -8,6 +8,8 @@ import { Solution } from '../interfaces/solution';
 import { DataService } from '../services/data.service';
 import { SnackService } from '../services/snack.service';
 import { UIFileReaderService } from '../services/uifile-reader.service';
+import { StaticPath } from '../utils/static-path';
+import { UserConstructor } from '../utils/userConstructor';
 
 @Component({
   selector: 'app-solution-container',
@@ -21,6 +23,9 @@ export class SolutionContainerComponent implements OnInit {
   newSolutionRequested = false;
   personalSolutionValue: string="";
   currentLanguageImage: string = "";
+  currentUser: UserConstructor| null = null;
+  currentUserImage: string = StaticPath.generatePath("user-default.png");
+  currentUserHasPostedThisSolutionBefore = false;
 
   personalSolutionForm = new FormGroup({
     "solution": new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(2500)])
@@ -42,11 +47,20 @@ export class SolutionContainerComponent implements OnInit {
     this.activatedRoute.data.subscribe(
       (data: Data)=>{
         this.solutions = data["solutions"]
+        console.log(this.currentUser);
       }
     )
     this.dataService.currentLanguageSubject.subscribe(
       language=>{this.currentLanguageImage = language?.img as string;}
     )
+    this.dataService.userBehaviorSubject.subscribe(
+      (user: UserConstructor| null)=>{
+        this.currentUserHasPostedThisSolutionBefore = this.solutions.filter(
+          solution=>solution.postedBy._id === user?._id).length > 0
+        this.currentUser = user;
+        this.currentUserImage = !!user?StaticPath.generatePath(user.photo):StaticPath.generatePath("user-default.png");
+      }
+    );
   }
   goBack(){
     this.location.back();
@@ -67,6 +81,10 @@ export class SolutionContainerComponent implements OnInit {
 
   grabFileAndReadAsText(e: Event){
     return this.fileDataReader.readContent(e,this.personalSolutionForm,"solution");
+   }
+
+   onClickProfileImage(){// todo implement profile changes
+     alert(!this.currentUser?"user was not detected":"user detected")
    }
 
 }

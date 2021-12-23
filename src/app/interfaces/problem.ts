@@ -3,6 +3,8 @@ export interface Problem extends ProblemSeed{
   date: Date;
   _id?: string;
   is_New: Boolean;
+  author: { _id: string, username: string};
+
 }
 
 export interface ProblemSeed{

@@ -3,7 +3,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router, ActivatedRoute, Data } from '@angular/router';
 import { Generic } from '../interfaces/generic';
 import { Lang } from '../interfaces/lang';
-import { Problem, ProblemSeed } from '../interfaces/problem';
+import { Problem } from '../interfaces/problem';
 import { DataService } from '../services/data.service';
 import { StaticPath } from '../utils/static-path';
 import { UserConstructor } from '../utils/userConstructor';
@@ -78,8 +78,8 @@ export class CheatsheetComponent implements OnInit {
 
     this.dataService.userBehaviorSubject.subscribe(
       (user: UserConstructor| null)=>{
-        if (!user) return;
-        this.profileImage = StaticPath.generatePath(user.photo);
+        // if (!user) return;
+        this.profileImage = !!user? StaticPath.generatePath(user.photo): StaticPath.generatePath('user-default.png');
         this.loggedUser  = user;
       }
     )

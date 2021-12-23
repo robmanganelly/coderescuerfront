@@ -35,6 +35,7 @@ import { SolutionContainerComponent } from './solution-container/solution-contai
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { AuthGuardService } from './guards/auth.guard.service';
 import { SetTokenInterceptorService } from './interceptors/set.token.interceptor.service';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 const appRoutes: Routes = [
   { path: 'index', component: MainpageComponent, resolve:{languages: LangResolver} },
@@ -60,6 +61,7 @@ const appRoutes: Routes = [
     NotFoundComponent,
     TextAreaAutoResizeDirective,
     SolutionContainerComponent,
+    CapitalizePipe,
   ],
   imports: [
     FormsModule,

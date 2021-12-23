@@ -8,6 +8,7 @@ import { DataService } from '../services/data.service';
 import { Solution } from '../interfaces/solution';
 import { Comment } from '../interfaces/comment';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { UserConstructor } from '../utils/userConstructor';
 
 @Component({
   selector: 'app-solution',
@@ -15,6 +16,8 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
   styleUrls: ['./solution.component.scss']
 })
 export class SolutionComponent implements OnInit {
+
+  currentUser: UserConstructor| null = null;
 
   displayComments = false;
   commentsAlreadyRequested = false;
@@ -47,6 +50,11 @@ export class SolutionComponent implements OnInit {
     if(!this.activeProblem || !this.currentSolution){
       this.router.navigate(['index']);
     }
+    this.dataService.userBehaviorSubject.subscribe(
+      user=>{
+        this.currentUser = user;
+       }
+    )
   }
 
 
@@ -64,16 +72,39 @@ export class SolutionComponent implements OnInit {
     }
   }
   clickFavorite():void{
+
+    if(!this.currentUser){
+      this.snackBarService.primarySnack('you must log in or create an account before posting');
+      this.router.navigate(['auth']);
+      return;
+    }
+
     this.favorite = !this.favorite;
     this.snackBarService.primarySnack(`this item was ${this.favorite?'flagged as favorite': 'removed from your favorites'}`,1000,'bottom')
     if (this.favorite) {this.dislike = false;}
   }
   clickLike():void{
+
+    if(!this.currentUser){
+      this.snackBarService.primarySnack('you must log in or create an account before posting');
+      this.router.navigate(['auth']);
+      return;
+    }
+
+
     this.like = !this.like;
     this.snackBarService.primarySnack(`this item was ${this.like?'liked': 'removed from your liked items'}`,1000,'bottom')
     if(this.like){this.dislike = false;}
   }
   clickDislike():void{
+
+    if(!this.currentUser){
+      this.snackBarService.primarySnack('you must log in or create an account before posting');
+      this.router.navigate(['auth']);
+      return;
+    }
+
+
     this.dislike = !this.dislike;
     this.snackBarService.primarySnack(`this item was ${this.dislike?'disliked': 'removed from your disliked items'}`,1000,'bottom')
     if(this.dislike){
@@ -83,6 +114,14 @@ export class SolutionComponent implements OnInit {
   }
 
   postComment():void{
+
+    if(!this.currentUser){
+      this.snackBarService.primarySnack('you must log in or create an account before posting');
+      this.router.navigate(['auth']);
+      return;
+    }
+
+
     this.dataService.postComment(
       this.currentSolution._id as string,
       this.formComment.get("comment")?.value as string

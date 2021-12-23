@@ -3,6 +3,7 @@ export interface Comment {
 source: string;
 date?: Date;
 text: string;
+author: { _id: string, username: string};
 }
 
 
