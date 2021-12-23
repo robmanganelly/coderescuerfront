@@ -87,4 +87,14 @@ export class HttpService {
     );
   }
 
+  manageFavorites(favorite: string, action:string, source: string):Observable<EnvelopedResponse<string[]>>{
+    if(!["problems","solutions"].includes(source) || !["add","remove"].includes(action)){
+      throw new Error('incorrect values for either source or action');
+    }
+    const options = {favorite, action, source};
+    return this.http.patch<EnvelopedResponse<string[]>>(
+      `${environment.apiUrl}/users/favorites`,{},{
+        params: new HttpParams({fromObject:options})})
+  }
+
 }

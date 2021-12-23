@@ -111,5 +111,12 @@ export class DataService {
     )
   }
 
+  manageFavorites(favorite: string,action: string,source: string):Observable<string[]>{
+    return this.httpService.manageFavorites(favorite,action,source).pipe(
+      catchError(this.uiErrorHandler.handleUIError),
+      map(payload=>DataExtractor.extract(payload))
+    );
+  }
+
 
 }
