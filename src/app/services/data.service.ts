@@ -22,6 +22,7 @@ export class DataService {
   currentLanguageSubject: BehaviorSubject<Lang | null>  = new BehaviorSubject <Lang|null>(null);
   allLanguagesSubject: BehaviorSubject<Lang[] | []>  = new BehaviorSubject <Lang[]|[]>([]);
   problemsOnSelectedLanguageSubject: BehaviorSubject<Problem[] | []> = new BehaviorSubject<Problem[] | []>([])
+  favoritesSubject: BehaviorSubject<{favProblems?:string[],favSolutions?:string[],}> = new BehaviorSubject({});
 
   constructor(
     private uiErrorHandler: UIErrorService,
@@ -116,27 +117,11 @@ export class DataService {
     )
   }
 
-  // manageFavorites(favorite: string,action: string,source: string):Observable<UserConstructor|null>{
-  //   return this.httpService.manageFavorites(favorite,action,source).pipe(
-  //     catchError(this.uiErrorHandler.handleUIError),
-  //     map(payload=>DataExtractor.extract(payload)),
-  //     //the further logic is to update on runtime the "favorites" state (test with autologin and localStorage ??)
-  //     mergeMap((favorites)=>{
-  //       return this.userBehaviorSubject.pipe(
-  //         take(1),
-  //         map(user=>{return !!user? user.replaceFavorites(favorites,"problems"): null}),
-  //         tap((user)=>{this.userBehaviorSubject.next(user)}),
-  //         tap(console.log),
-  //       )
-  //     })
-  //     // tap(items=>{this.currentUser?.replaceFavorites(items,"problems")})
-  //   );
-  // }
-
   manageFavorites(favorite: string,action: string,source: string):Observable<string[]>{
     return this.httpService.manageFavorites(favorite,action,source).pipe(
       catchError(this.uiErrorHandler.handleUIError),
       map(payload=>DataExtractor.extract(payload)),
+      tap((data)=>{this.favoritesSubject.next(source === "problems"? {favProblems: data}: {favSolutions: data})})
     );
   }
 

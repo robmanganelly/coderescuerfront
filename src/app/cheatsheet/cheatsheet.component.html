@@ -24,7 +24,7 @@
       >
       <mat-button-toggle  value="noFilter">Show all tricks</mat-button-toggle>
       <mat-button-toggle  value="newFilter">Show only new tricks</mat-button-toggle>
-      <mat-button-toggle  value="favFilter">Show only favorites tricks</mat-button-toggle>
+      <mat-button-toggle [disabled]="!loggedUser" value="favFilter">Show only favorites tricks</mat-button-toggle>
       <mat-button-toggle [disabled]="!loggedUser"  value="add">Add a new Trick</mat-button-toggle>
     </mat-button-toggle-group>
     <span *ngIf="group.value !== 'add'">

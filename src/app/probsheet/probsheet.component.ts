@@ -34,10 +34,17 @@ export class ProbsheetComponent implements OnInit, OnDestroy {
    .subscribe(user=>{
       this.currentUser=user;
       this.isFavorite = !!user?.favProblems.includes(this.problem._id as string)
-      console.log(this.problem._id);
-      console.log(this.isFavorite);
     });
+
+    this.dataService.favoritesSubject
+   .pipe(takeUntil(this.globalUnSubscriber))
+   .subscribe((prob)=>{
+     if(!!prob.favProblems){
+       this.isFavorite = prob.favProblems.includes(this.problem._id as string);
+     }
+   });
   }
+
   ngOnDestroy(): void {
       this.globalUnSubscriber.next(true);
       this.globalUnSubscriber.complete();

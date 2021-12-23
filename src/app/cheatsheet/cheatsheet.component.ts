@@ -61,10 +61,10 @@ export class CheatsheetComponent implements OnInit, OnDestroy {
     this.dataService.currentLanguageSubject
     .pipe(takeUntil(this.globalUnSubscriber))
     .subscribe(
-      (d)=>{
-        this.currentLanguage = d as Lang;
-        this.languageName = d?.name as string;
-        this.languageId = d?._id as string;
+      (language)=>{
+        this.currentLanguage = language as Lang;
+        this.languageName = language?.name as string;
+        this.languageId = language?._id as string;
       }
     )
     this.activatedRoute.data.subscribe(
