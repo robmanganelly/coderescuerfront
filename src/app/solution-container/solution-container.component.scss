@@ -12,8 +12,24 @@ input[type="file"]{
   visibility: hidden;
   display: none;
 }
-mat-toolbar span img {
-  max-width: 30px;
-  border-radius: 5px;
-  margin: 5px;
+
+mat-toolbar img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 2px 10px;
+}
+
+.notif-banner{
+  margin: auto;
+  background-color: rgb(253, 235, 235);
+  font-size: larger;
+  color: darkred;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.notif-banner span:hover{
+  cursor: pointer;
+
 }

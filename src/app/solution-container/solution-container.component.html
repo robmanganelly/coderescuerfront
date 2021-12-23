@@ -1,15 +1,23 @@
 <mat-toolbar color="primary">
-  <span><img [src]="currentLanguageImage" alt="" srcset=""></span>
-  <span>{{activeProblem.title}}</span>
+  <button mat-flat-button (click)="goBack()" > <mat-icon>arrow_back_ios</mat-icon>Back</button>
+  <img [src]="currentLanguageImage" alt="" srcset="">
+  <span>
+        {{activeProblem.title | capitalize}}
+  </span>
   <span class="spacer"></span>
-  <button mat-icon-button (click)="goBack()" > <mat-icon>keyboard_return</mat-icon></button>
+  <img [src]="currentUserImage" (click)="onClickProfileImage()" alt="" srcset="">
 
 </mat-toolbar>
 
 <div class="separator"></div>
+<div class="notif-banner" *ngIf="!currentUser">
+  <span [routerLink]="['/auth']"   >login to gain access to edition privileges and uploading content</span>
+</div>
+<div class="separator"></div>
 
-<div class="add-solution">
-  <button mat-raised-button color="primary" (click)="createNewSolutionClicked()"  >{{!newSolutionRequested?"Add my own solution":"Dismiss"}}</button>
+
+<div class="add-solution" *ngIf="!currentUserHasPostedThisSolutionBefore">
+  <button [disabled]="!currentUser"  mat-raised-button color="primary" (click)="createNewSolutionClicked()"  >{{!newSolutionRequested?"Add my own solution":"Dismiss"}}</button>
   <button
     [disabled]="!personalSolutionForm.valid"
     mat-stroked-button

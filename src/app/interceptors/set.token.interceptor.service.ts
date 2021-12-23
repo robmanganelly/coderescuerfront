@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {exhaustMap, take} from "rxjs/operators";
+import {exhaustMap, take, filter} from "rxjs/operators";
 import { DataService } from "../services/data.service";
 import { UserConstructor } from "../utils/userConstructor";
 
@@ -12,10 +12,10 @@ export class SetTokenInterceptorService implements  HttpInterceptor{
     private dataService: DataService){}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // @ts-ignore
-    return this.dataService.userBehaviorSubject.pipe(take(1),
+    return this.dataService.userBehaviorSubject.pipe(
+      take(1),
       exhaustMap(
-        (userData: UserConstructor)=>{
+        (userData: UserConstructor| null)=>{
           if (!userData){
             return next.handle(req)
           }

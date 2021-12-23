@@ -64,9 +64,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.subscription = this.authService.login(
             this.authForm.value.email,
             this.authForm.value.password
-        ).pipe(
-          tap(console.log), // todo remove after testing
-        ).subscribe({
+        ).pipe().subscribe({
             next: (user) => {
               this.snackBarService.successSnack(`Hi ${user.username}, welcome!`)
               this.location.back();

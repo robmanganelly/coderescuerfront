@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { Location } from '@angular/common';
 import { DataService } from '../services/data.service';
 import { Problem, ProblemSeed } from '../interfaces/problem';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExtensionTest } from '../utils/extensions';
 import { UIFileReaderService } from '../services/uifile-reader.service';
@@ -15,7 +15,9 @@ import { UserConstructor } from '../utils/userConstructor';
   templateUrl: './edit-solution.component.html',
   styleUrls: ['./edit-solution.component.scss']
 })
-export class EditSolutionComponent implements OnInit {
+export class EditSolutionComponent implements OnInit, OnDestroy {
+
+  globalUnSubscriber = new Subject<boolean>();
 
   currentUser: UserConstructor|null = null;
   currentLanguageId: string = "";
@@ -47,7 +49,12 @@ export class EditSolutionComponent implements OnInit {
 
       this.onEdition = this.router.getCurrentNavigation()?.extras.state?.['problem'];
       this.formPurpose = this.router.getCurrentNavigation()?.extras.state?.['action'];
-     }
+  }
+
+  ngOnDestroy(): void {
+    this.globalUnSubscriber.next(true);
+    this.globalUnSubscriber.complete();
+  }
 
   ngOnInit(): void {
 
@@ -55,10 +62,15 @@ export class EditSolutionComponent implements OnInit {
      (p)=>{ this.path = !!p["id"]}
     )
 
-    this.dataService.currentLanguageSubject.subscribe(
+    this.dataService.currentLanguageSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
       lang=>{this.currentLanguageId = lang?._id as string;}
     );
-    this.dataService.userBehaviorSubject.subscribe(
+
+    this.dataService.userBehaviorSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
       user=>{this.currentUser = user;}
     )
 
@@ -81,6 +93,7 @@ export class EditSolutionComponent implements OnInit {
       solution: this.newTrickForm.get("newTrickSolution")?.value as string
     };
     this.dataService.createProblem(this.currentLanguageId, probData)
+    .pipe(takeUntil(this.globalUnSubscriber))
     .subscribe(
       ()=>{
         this.snackBarService.successSnack(" code recipe successfully added ");

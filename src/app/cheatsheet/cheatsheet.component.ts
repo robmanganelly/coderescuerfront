@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router, ActivatedRoute, Data } from '@angular/router';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { Generic } from '../interfaces/generic';
 import { Lang } from '../interfaces/lang';
-import { Problem, ProblemSeed } from '../interfaces/problem';
+import { Problem } from '../interfaces/problem';
 import { DataService } from '../services/data.service';
 import { StaticPath } from '../utils/static-path';
 import { UserConstructor } from '../utils/userConstructor';
@@ -13,7 +14,7 @@ import { UserConstructor } from '../utils/userConstructor';
   templateUrl: './cheatsheet.component.html',
   styleUrls: ['./cheatsheet.component.scss']
 })
-export class CheatsheetComponent implements OnInit {
+export class CheatsheetComponent implements OnInit, OnDestroy {
 
   filterOptions: {[k:string]:{[k:string]:string|number|boolean}} = {
     noFilter:{page:0, limit:10, withMeta: true},
@@ -45,18 +46,25 @@ export class CheatsheetComponent implements OnInit {
     }
   }());
 
+
+  globalUnSubscriber = new Subject<boolean>();
+
   constructor(
     private dataService: DataService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {}
 
+
+
   ngOnInit(): void {
-    this.dataService.currentLanguageSubject.subscribe(
-      (d)=>{
-        this.currentLanguage = d as Lang;
-        this.languageName = d?.name as string;
-        this.languageId = d?._id as string;
+    this.dataService.currentLanguageSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
+      (language)=>{
+        this.currentLanguage = language as Lang;
+        this.languageName = language?.name as string;
+        this.languageId = language?._id as string;
       }
     )
     this.activatedRoute.data.subscribe(
@@ -67,29 +75,34 @@ export class CheatsheetComponent implements OnInit {
         this.trimArray(this.totalItems);
       }
     );
-    this.dataService.problemsOnSelectedLanguageSubject.subscribe(
+    this.dataService.problemsOnSelectedLanguageSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
       problems=>{
         this.languageTricks = problems;
 
       }
     )
 
-    if(!this.languageId || !this.currentLanguage ){ this.router.navigate(['index']); return;}
-
-    this.dataService.userBehaviorSubject.subscribe(
+    this.dataService.userBehaviorSubject
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
       (user: UserConstructor| null)=>{
-        if (!user) return;
-        this.profileImage = StaticPath.generatePath(user.photo);
+        // if (!user) return;
+        this.profileImage = !!user? StaticPath.generatePath(user.photo): StaticPath.generatePath('user-default.png');
         this.loggedUser  = user;
       }
     )
 
-
+    if(!this.languageId || !this.currentLanguage ){ this.router.navigate(['index']); return;}
   };
 
+  ngOnDestroy(): void {
+    this.globalUnSubscriber.next(true);
+    this.globalUnSubscriber.complete();
+  }
+
   capturePageEvent(event: PageEvent, filterValue:string,searchValue?:string){
-    console.log(event)
-    console.log(filterValue)
     this.filterOptions[filterValue]['page'] = event.pageIndex;
     this.filterOptions[filterValue]['limit'] = event.pageSize;
     return this.refreshProblems(filterValue,false,searchValue);
@@ -104,16 +117,20 @@ export class CheatsheetComponent implements OnInit {
     if(reset){
       this.paginator?.firstPage()
     }
-    this.dataService.getProblemsFromLanguage(this.languageId,(!!search && search!=="")?{...this.filterOptions[value], search }:this.filterOptions[value]).subscribe(
+    this.dataService
+    .getProblemsFromLanguage(
+      this.languageId,
+      (!!search && search!=="")?
+        {...this.filterOptions[value], search }:this.filterOptions[value]
+      )
+      .pipe(takeUntil(this.globalUnSubscriber))
+      .subscribe(
       (p)=>{
         this.languageTricks = (p as {data: Problem[]}).data
         this.totalItems = (p as {meta: Generic}).meta['total'] as number;
         this.trimArray(this.totalItems);
         }
     );
-    // this.dataService.getProblemsFromLanguage(this.languageId).subscribe(
-    //   (d)=>{this.languageTricks = d}
-    // )
   }
 
 

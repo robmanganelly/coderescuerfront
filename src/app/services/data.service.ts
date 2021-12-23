@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, mergeMap, Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, mergeMap, Observable, of, Subject, take, tap } from 'rxjs';
 import { Comment } from '../interfaces/comment';
 import { Generic } from '../interfaces/generic';
 import { EnvelopedResponse } from '../interfaces/httpResponse';
@@ -22,6 +22,7 @@ export class DataService {
   currentLanguageSubject: BehaviorSubject<Lang | null>  = new BehaviorSubject <Lang|null>(null);
   allLanguagesSubject: BehaviorSubject<Lang[] | []>  = new BehaviorSubject <Lang[]|[]>([]);
   problemsOnSelectedLanguageSubject: BehaviorSubject<Problem[] | []> = new BehaviorSubject<Problem[] | []>([])
+  favoritesSubject: BehaviorSubject<{favProblems?:string[],favSolutions?:string[],}> = new BehaviorSubject({});
 
   constructor(
     private uiErrorHandler: UIErrorService,
@@ -46,7 +47,12 @@ export class DataService {
   postLanguage(payload: Lang){
     return this.httpService.postLanguage(payload).pipe(
       catchError(this.uiErrorHandler.handleUIError),
-      tap((d)=>{this.getLanguages().subscribe((lang: Lang[])=>{ this.allLanguagesSubject.next(lang)})})
+      mergeMap(
+        (d)=>{
+          return this.getLanguages().pipe(
+            tap((lang: Lang[])=>{ this.allLanguagesSubject.next(lang)})
+          )
+        })
     );
   }
 
@@ -109,6 +115,14 @@ export class DataService {
       catchError(this.uiErrorHandler.handleUIError),
       map(payload=>{return DataExtractor.extract(payload); })
     )
+  }
+
+  manageFavorites(favorite: string,action: string,source: string):Observable<string[]>{
+    return this.httpService.manageFavorites(favorite,action,source).pipe(
+      catchError(this.uiErrorHandler.handleUIError),
+      map(payload=>DataExtractor.extract(payload)),
+      tap((data)=>{this.favoritesSubject.next(source === "problems"? {favProblems: data}: {favSolutions: data})})
+    );
   }
 
 

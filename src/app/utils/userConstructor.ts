@@ -32,4 +32,20 @@ export class UserConstructor implements User{
     return this.favProblems.includes(problemId);
   }
 
+  includeFavorite(id:string, source: string):void{
+    if(["problems","solutions"].includes(source)){
+      this[(source==="problems")?"favProblems":"favSolutions"].push(id);
+      return
+    };
+    throw new Error('wrong source');
+  }
+
+  replaceFavorites(favorites:string[], source: string):UserConstructor{
+    if(["problems","solutions"].includes(source)){
+      this[(source==="problems")?"favProblems":"favSolutions"] = favorites;
+      return this
+    };
+    throw new Error('wrong source');
+  }
+
 }
