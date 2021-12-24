@@ -63,6 +63,8 @@ export class SolutionComponent implements OnInit, OnDestroy {
       user=>{
         this.currentUser = user;
         this.favorite = !!user?.favSolutions.includes(this.currentSolution._id as string)
+        this.like= !user? false: this.currentSolution.liked.includes(user?._id as string)
+        this.dislike = !user? false: this.currentSolution.disliked.includes(user?._id as string)
        }
     );
 
@@ -118,10 +120,16 @@ export class SolutionComponent implements OnInit, OnDestroy {
       return;
     }
 
-
     this.like = !this.like;
-    this.snackBarService.primarySnack(`this item was ${this.like?'liked': 'removed from your liked items'}`,1000,'bottom')
     if(this.like){this.dislike = false;}
+
+    this.dataService.manageLikeState(this.currentSolution._id as string, this.detectState()).pipe(
+      takeUntil(this.globalUnSubscriber)
+    ).subscribe(
+      _=>{
+      this.snackBarService.primarySnack(`this item was ${this.like?'liked': 'removed from your liked items'}`,1000,'bottom')
+    }
+    )
   }
   clickDislike():void{
 
@@ -133,11 +141,19 @@ export class SolutionComponent implements OnInit, OnDestroy {
 
 
     this.dislike = !this.dislike;
-    this.snackBarService.primarySnack(`this item was ${this.dislike?'disliked': 'removed from your disliked items'}`,1000,'bottom')
+
     if(this.dislike){
       this.like = false;
       this.favorite = false;
     }
+
+    this.dataService.manageLikeState(this.currentSolution._id as string, this.detectState()).pipe(
+      takeUntil(this.globalUnSubscriber)
+    ).subscribe(
+      _=>{
+      this.snackBarService.primarySnack(`this item was ${this.dislike?'disliked': 'removed from your disliked items'}`,1000,'bottom')
+    }
+    )
   }
 
   postComment():void{
@@ -178,6 +194,10 @@ export class SolutionComponent implements OnInit, OnDestroy {
     }else{
       this.displayComments = target.checked;
     }
+  }
+
+  detectState():number{
+    return 0 +(this.like? 1 : 0 ) -( this.dislike? 1 : 0 );
   }
 
 

@@ -4,4 +4,11 @@ export interface Solution {
   solution: string,
   date?: Date
   postedBy: {_id: string, username: string};
+  liked:string[];
+  disliked:string[];
+}
+
+export interface LikeStateSolution{
+  solution: Solution;
+  favSolutions?:string[];
 }
