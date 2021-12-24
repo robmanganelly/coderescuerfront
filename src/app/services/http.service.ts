@@ -5,7 +5,7 @@ import { Comment } from '../interfaces/comment';
 import { EnvelopedResponse } from '../interfaces/httpResponse';
 import { Lang } from '../interfaces/lang';
 import { Problem, ProblemSeed } from '../interfaces/problem';
-import { Solution } from '../interfaces/solution';
+import { LikeStateSolution, Solution } from '../interfaces/solution';
 import { User } from '../interfaces/users';
 import {environment} from './../../environments/environment'
 import { FormDataParserService } from './form-data-parser.service';
@@ -95,6 +95,13 @@ export class HttpService {
     return this.http.patch<EnvelopedResponse<string[]>>(
       `${environment.apiUrl}/users/favorites`,{},{
         params: new HttpParams({fromObject:options})})
+  }
+
+  manageLikeState(item:string, state:number):Observable<EnvelopedResponse<LikeStateSolution>>{
+    return this.http.patch<EnvelopedResponse<LikeStateSolution>>(
+      `${environment.apiUrl}/solutions/${item}`,{},{
+        params: new HttpParams({fromObject:{state}})}
+    )
   }
 
 }

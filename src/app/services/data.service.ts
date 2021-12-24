@@ -125,5 +125,17 @@ export class DataService {
     );
   }
 
+  manageLikeState(item:string, state: number){
+    if(-1>state || state>1){ throw new Error(`state ${state} not supported`);}
+
+    return this.httpService.manageLikeState(item,state).pipe(
+      catchError(this.uiErrorHandler.handleUIError),
+      map(payload=>DataExtractor.extract(payload)),
+      tap(data=>{
+        if(data.favSolutions){this.favoritesSubject.next({favSolutions:data.favSolutions});}
+      })
+    )
+  }
+
 
 }
