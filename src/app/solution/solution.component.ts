@@ -62,8 +62,17 @@ export class SolutionComponent implements OnInit, OnDestroy {
     .subscribe(
       user=>{
         this.currentUser = user;
+        this.favorite = !!user?.favSolutions.includes(this.currentSolution._id as string)
        }
-    )
+    );
+
+    this.dataService.favoritesSubject
+   .pipe(takeUntil(this.globalUnSubscriber))
+   .subscribe((fav)=>{
+     if(!!fav.favSolutions){
+       this.favorite = fav.favSolutions.includes(this.currentSolution._id as string);
+     }
+   });
   }
 
 
@@ -89,8 +98,17 @@ export class SolutionComponent implements OnInit, OnDestroy {
     }
 
     this.favorite = !this.favorite;
-    this.snackBarService.primarySnack(`this item was ${this.favorite?'flagged as favorite': 'removed from your favorites'}`,1000,'bottom')
     if (this.favorite) {this.dislike = false;}
+
+    this.dataService.manageFavorites(
+      this.currentSolution._id as string,
+      this.favorite?"add":"remove",
+      "solutions"
+    )
+    .pipe(takeUntil(this.globalUnSubscriber))
+    .subscribe(
+      ()=>this.snackBarService.primarySnack(`solution ${this.favorite? "added to": "removed from" } favorites`,2500,"bottom")
+    )
   }
   clickLike():void{
 
