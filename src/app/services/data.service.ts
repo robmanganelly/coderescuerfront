@@ -137,5 +137,10 @@ export class DataService {
     )
   }
 
-
+  updateProfileRaw(seed:{username?:string, photo?:string}):Observable<User>{
+    return this.httpService.updateProfile(seed).pipe(
+      catchError(this.uiErrorHandler.handleUIError),
+      map(payload=>DataExtractor.extract(payload)),
+    )
+  }
 }

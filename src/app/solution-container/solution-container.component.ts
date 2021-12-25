@@ -6,6 +6,7 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import { Problem } from '../interfaces/problem';
 import { Solution } from '../interfaces/solution';
 import { DataService } from '../services/data.service';
+import { ProfileService } from '../services/profile.service';
 import { SnackService } from '../services/snack.service';
 import { UIFileReaderService } from '../services/uifile-reader.service';
 import { StaticPath } from '../utils/static-path';
@@ -36,6 +37,7 @@ export class SolutionContainerComponent implements OnInit, OnDestroy {
 
 
   constructor(
+    private profileService: ProfileService,
     private snackService: SnackService,
     private dataService: DataService,
     private router: Router,
@@ -95,7 +97,12 @@ export class SolutionContainerComponent implements OnInit, OnDestroy {
    }
 
    onClickProfileImage(){// todo implement profile changes
-     alert(!this.currentUser?"user was not detected":"user detected")
+     if(!this.currentUser){
+       this.router.navigate(['auth']);
+       return;
+     }else{
+       this.profileService.openDialog(this.currentUser);
+     }
    }
 
 }

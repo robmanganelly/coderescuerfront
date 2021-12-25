@@ -23,7 +23,7 @@ DOING_NOW:
     [x] implement buttons styles
     [x] working on custom theme for alert snacks
     [x] implementing custom theme and
-  [] work on solution.component.ts
+  [x] work on solution.component.ts
     [x] implement buttons behavior
     [x] creating resolver for loaded solution
     [x] must change template to handle multiple solutions to same problem
@@ -31,6 +31,7 @@ DOING_NOW:
     [x] must change template to make comments loaded just after button clicked (so far must be resolved, change this)
     [x] form in solution component... build and test
     x preparing for implement favorite logic on component
+  [ ] implement profile image upload on ui
 
 
 
