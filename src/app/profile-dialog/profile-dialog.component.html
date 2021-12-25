@@ -1,26 +1,27 @@
 <h1 mat-dialog-title>Profile</h1>
-<div mat-dialog-content>
+<form mat-dialog-content [formGroup]="updateForm" >
   <div class="header">
     <span id="hi">
-        Hi {{username | capitalize}}
+        Hi {{updateForm.get('username')!.value | capitalize}}
     </span>
     <span>
-      <img [src]="photo" alt="user profile photo">
-      <button mat-icon-button> <mat-icon>edit</mat-icon> </button>
+      <img [src]="getCurrentImageName()" alt="user profile photo">
+      <button mat-icon-button (click)="imgPickerRef.click()" > <mat-icon>edit</mat-icon> </button>
     </span>
   </div>
 
   <div>
     <mat-form-field appearance="standard">
       <mat-label> <mat-icon>edit</mat-icon> Username</mat-label>
-      <input matInput  [(ngModel)]="username" >
+      <input matInput  formControlName="username" >
     </mat-form-field>
-    <input type="file"  name="" id="">
+
+    <input #imgPickerRef (change)="onPickImg($event)"  type="file" >
 
   </div>
-</div>
+</form>
 <div mat-dialog-actions align="end">
   <button mat-button (click)="onCloseDialogClicked()">Close</button>
   <button mat-button [mat-dialog-close]="0">Log Out</button>
-  <button mat-button [mat-dialog-close]='{username:username, photo:photo}' cdkFocusInitial>Update Profile</button>
+  <button mat-button [mat-dialog-close]="{username:updateForm.get('username')!.value, photo: updateForm.get('photo')!.value}" cdkFocusInitial>Update Profile</button>
 </div>
