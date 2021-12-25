@@ -6,6 +6,7 @@ import { Generic } from '../interfaces/generic';
 import { Lang } from '../interfaces/lang';
 import { Problem } from '../interfaces/problem';
 import { DataService } from '../services/data.service';
+import { ProfileService } from '../services/profile.service';
 import { StaticPath } from '../utils/static-path';
 import { UserConstructor } from '../utils/userConstructor';
 
@@ -52,7 +53,8 @@ export class CheatsheetComponent implements OnInit, OnDestroy {
   constructor(
     private dataService: DataService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private profileService: ProfileService
   ) {}
 
 
@@ -153,8 +155,11 @@ export class CheatsheetComponent implements OnInit, OnDestroy {
   clickProfileImage(){
     if(!this.loggedUser){
       this.router.navigate(['auth']);
+      return;
     }
-    else{ return alert('user was detected')};
+    else{
+      this.profileService.openDialog(this.loggedUser)
+    };
   }
 
 }

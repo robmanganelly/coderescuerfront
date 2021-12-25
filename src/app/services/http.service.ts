@@ -7,6 +7,7 @@ import { Lang } from '../interfaces/lang';
 import { Problem, ProblemSeed } from '../interfaces/problem';
 import { LikeStateSolution, Solution } from '../interfaces/solution';
 import { User } from '../interfaces/users';
+import { UserConstructor } from '../utils/userConstructor';
 import {environment} from './../../environments/environment'
 import { FormDataParserService } from './form-data-parser.service';
 
@@ -102,6 +103,13 @@ export class HttpService {
       `${environment.apiUrl}/solutions/${item}`,{},{
         params: new HttpParams({fromObject:{state}})}
     )
+  }
+
+  updateProfile(seed: {user?:string, photo?: string}){
+    return this.http.patch<EnvelopedResponse<User>>(
+      `${environment.apiUrl}/users/profile/edition`,
+      this.formDataParser.generate(seed), {observe: 'body'}
+    );
   }
 
 }

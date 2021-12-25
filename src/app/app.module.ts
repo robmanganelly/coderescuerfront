@@ -14,6 +14,7 @@ import { MatIconModule} from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,6 +37,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { AuthGuardService } from './guards/auth.guard.service';
 import { SetTokenInterceptorService } from './interceptors/set.token.interceptor.service';
 import { CapitalizePipe } from './pipes/capitalize.pipe';
+import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
 
 const appRoutes: Routes = [
   { path: 'index', component: MainpageComponent, resolve:{languages: LangResolver} },
@@ -62,26 +64,28 @@ const appRoutes: Routes = [
     TextAreaAutoResizeDirective,
     SolutionContainerComponent,
     CapitalizePipe,
+    ProfileDialogComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
+    BrowserModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
+    MatDividerModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatGridListModule,
     MatIconModule,
     MatInputModule,
-    MatDividerModule,
-    MatExpansionModule,
     MatPaginatorModule,
     MatProgressBarModule,
+    MatSlideToggleModule,
     MatSnackBarModule,
     MatToolbarModule,
-    MatGridListModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatSlideToggleModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [{

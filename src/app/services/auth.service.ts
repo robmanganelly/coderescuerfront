@@ -83,12 +83,12 @@ export class AuthService {
 
     loadUserData(token?: string): Observable<User> {
         if (!token){
-            token = JSON.parse(localStorage.getItem('USER_DATA') || 'null').token;
+            token = JSON.parse(localStorage.getItem('USER_DATA') || 'null')._token;
         }
         if (!token){ throw new Error('dev error: failed on grab token')}; // remove after testing
         return this.httpService.getCurrentLoggedUser(token as string).pipe(
-          tap(this.writeLocally(token)),
-          map(response=>{return DataExtractor.extract(response)})
+          map((response: EnvelopedResponse<User>)=>{return DataExtractor.extract(response)}),
+          tap(this.writeLocally(token))
         );
     }
 
@@ -96,14 +96,15 @@ export class AuthService {
         if (!token){
             throw Error('cant write without token')
         }
-        return (userData: EnvelopedResponse<User>) => {
-            const {_id, username, email, photo, active, favProblems, favSolutions} = DataExtractor.extract(userData);
-            const _tokenExpiration = new Date(Date.now() + 2*3600*1000)
-            const loadedUser = new UserConstructor(
-              _id as string,token,_tokenExpiration,photo,username,email,active,favProblems,favSolutions)
-            localStorage.setItem('USER_DATA', JSON.stringify(loadedUser));
-            this.dataService.userBehaviorSubject.next(loadedUser);
-        }
+        return (userData: User ):void => {
+
+          const {_id, username, email, photo, active, favProblems, favSolutions} = userData;
+          const _tokenExpiration = new Date(Date.now() + 2*3600*1000)
+          const loadedUser = new UserConstructor(
+            _id as string,token,_tokenExpiration,photo,username,email,active,favProblems,favSolutions)
+          localStorage.setItem('USER_DATA', JSON.stringify(loadedUser));
+          this.dataService.userBehaviorSubject.next(loadedUser);
+      }
     }
 
     getLoadedUser(){
@@ -116,6 +117,12 @@ export class AuthService {
           _id as string, _token as string, _tokenExpiration as Date, photo,
           username, email, active, favProblems, favSolutions
           );
+    }
+
+    updateProfile(seed:{username?:string, photo?:string}){
+      return this.dataService.updateProfileRaw(seed).pipe(
+        tap(this.writeLocally(JSON.parse(localStorage.getItem('USER_DATA') || 'null')._token))
+      )
     }
 
 
