@@ -30,7 +30,7 @@ export class SolutionComponent implements OnInit, OnDestroy,AfterViewInit {
     Validators.maxLength(2500)])
   })
 
-  updateForm: FormGroup = new FormGroup({
+  updateSolutionForm: FormGroup = new FormGroup({
     'solution': new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(3500)])
   });
 
@@ -60,7 +60,7 @@ export class SolutionComponent implements OnInit, OnDestroy,AfterViewInit {
     ) {}
 
   ngAfterViewInit(): void {
-    this.updateForm.get('solution')?.setValue(this.currentSolution.solution as string)
+    this.updateSolutionForm.get('solution')?.setValue(this.currentSolution.solution as string)
   }
   ngOnDestroy(): void {
    this.globalUnSubscriber.next(true);
@@ -226,7 +226,7 @@ export class SolutionComponent implements OnInit, OnDestroy,AfterViewInit {
   updateSolution(){
     this.dataService.patchSolutionIfOwner(
       this.currentSolution._id as string,
-      this.updateForm.get('solution')?.value as string,).subscribe(
+      this.updateSolutionForm.get('solution')?.value as string,).subscribe(
         (newSolution)=>{
           console.log(newSolution);
           this.currentSolution = newSolution;

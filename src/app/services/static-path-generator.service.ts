@@ -11,7 +11,7 @@ export class StaticPathGeneratorService {
   constructor(){}
 
   generatePath(filePath: string): string{
-    return RegExp(this.apiUrl).test(filePath)? filePath: `${this.apiUrl}/${filePath}`;
+    return new RegExp(this.apiUrl).test(filePath)? filePath: `${this.apiUrl}/${filePath}`;
   }
 
 }
