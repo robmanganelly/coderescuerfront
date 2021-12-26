@@ -28,9 +28,9 @@ export class ProfileService {
     const dialog_ = this.dialog.open(ProfileDialogComponent, {  width: '550px' , data:user });
 
     dialog_.afterClosed().subscribe(
-      (result: number|{username?:string,photo?:string})=>{
+      (result: number|{username?:string,photo?:string}|undefined)=>{
 
-        console.log(result) // todo remove this line after testing
+        if(!result) return;
 
         if (typeof(result) === 'number'){
 

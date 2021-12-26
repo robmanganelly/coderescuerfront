@@ -9,7 +9,7 @@
   <mat-card-content>
     <div [ngSwitch]="isOnEdition">
     <div *ngSwitchCase="true">
-      <form [formGroup]="updateForm" (ngSubmit)="updateSolution()" id="updateSolutionForm">
+      <form [formGroup]="updateSolutionForm" (ngSubmit)="updateSolution()" id="updateSolutionForm">
         <mat-form-field aria-required="true" appearance="outline" >
           <mat-label>Please implement a solution to be copied next time</mat-label>
           <textarea matInput
@@ -40,7 +40,7 @@
     <button mat-flat-button (click)="clickEdit()">
       Cancel
     </button>
-    <button mat-flat-button type="submit"  [disabled]="!updateForm.valid" form="updateSolutionForm">
+    <button mat-flat-button type="submit"  [disabled]="!updateSolutionForm.valid" form="updateSolutionForm">
       Update
     </button>
   </mat-card-actions>

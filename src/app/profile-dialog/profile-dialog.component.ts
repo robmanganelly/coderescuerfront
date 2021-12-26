@@ -45,7 +45,7 @@ export class ProfileDialogComponent implements OnInit {
   }
 
   getCurrentImageName():string{
-    return this.staticAsService.generatePath(this.updateForm.get('photo')?.value.name);
+    return this.staticAsService.generatePath(this.updateForm.get('photo')?.value);
   }
 
 }
