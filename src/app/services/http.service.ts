@@ -105,6 +105,12 @@ export class HttpService {
     )
   }
 
+  patchSolution(item: string, solution:string){
+    return this.http.patch<EnvelopedResponse<Solution>>(
+      `${environment.apiUrl}/solutions/${item}`,{solution}
+    )
+  }
+
   updateProfile(seed: {user?:string, photo?: string}){
     return this.http.patch<EnvelopedResponse<User>>(
       `${environment.apiUrl}/users/profile/edition`,

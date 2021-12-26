@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -16,7 +16,7 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './solution.component.html',
   styleUrls: ['./solution.component.scss']
 })
-export class SolutionComponent implements OnInit, OnDestroy {
+export class SolutionComponent implements OnInit, OnDestroy,AfterViewInit {
 
   globalUnSubscriber = new Subject<boolean>();
 
@@ -30,8 +30,18 @@ export class SolutionComponent implements OnInit, OnDestroy {
     Validators.maxLength(2500)])
   })
 
+  updateForm: FormGroup = new FormGroup({
+    'solution': new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(3500)])
+  });
+
   @Input() currentSolution!: Solution;
   @Input() activeProblem!: Problem;
+
+  @ViewChild('codeContainer') codeToCopy!: HTMLTextAreaElement;
+
+  isOnEdition = false
+
+
   comments: Comment[] = []
 
   myComment: string = 'leave a comment here'
@@ -48,6 +58,10 @@ export class SolutionComponent implements OnInit, OnDestroy {
     private location: Location,
     private snackBarService: SnackService
     ) {}
+
+  ngAfterViewInit(): void {
+    this.updateForm.get('solution')?.setValue(this.currentSolution.solution as string)
+  }
   ngOnDestroy(): void {
    this.globalUnSubscriber.next(true);
    this.globalUnSubscriber.complete();
@@ -78,19 +92,28 @@ export class SolutionComponent implements OnInit, OnDestroy {
   }
 
 
-  clickEdit(action: string):void{
-    alert('must navigate to create solution component: fake --must be implemented--') // todo implement
-    this.router.navigate(['edit']);
+  clickEdit():void{
+    this.isOnEdition = !this.isOnEdition;
   }
 
-  async clickCopy(container: HTMLElement):Promise<void>{ //todo
+  // async clickCopy(container: HTMLElement):Promise<void>{ //todo
+  //   try{
+  //     await navigator.clipboard.writeText(container.innerText);
+  //     this.snackBarService.successSnack('content copied successfully',1000,'bottom')
+  //   }catch(err){
+  //     this.snackBarService.warnSnack('content can not be copied',1000,'bottom')
+  //   }
+  // }
+
+  async clickCopy():Promise<void>{ //todo
     try{
-      await navigator.clipboard.writeText(container.innerText);
+      await navigator.clipboard.writeText(this.codeToCopy.value);
       this.snackBarService.successSnack('content copied successfully',1000,'bottom')
     }catch(err){
       this.snackBarService.warnSnack('content can not be copied',1000,'bottom')
     }
   }
+
   clickFavorite():void{
 
     if(!this.currentUser){
@@ -198,6 +221,19 @@ export class SolutionComponent implements OnInit, OnDestroy {
 
   detectState():number{
     return 0 +(this.like? 1 : 0 ) -( this.dislike? 1 : 0 );
+  }
+
+  updateSolution(){
+    this.dataService.patchSolutionIfOwner(
+      this.currentSolution._id as string,
+      this.updateForm.get('solution')?.value as string,).subscribe(
+        (newSolution)=>{
+          console.log(newSolution);
+          this.currentSolution = newSolution;
+          this.snackBarService.successSnack('solution updated',2000,'bottom')
+          this.isOnEdition = false;
+        }
+      )
   }
 
 

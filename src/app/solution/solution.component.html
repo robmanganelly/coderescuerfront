@@ -7,15 +7,44 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <code class="primaryColor" #codeContainer>{{currentSolution.solution}}</code>
+    <div [ngSwitch]="isOnEdition">
+    <div *ngSwitchCase="true">
+      <form [formGroup]="updateForm" (ngSubmit)="updateSolution()" id="updateSolutionForm">
+        <mat-form-field aria-required="true" appearance="outline" >
+          <mat-label>Please implement a solution to be copied next time</mat-label>
+          <textarea matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="3"
+              cdkAutosizeMaxRows="50"
+              formControlName="solution"
+              placeholder="Place here the code for solving your problem" >
+          </textarea>
+        </mat-form-field>
+      </form>
+    </div>
+    <div *ngSwitchDefault>
+      <code class="primaryColor" #codeContainer>{{currentSolution.solution}}</code>
+    </div>
+    </div>
+
   </mat-card-content>
-  <mat-card-actions align="end">
-    <button *ngIf="!!currentUser && currentUser._id === currentSolution!.postedBy._id" (click)="clickEdit('update-trick')" mat-icon-button><mat-icon color="primary">edit</mat-icon></button>
-    <button (click)=clickCopy(codeContainer) mat-icon-button><mat-icon color="primary">content_copy</mat-icon></button>
+  <mat-card-actions align="end" *ngIf="!isOnEdition"  >
+    <button *ngIf="!!currentUser && currentUser._id === currentSolution!.postedBy._id" (click)="clickEdit()" mat-icon-button><mat-icon color="primary">edit</mat-icon></button>
+    <button (click)=clickCopy() mat-icon-button><mat-icon color="primary">content_copy</mat-icon></button>
     <button (click)=clickFavorite() mat-icon-button><mat-icon color="primary">{{favorite?'favorite':'favorite_border'}}</mat-icon></button>
     <button (click)=clickLike() mat-icon-button><mat-icon color="primary">{{like?'thumb_up':'thumb_up_off_alt'}}</mat-icon></button>
     <button (click)=clickDislike() mat-icon-button><mat-icon color="primary">{{dislike?'thumb_down':'thumb_down_off_alt'}}</mat-icon></button>
   </mat-card-actions>
+  <mat-card-actions *ngIf="isOnEdition" align="end">
+    <button mat-flat-button (click)="clickEdit()">
+      Cancel
+    </button>
+    <button mat-flat-button type="submit"  [disabled]="!updateForm.valid" form="updateSolutionForm">
+      Update
+    </button>
+  </mat-card-actions>
+
 </mat-card>
 
 <div class="separator"></div>

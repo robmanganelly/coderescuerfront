@@ -137,8 +137,15 @@ export class DataService {
     )
   }
 
-  updateProfileRaw(seed:{username?:string, photo?:string}):Observable<User>{
+  updateProfileRaw(seed:{username?:string, photo?:string}):Observable<User>{ // use the authService version instead of this.
     return this.httpService.updateProfile(seed).pipe(
+      catchError(this.uiErrorHandler.handleUIError),
+      map(payload=>DataExtractor.extract(payload)),
+    )
+  }
+
+  patchSolutionIfOwner(item: string, solution:string){
+    return this.httpService.patchSolution(item,solution).pipe(
       catchError(this.uiErrorHandler.handleUIError),
       map(payload=>DataExtractor.extract(payload)),
     )
