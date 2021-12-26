@@ -31,7 +31,7 @@ DOING_NOW:
     [x] must change template to make comments loaded just after button clicked (so far must be resolved, change this)
     [x] form in solution component... build and test
     x preparing for implement favorite logic on component
-  [ ] implement profile image upload on ui
+  [x] implement profile image upload on ui
 
 
 
